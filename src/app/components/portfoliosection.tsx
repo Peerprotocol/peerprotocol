@@ -1,9 +1,10 @@
 import React from "react";
+import Health from "./healthmeter";
 
 const Portfolio = () => {
   return (
-    <div>
-      <div className="h-72 bg-[#FFFFFF0D] rounded-3xl mx-14 my-12 flex">
+    <div className="flex justify-between mx-14 my-16">
+      <div className="h-72 bg-[#FFFFFF0D] w-full basis-2/3 rounded-3xl flex">
         <div className="mx-32 flex w-full">
           <div className="w-full h-full flex flex-col justify-center">
             <div className="flex gap-16">
@@ -31,18 +32,33 @@ const Portfolio = () => {
             </div>
           </div>
 
-          <div className="flex justify-center h-full flex-col gap-8">
-            <div>
-              <p className="text-xs">Net APY</p>
-              <p className="text-5xl">0.00%</p>
+          <div className="flex justify-between gap-32">
+            <div className="flex justify-center h-full flex-col gap-8">
+              <div>
+                <p className="text-xs">Net APY</p>
+                <p className="text-5xl">0.00%</p>
+              </div>
+              <div>
+                <p className="text-xs">LTV</p>
+                <p className="text-5xl">0.02%</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs">LTV</p>
-              <p className="text-5xl">0.02%</p>
+
+            <div className="flex justify-center h-full flex-col gap-8">
+              <div>
+                <p className="text-xs">Net APY</p>
+                <p className="text-5xl">0.00%</p>
+              </div>
+              <div>
+                <p className="text-xs">LTV</p>
+                <p className="text-5xl">0.02%</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <Health />
     </div>
   );
 };
