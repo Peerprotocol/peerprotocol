@@ -1,16 +1,10 @@
 const Health = () => {
-    return ( 
-        <div className="flex flex-col justify-center bg-red-900 basis-1/5 items-center rounded-full">
-        <div>
-          <p className="text-xs">Net APY</p>
-          <p className="text-5xl">0.00%</p>
-        </div>
-        <div>
-          <p className="text-xs">LTV</p>
-          <p className="text-5xl">0.02%</p>
-        </div>
-      </div>
-     );
-}
- 
+  return (
+    <div className="flex flex-col justify-center bg-red-900 w-80 h-80 items-center rounded-full tracking-widest">
+      <p className="text-lg">Health</p>
+      <p className="text-7xl">99%</p>
+    </div>
+  );
+};
+
 export default Health;

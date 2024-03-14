@@ -1,66 +1,50 @@
-import React from "react";
-import Health from "./healthmeter";
+import React from 'react';
+import InfoCard from './infocard';
 
-const Portfolio = () => {
+const IndexPage = () => {
+  const infoData = [
+    {
+        title: "Net Value", 
+        value: "$60,000", 
+        title1: 'Borrow Power', 
+        value1: '$2500'
+    },
+
+    {
+        title: 'Total Deposit', 
+        value: '$600,000',
+        title1: 'Total Lent', 
+        value1: '$250,000'
+    },
+    
+    {
+        title: 'Total Earned Interest', 
+        value: '$250,000',
+        title1: 'APY(%)', 
+        value1: '$2500'
+    }
+  ];
+
   return (
-    <div className="flex justify-between mx-14 my-16">
-      <div className="h-72 bg-[#FFFFFF0D] w-full basis-2/3 rounded-3xl flex">
-        <div className="mx-32 flex w-full">
-          <div className="w-full h-full flex flex-col justify-center">
-            <div className="flex gap-16">
-              <div className="flex flex-col justify-center gap-8">
-                <div>
-                  <p className="text-sm">Net Value</p>
-                  <h2 className="text-5xl">$600,000</h2>
-                </div>
-                <div>
-                  <p className="text-sm">Borrow Power</p>
-                  <h2 className="text-5xl">$2500</h2>
-                </div>
-              </div>
-
-              <div className="flex flex-col justify-center gap-8">
-                <div>
-                  <p className="text-sm">Total Deposit</p>
-                  <h2 className="text-5xl">$600,000</h2>
-                </div>
-                <div>
-                  <p className="text-sm">Total Lent</p>
-                  <h2 className="text-5xl">$2500</h2>
-                </div>
-              </div>
+    <div className="flex my-8 bg-[#ffffff0e] h-80 border border-neutral-700 rounded-3xl">
+      <div className= "flex items-center w-full justify-center mx-14">
+        <div className="grid grid-cols-3 gap-60">
+          {infoData.map((info, index) => (
+            <div key={index} className="flex tracking-widest leading-10">
+              <InfoCard 
+                    title={info.title} 
+                    value={info.value} 
+                    title1={info.title1} 
+                    value1={info.value1} 
+                    subtitle={undefined} />
             </div>
-          </div>
-
-          <div className="flex justify-between gap-32">
-            <div className="flex justify-center h-full flex-col gap-8">
-              <div>
-                <p className="text-xs">Net APY</p>
-                <p className="text-5xl">0.00%</p>
-              </div>
-              <div>
-                <p className="text-xs">LTV</p>
-                <p className="text-5xl">0.02%</p>
-              </div>
-            </div>
-
-            <div className="flex justify-center h-full flex-col gap-8">
-              <div>
-                <p className="text-xs">Net APY</p>
-                <p className="text-5xl">0.00%</p>
-              </div>
-              <div>
-                <p className="text-xs">LTV</p>
-                <p className="text-5xl">0.02%</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-      <Health />
     </div>
   );
 };
 
-export default Portfolio;
+export default IndexPage;
+
