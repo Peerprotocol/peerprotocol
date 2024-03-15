@@ -1,8 +1,9 @@
-import Navbar from "./components/nav";
-import Portfolio from "./components/portfoliosection";
-import Health from "./components/healthmeter";
-import Transaction from "./components/transaction";
-import Transactiontable from "./components/transactiontable";
+import Navbar from "../components/nav";
+import Portfolio from "../components/portfoliosection";
+import Health from "../components/healthmeter";
+import Transaction from "../components/transaction";
+import Transactiontable from "../components/transactiontable";
+
 
 export default function Home() {
   return (

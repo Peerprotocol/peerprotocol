@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -20,7 +21,10 @@ const Navbar = () => {
           <div className="flex items-center gap-8">
             <p>Portfolio</p>
             <p>Deposit/Withdraw</p>
+            <Link href="/borrow">
             <p>Borrow/Lend</p>
+            </Link>
+            
 
             <div className="flex gap-2 border-solid border-2 rounded-3xl px-4 py-3 border-transparent  bg-[#ffffff13]">
               <div>
