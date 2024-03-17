@@ -3,6 +3,7 @@ import Portfolio from "../components/portfoliosection";
 import Health from "../components/healthmeter";
 import Transaction from "../components/transaction";
 import Transactiontable from "../components/transactiontable";
+import Router from "next/router";
 
 
 export default function Home() {

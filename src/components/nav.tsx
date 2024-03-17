@@ -19,8 +19,8 @@ const Navbar = () => {
       <div className="flex">
         <div className="flex gap-16">
           <div className="flex items-center gap-8">
-            <Link href="/portfolio"><p>Portfolio</p></Link>
-            <Link href="/page"><p>Deposit/Withdraw</p></Link>
+            <Link href="/"><p>Portfolio</p></Link>
+            <Link href="/deposit"><p>Deposit/Withdraw</p></Link>
             <Link href="/borrow">
             <p>Borrow/Lend</p>
             </Link>

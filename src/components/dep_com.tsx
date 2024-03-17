@@ -1,14 +1,21 @@
 import React from "react";
-import SelectSwitch from "./selectswitchborrow";
+import SelectSwitch from "./selectswitchdeposit";
 import Image from "next/image";
+import Link from "next/link";
 
-const Borrow = () => {
+const DepCom = () => {
   return (
     <div className="bg-[#ffffff13] h-96 w-full max-w-xl px-6 py-6 rounded-3xl">
       <div className="flex justify-between gap-24">
         <div className="flex gap-6 mb-8">
-          <p>Deposit</p>
-          <p>Withdraw</p>
+        <Link href="/deposit">
+        <button>Deposit</button>
+            </Link>
+       
+          <button></button>
+          <Link href="/withdraw">
+            <button>Withdraw</button>
+            </Link>
         </div>
 
         <div>
@@ -25,13 +32,9 @@ const Borrow = () => {
         <div className="w-full">
           <SelectSwitch />
         </div>
-
-        <button className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full  mt-9 h-fit">
-          Deposit
-        </button>
       </div>
     </div>
   );
 };
 
-export default Borrow;
+export default DepCom;
