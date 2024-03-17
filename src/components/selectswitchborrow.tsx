@@ -10,7 +10,7 @@ const SelectSwitch = () => {
           <option value="option3">Option 3</option>
         </select>
         <input type="number"   min={0} placeholder="Enter Amount" className="h-14 flex w-full rounded-2xl text-2xl bg-transparent border-none outline-none"></input>
-        <p className="text-[#ffffff15]">MAX</p>
+        <p className="text-[#ffffff15] pr-8">MAX</p>
       </div>
     </div>
   );

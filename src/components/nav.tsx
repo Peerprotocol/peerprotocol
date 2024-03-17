@@ -26,7 +26,7 @@ const Navbar = () => {
             </Link>
             
 
-            <div className="flex gap-2 border-solid border-2 rounded-3xl px-4 py-3 border-transparent  bg-[#ffffff13]">
+            <div className="flex gap-6 border-solid border-2 rounded-3xl px-4 py-2 border-transparent  bg-[#ffffff13]">
               <div>
                 <Image
                   src=".\images\phantom-img.svg"
@@ -35,7 +35,7 @@ const Navbar = () => {
                   height={25}
                 />
               </div>
-              <p>0x94...03f</p>
+              <p>0x94DGA6...03fFFjh</p>
             </div>
           </div>
         </div>
