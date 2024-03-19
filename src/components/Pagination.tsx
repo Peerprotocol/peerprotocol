@@ -58,6 +58,7 @@ const PaginationRange = ({
           if (page === currentPage) {
             return (
               <button
+                key={page}
                 onClick={() => setPage(page)}
                 className="w-10 h-10 flex items-center justify-center rounded-xl  bg-green"
               >
@@ -68,6 +69,7 @@ const PaginationRange = ({
           if (page === 1)
             return (
               <button
+                key={page}
                 onClick={() => setPage(page)}
                 className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5"
               >
@@ -77,6 +79,7 @@ const PaginationRange = ({
           if (page === lastPage)
             return (
               <button
+                key={page}
                 onClick={() => setPage(page)}
                 className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5"
               >
@@ -87,6 +90,7 @@ const PaginationRange = ({
           if (Math.abs(page - currentPage) <= 2) {
             return (
               <button
+                key={page}
                 onClick={() => setPage(page)}
                 className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5"
               >
@@ -96,7 +100,7 @@ const PaginationRange = ({
           }
           if (page - currentPage < 0 && !firstEllipseRendered) {
             firstEllipseRendered = true;
-            return <div>...</div>;
+            return <div key={page + "first"}>...</div>;
           }
           if (
             Math.abs(page - currentPage) > 2 &&
@@ -104,7 +108,7 @@ const PaginationRange = ({
             !lastEllipseRendered
           ) {
             lastEllipseRendered = true;
-            return <div>...</div>;
+            return <div key={page + "last"}>...</div>;
           }
         })}
     </div>
