@@ -1,13 +1,12 @@
 import BorrowComponent from "@/components/borrowComponent";
 import Navbar from "@/components/nav";
-import { Main } from "next/document";
 import Link from "next/link";
 import React from "react";
 
 
 const Borrow = () => {
     return(
-        <main>
+        <div>
             <Navbar />
             <section className="max-w-7xl mx-auto w-full px-4 py-2">
                 <div className="flex flex-row h-[4rem] w-full items-center justify-between px-4 py-2 mb-4 rounded-xl bg-[#FFFFFF0D] ">
@@ -49,7 +48,7 @@ const Borrow = () => {
                 </div>
                 <BorrowComponent />
             </section>
-        </main>
+        </div>
     )
 }
 
