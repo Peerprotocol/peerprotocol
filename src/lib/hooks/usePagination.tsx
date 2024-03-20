@@ -15,7 +15,7 @@ function usePagination<T>(page: number, items: T[], page_size: number) {
       )
         return item;
     });
-  }, [items, currentPage]);
+  }, [items, currentPage, page_size]);
   return { paginatedItems, setPage, totalPages, currentPage };
 }
 

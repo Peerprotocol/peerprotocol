@@ -26,8 +26,8 @@ import { infoDataType } from "@/lib/types";
 const InfoTable = ({ tableItems }: { tableItems: infoDataType[] }) => {
   return (
     <Table tableLabels={infoTableLabels} extraColumms={1}>
-      {tableItems.map((item) => (
-        <tr className="[*&>td]:py-4">
+      {tableItems.map((item, index) => (
+        <tr className="[*&>td]:py-4" key={index}>
           <td>{item.borrower}</td>
           <td>{item.assets}</td>
           <td>{item.netvalue}</td>
