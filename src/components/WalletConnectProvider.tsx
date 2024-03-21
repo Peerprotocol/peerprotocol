@@ -24,7 +24,7 @@ interface WalletConnectProviderProps {
 export const WalletConnectProvider = ({
   children,
 }: WalletConnectProviderProps) => {
-  const network = WalletAdapterNetwork.Devnet;
+  let network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => {
     if (network === WalletAdapterNetwork.Devnet) {
       return "https://cosmological-practical-rain.solana-devnet.quiknode.pro/9e757085a5f8f6a5ae082c0da4906492a78f6c80/";
@@ -32,7 +32,8 @@ export const WalletConnectProvider = ({
     return clusterApiUrl(network);
   }, [network]);
 
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+  const wallets = [new PhantomWalletAdapter()];
+  // const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
