@@ -7,18 +7,25 @@ interface InfocardProps {
   value1: string;
 }
 
-const InfoCard: React.FC<InfocardProps> =({ title, value, title1, value1})  =>  {
-    return (
-      <div className="w-full h-full ">
-        <p className="text-[1.5rem] leading-10 text-[#ffffff7e]">{title}</p>
+const InfoCard: React.FC<InfocardProps> = ({
+  title,
+  value,
+  title1,
+  value1,
+}) => {
+  return (
+    <div className="w-full h-full py-4 flex flex-col gap-4">
+      <span>
+        <p className="text-[1rem] leading-10 text-[#ffffff7e]">{title}</p>
         <h2 className="text-[2rem] tracking-widest">{value}</h2>
+      </span>
 
-        <p className="text-[1.5rem] leading-10 text-[#ffffff7e]">{title1}</p>
+      <span>
+        <p className="text-[1rem] leading-10 text-[#ffffff7e]">{title1}</p>
         <h2 className="text-[2rem] tracking-widest">{value1}</h2>
-        {/* {subtitle && <p className="text-sm leading-10 text-[#ffffff7e]">{subtitle}</p>} */}
-      </div>
-    );
-  };
-  
-  export default InfoCard;
-  
+      </span>
+    </div>
+  );
+};
+
+export default InfoCard;
