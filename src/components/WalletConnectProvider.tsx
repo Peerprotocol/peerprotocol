@@ -3,17 +3,27 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
-  GlowWalletAdapter,
+  WalletModalProvider,
+  WalletDisconnectButton,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
+import {
+  // GlowWalletAdapter,
   PhantomWalletAdapter,
-  SlopeWalletAdapter,
+  // SlopeWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
+import { ReactNode } from "react";
 
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
-
-export const WalletConnectProvider = ({ children }) => {
+import "@solana/wallet-adapter-react-ui/styles.css";
+interface WalletConnectProviderProps {
+  children: any;
+}
+export const WalletConnectProvider = ({
+  children,
+}: WalletConnectProviderProps) => {
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => {
     if (network === WalletAdapterNetwork.Devnet) {
