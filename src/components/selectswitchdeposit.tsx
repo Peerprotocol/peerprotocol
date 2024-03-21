@@ -6,7 +6,7 @@ const SelectSwitch = () => {
   const pathname = usePathname();
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <span>You're paying</span>
         <span className="text-[#ffffff2c] text-sm cursor-pointer">0 USDC</span>
       </div>
