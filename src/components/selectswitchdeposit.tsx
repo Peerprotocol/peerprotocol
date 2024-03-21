@@ -1,14 +1,23 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 
 const SelectSwitch = () => {
   const pathname = usePathname();
+  const [amount, setAmount] = useState(0);
+  const [maxAmount, setMaxAmount] = useState(0);
+
+  const handleMaxClick = () => {
+    setAmount(maxAmount);
+  };
+
   return (
     <div>
-      <div className="flex justify-between items-center ">
-        <span>You're paying</span>
-        <span className="text-[#ffffff2c] text-sm cursor-pointer">0 USDC</span>
+      <div className="flex justify-between items-center">
+        <span>Your&apos;e paying</span>
+        <span className="text-[#ffffff2c] text-sm cursor-pointer max-amount">
+          {maxAmount} USDC
+        </span>
       </div>
 
       <form method="post">
@@ -25,22 +34,26 @@ const SelectSwitch = () => {
             type="text"
             inputMode="numeric"
             pattern="[0-9]*"
-            onKeyDown={(event) => {
-              const key = event.key;
-              if (key !== "Backspace" && !/^\d$/.test(key)) {
-                event.preventDefault();
-              }
-            }}
+            value={amount}
+            onChange={(e) => setAmount(parseFloat(e.target.value))}
             min={0}
             placeholder="Enter Amount"
             className="h-14 flex w-full rounded-2xl text-2xl bg-transparent border-none outline-none"
           />
 
-          <button className="text-[#ffffff4b] pr-8">MAX</button>
+          <button
+            className="text-[#ffffff4b] pr-8"
+            onClick={(e) => {
+              e.preventDefault();
+              handleMaxClick();
+            }}
+          >
+            MAX
+          </button>
         </div>
       </form>
 
-      <button className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full  mt-9 h-fit">
+      <button className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full mt-9 h-fit">
         {pathname === "/deposit" ? "Deposit" : "Withdraw"}
       </button>
     </div>
