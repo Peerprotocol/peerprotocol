@@ -1,6 +1,5 @@
 import React from "react";
 import SelectSwitch from "./selectswitchdeposit";
-import Image from "next/image";
 import Link from "next/link";
 
 const DepCom = () => {
@@ -17,18 +16,9 @@ const DepCom = () => {
             <button>Withdraw</button>
             </Link>
         </div>
-
-        <div>
-          <Image
-            src="images/cancel.svg"
-            alt="Description of the image"
-            width={25}
-            height={25}
-          />
-        </div>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-2">
         <div className="w-full">
           <SelectSwitch />
         </div>
