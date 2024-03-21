@@ -9,6 +9,7 @@ const SelectSwitch = () => {
 
   const handleMaxClick = () => {
     setAmount(maxAmount);
+    
   };
 
   return (
