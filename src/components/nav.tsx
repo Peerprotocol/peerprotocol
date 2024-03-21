@@ -48,7 +48,6 @@ const Navbar = () => {
 
             <div
               className="flex gap-6 border-solid border-2 rounded-3xl px-4 py-2 border-transparent  bg-[#ffffff13]"
-              key={wallet.adapter.name}
               onClick={() => select(wallet.adapter.name)}
             >
               <div>
