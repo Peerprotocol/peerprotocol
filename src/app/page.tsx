@@ -3,7 +3,6 @@ import Navbar from "../components/nav";
 import Portfolio from "../components/portfoliosection";
 import Transaction from "../components/TransactionHistory";
 import { WalletConnectProvider } from "../components/WalletConnectProvider";
-
 export default function Home() {
   return (
     <main className="w-full p-4">

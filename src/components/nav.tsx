@@ -5,9 +5,21 @@ import { WalletAdapter } from "@solana/wallet-adapter-base";
 import { WalletProvider } from "@solana/wallet-adapter-react";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import { clusterApiUrl } from "@solana/web3.js";
-
+import { useWallet } from "@solana/wallet-adapter-react";
 const Navbar = () => {
-  const connectWallet = async () => {};
+  const { select, wallets, publicKey, disconnect } = useWallet();
+  const wallet = wallets[0];
+
+  function ellipsifyFirstLast(str: String, numCharacters: any) {
+    if (str.length <= numCharacters * 2) {
+      return str;
+    } else {
+      const firstPart = str.substring(0, numCharacters);
+      const lastPart = str.substring(str.length - numCharacters);
+      return firstPart + "..." + lastPart;
+    }
+  }
+
   return (
     <nav role="navigation" className="flex justify-between mx-14 my-4">
       <div className="flex gap-3 items-center">
@@ -36,7 +48,8 @@ const Navbar = () => {
 
             <div
               className="flex gap-6 border-solid border-2 rounded-3xl px-4 py-2 border-transparent  bg-[#ffffff13]"
-              onClick={connectWallet}
+              key={wallet.adapter.name}
+              onClick={() => select(wallet.adapter.name)}
             >
               <div>
                 <Image
@@ -46,7 +59,7 @@ const Navbar = () => {
                   height={25}
                 />
               </div>
-              <p>0x94DGA6...03fFFjh</p>
+              <p>{ellipsifyFirstLast(publicKey?.toBase58() ?? "Connect", 4)}</p>
             </div>
           </div>
         </div>
