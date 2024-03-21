@@ -1,3 +1,4 @@
+"use client";
 import BorrowComponent from "@/components/borrowComponent";
 import Navbar from "@/components/nav";
 import Link from "next/link";

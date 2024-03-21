@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Navbar from "@/components/nav";
 import Image from "next/image";
@@ -8,7 +9,7 @@ const Borrowpage = () => {
     <div className="h-screen">
       <Navbar />
       <div className="flex justify-center h-[calc(100%-55px-40px)] items-center">
-      <DepCom/>
+        <DepCom />
       </div>
     </div>
   );
