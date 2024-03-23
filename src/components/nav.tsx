@@ -6,6 +6,7 @@ import { WalletProvider } from "@solana/wallet-adapter-react";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 const Navbar = () => {
   const { select, wallets, publicKey, disconnect } = useWallet();
   const wallet = wallets[0];
@@ -46,20 +47,17 @@ const Navbar = () => {
               <p>Borrow/Lend</p>
             </Link>
 
-            <div
-              className="flex gap-6 border-solid border-2 rounded-3xl px-4 py-2 border-transparent  bg-[#ffffff13]"
-              onClick={() => select(wallet.adapter.name)}
-            >
-              <div>
-                <Image
-                  src=".\images\phantom-img.svg"
-                  alt="Description of the image"
-                  width={25}
-                  height={25}
-                />
-              </div>
-              <p>{ellipsifyFirstLast(publicKey?.toBase58() ?? "Connect", 4)}</p>
-            </div>
+            <WalletMultiButton
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.07)",
+                opacity: "90",
+                color: "white",
+                borderRadius: "20px",
+                fontWeight: "100",
+              }}
+
+              // disabled
+            />
           </div>
         </div>
       </div>
