@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer as SplTransfer};
 use solana_program::system_instruction;
+use solana_program::clock::UnixTimestamp;
 
 pub mod constant;
 pub mod error;
@@ -13,6 +14,7 @@ declare_id!("11111111111111111111111111111111")
 #[program]
 pub mod peer_protocol {
     use super::*;
+    
     #[derive(Accounts)]
     pub struct TransferLamports<'info> {
         #[account(mut)]
@@ -77,4 +79,26 @@ pub mod peer_protocol {
         Ok(())
     }
 
+    #[derive(Accounts)]
+    pub struct Lend<'info> {
+        #[account(mut)]
+        pub lender: Signer<'info>,
+        #[account(mut)]
+        pub lender_ata: Account<'info, TokenAccount>,
+        #[account(mut)]
+        pub borrower_ata: Account<'info, TokenAccount>,
+        pub token_program: Program<'info, Token>,
+        pub system_program: Program<'info, System>,
+    }
+
+    pub fn lend(
+        ctx: Context<Lend>,
+        amount: u64,
+        duration: i64,
+        interest_rate: f64,
+        start_date: UnixTimestamp,
+    ) -> Result<()> {
+        // Perform lending operations here, such as transferring tokens, updating balances, etc.
+       // implementing
+    }
 }
