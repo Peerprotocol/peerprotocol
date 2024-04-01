@@ -42,7 +42,7 @@ export const WalletConnectProvider = ({
     () => [
       new PhantomWalletAdapter(),
       new LedgerWalletAdapter(),
-      new SolflareWalletAdapter({ network }),
+      // new SolflareWalletAdapter({ network }),
       new TorusWalletAdapter(),
     ],
     [network]
