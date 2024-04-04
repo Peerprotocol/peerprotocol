@@ -4,4 +4,4 @@ use anchor_lang::prelude::*;
 pub const USER_TAG: &[u8] = b"USER_STATE";
 
 #[constant]
-pub const LOAN_TAG: &[u8] = b"TODO_STATE";
+pub const LOAN_TAG: &[u8] = b"LOAN_STATE";

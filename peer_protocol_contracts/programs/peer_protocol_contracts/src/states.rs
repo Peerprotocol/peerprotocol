@@ -14,7 +14,7 @@ pub struct Loan {
     pub lender: Pubkey,
     pub idx: u8,
     pub duration: i64,
-    pub interest_rate: i64,
+    pub interest_rate: f64,
     pub collateral: i64,
     pub borrower: Pubkey,
     pub amount: i64,
@@ -33,7 +33,6 @@ impl Default for LoanStatus {
         LoanStatus::Open
     }
 }
-
 
 // impl Default for states::LoanStatus {
 //     fn default() -> Self {

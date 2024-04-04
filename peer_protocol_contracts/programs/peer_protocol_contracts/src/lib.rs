@@ -19,7 +19,8 @@ pub mod peer_protocol_contracts {
     }
 
     // lender creates a new loan with duration, interest rate, and collateral
-    pub fn create_loan(ctx: Context<CreateLoan>, duration: i64, interest_rate: i64) -> Result<()> {
+    pub fn create_loan(ctx: Context<CreateLoan>, duration: i64, interest_rate: f64) -> Result<()> {
+        msg!("Creating loan");
         let loan_account = &mut ctx.accounts.loan_account;
         let user_profile = &mut ctx.accounts.user_profile;
 
@@ -85,13 +86,14 @@ pub struct CreateLoan<'info> {
     )]
     pub user_profile: Box<Account<'info, UserProfile>>,
     #[account(
-        mut,
-        seeds = [USER_TAG, authority.key().as_ref()],
+        init,
+        payer = authority,
+        seeds = [LOAN_TAG, authority.key().as_ref(),&[user_profile.last_loan as u8].as_ref()],
         bump,
-        has_one = authority
+        has_one = authority,
+        space = 8 + std::mem::size_of::<Loan>()
     )]
     pub loan_account: Box<Account<'info, Loan>>,
-    pub rent: Sysvar<'info, Rent>,
     #[account(mut)]
     pub authority: Signer<'info>,
     pub system_program: Program<'info, System>,
@@ -109,7 +111,8 @@ pub struct AcceptLoan<'info> {
     pub user_profile: Box<Account<'info, UserProfile>>,
     #[account(mut)]
     authority: Signer<'info>,
-    #[account(mut,seeds = [LOAN_TAG,authority.key().as_ref(),&[loan_idx].as_ref()],
+    #[account(mut,
+    seeds = [LOAN_TAG,authority.key().as_ref(),&[loan_idx].as_ref()],
     bump,
     )]
     loan_account: Box<Account<'info, Loan>>,
