@@ -112,7 +112,7 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn fetch_btc_price(ctx: Context<FetchBitcoinPrice>) -> Result<()> {
+    pub fn fetch_btc_price(ctx: Context<FetchOraclePrice>) -> Result<()> {
         // 1-Fetch latest price
         let price_account_info = &ctx.accounts.price_feed;
         msg!("getting price feed");
@@ -248,7 +248,7 @@ pub struct TransferSpl<'info> {
 }
 
 #[derive(Accounts)]
-pub struct FetchBitcoinPrice<'info> {
+pub struct FetchOraclePrice<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
     #[account(mut)]
