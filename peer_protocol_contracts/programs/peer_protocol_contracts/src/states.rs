@@ -6,6 +6,8 @@ pub struct UserProfile {
     pub authority: Pubkey,
     pub last_loan: u8,
     pub loan_count: u8,
+    pub can_borrow: bool,
+    pub can_deposit: bool,
 }
 
 #[account]
@@ -20,6 +22,7 @@ pub struct Loan {
     pub amount: i64,
     pub status: LoanStatus,
     pub authority: Pubkey,
+    pub token_program: Pubkey,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq)]

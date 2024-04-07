@@ -10,6 +10,7 @@ declare_id!("B4tFqnDzLvCfm9u4tKYotE8e5sTpfZpXxvATT1QmQc6W");
 use crate::{constants::*, states::*};
 
 const BTC_USDC_FEED: &str = "HovQMDrbAgAYPCmHVSrezcSmkMtXSSUsLDFANExrZh2J";
+const PYTH_USDC_FEED: &str = "EdVCmQ9FSPcVe5YySXDPCRmc8aDQLKJ9xvYBMZPie1Vw";
 const STALENESS_THRESHOLD: u64 = 60; // staleness threshold in seconds
 #[program]
 pub mod peer_protocol_contracts {
@@ -112,22 +113,30 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn fetch_btc_price(ctx: Context<FetchOraclePrice>) -> Result<()> {
+    pub fn fetch_collaterial_price(ctx: Context<FetchCollaterialPrice>) -> Result<()> {
         // 1-Fetch latest price
         let price_account_info = &ctx.accounts.price_feed;
         msg!("getting price feed");
-        // let price_feed = load_price_feed_from_account_info(&price_account_info).unwrap();
-        // let current_timestamp = Clock::get()?.unix_timestamp;
-        // let current_price = price_feed
-        //     .get_price_no_older_than(current_timestamp, STALENESS_THRESHOLD)
-        //     .unwrap();
-        // msg!("{}", current_price.price);
+        let price_feed = load_price_feed_from_account_info(&price_account_info).unwrap();
+        let current_timestamp = Clock::get()?.unix_timestamp;
+        msg!("gotten price feed");
+        let current_price = price_feed
+            .get_price_no_older_than(current_timestamp, STALENESS_THRESHOLD)
+            .unwrap();
+        msg!("{}", current_price.price);
+        msg!("{:?}", current_price);
         // 2-Format display values rounded to nearest dollar
-        // let display_price = u64::try_from(current_price.price).unwrap() / 10u64.pow(u32::try_from(-current_price.expo).unwrap());
-        // let display_confidence = u64::try_from(current_price.conf).unwrap() / 10u64.pow(u32::try_from(-current_price.expo).unwrap());
+        let display_price = f64::try_from(current_price.price).unwrap()
+            / 10f64.pow(u32::try_from(-current_price.expo).unwrap());
+        let display_confidence = u64::try_from(current_price.conf).unwrap()
+            / 10u64.pow(u32::try_from(-current_price.expo).unwrap());
 
         // // 3-Log result
-        // msg!("BTC/USD price: ({} +- {})", display_price, display_confidence);
+        msg!(
+            "BTC/USD price: ({} +- {})",
+            display_price,
+            display_confidence
+        );
         Ok(())
     }
 }
@@ -248,7 +257,7 @@ pub struct TransferSpl<'info> {
 }
 
 #[derive(Accounts)]
-pub struct FetchOraclePrice<'info> {
+pub struct FetchCollaterialPrice<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
     #[account(mut)]
