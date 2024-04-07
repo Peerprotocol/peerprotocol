@@ -1,0 +1,124 @@
+{
+  "version": "0.1.0",
+  "name": "peer_protocol_contracts",
+  "constants": [
+    {
+      "name": "USER_TAG",
+      "type": "bytes",
+      "value": "[85, 83, 69, 82, 95, 83, 84, 65, 84, 69]"
+    },
+    {
+      "name": "LOAN_TAG",
+      "type": "bytes",
+      "value": "[76, 79, 65, 78, 95, 83, 84, 65, 84, 69]"
+    }
+  ],
+  "instructions": [
+    {
+      "name": "initialize",
+      "accounts": [
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "userProfile", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositCollaterial",
+      "accounts": [
+        { "name": "authority", "isMut": false, "isSigner": true },
+        { "name": "fromAta", "isMut": true, "isSigner": false },
+        { "name": "toAta", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false },
+        { "name": "userProfile", "isMut": true, "isSigner": false }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "createLoan",
+      "accounts": [
+        { "name": "userProfile", "isMut": true, "isSigner": false },
+        { "name": "loanAccount", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "fromAta", "isMut": true, "isSigner": false },
+        { "name": "toAta", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "duration", "type": "i64" },
+        { "name": "interestRate", "type": "f64" }
+      ]
+    },
+    {
+      "name": "acceptLoan",
+      "accounts": [
+        { "name": "userProfile", "isMut": true, "isSigner": false },
+        { "name": "authority", "isMut": true, "isSigner": true },
+        { "name": "loanAccount", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false },
+        { "name": "fromAta", "isMut": true, "isSigner": false },
+        { "name": "toAta", "isMut": true, "isSigner": false },
+        { "name": "tokenProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [
+        { "name": "loanIdx", "type": "u8" },
+        { "name": "loanAmount", "type": "u64" }
+      ]
+    },
+    {
+      "name": "fetchCollaterialPrice",
+      "accounts": [
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "priceFeed", "isMut": true, "isSigner": false }
+      ],
+      "args": [],
+      "returns": "f64"
+    }
+  ],
+  "accounts": [
+    {
+      "name": "UserProfile",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "authority", "type": "publicKey" },
+          { "name": "lastLoan", "type": "u8" },
+          { "name": "loanCount", "type": "u8" },
+          { "name": "canBorrow", "type": "bool" },
+          { "name": "canDeposit", "type": "bool" }
+        ]
+      }
+    },
+    {
+      "name": "Loan",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "lender", "type": "publicKey" },
+          { "name": "idx", "type": "u8" },
+          { "name": "duration", "type": "i64" },
+          { "name": "interestRate", "type": "f64" },
+          { "name": "collateral", "type": "i64" },
+          { "name": "borrower", "type": "publicKey" },
+          { "name": "amount", "type": "i64" },
+          { "name": "status", "type": { "defined": "LoanStatus" } },
+          { "name": "authority", "type": "publicKey" },
+          { "name": "tokenProgram", "type": "publicKey" }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "LoanStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [{ "name": "Open" }, { "name": "Closed" }]
+      }
+    }
+  ],
+  "errors": [
+    { "code": 6000, "name": "InvalidPriceFeed", "msg": "Invalid Price Feed" }
+  ]
+}
