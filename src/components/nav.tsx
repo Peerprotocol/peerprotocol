@@ -53,7 +53,6 @@ const Navbar = () => {
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
         );
-        console.log(profilePda);
         const tx = await program.methods
           .initialize()
           .accounts({
@@ -75,7 +74,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    console.log("Initializing");
     // Fetch a userprofile from the blockchain
     const findProfileAccounts = async () => {
       if (program && publicKey && !transactionPending) {
@@ -86,7 +84,6 @@ const Navbar = () => {
             program.programId
           );
 
-          console.log("Profile Account", profilePda);
           const profileAccount = await program.account.userProfile.fetch(
             profilePda
           );
@@ -99,7 +96,6 @@ const Navbar = () => {
             // ]);
             // setTodos(todoAccounts);
           } else {
-            console.log("NOT YET INITIALIZED");
             setInitialized(false);
           }
         } catch (error) {
@@ -142,7 +138,7 @@ const Navbar = () => {
             </Link>
             <button onClick={initializeUser}>Initialize</button>
 
-            <WalletMultiButton
+            {/* <WalletMultiButton
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.07)",
                 opacity: "90",
@@ -152,7 +148,7 @@ const Navbar = () => {
               }}
 
               // disabled
-            />
+            /> */}
           </div>
         </div>
       </div>
