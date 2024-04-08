@@ -27,6 +27,15 @@ pub struct Loan {
     pub token_program: Pubkey,
 }
 
+#[account]
+#[derive(Debug, Default)]
+pub struct Pool {
+    pub authority: Pubkey,
+    pub vault: Pubkey,
+    pub mint: Pubkey,
+    pub bump: u8,
+}
+
 #[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq)]
 pub enum LoanStatus {
     Open,

@@ -5,9 +5,9 @@ pub mod states;
 use anchor_spl::associated_token::{self, AssociatedToken, Create};
 use anchor_spl::token::Mint;
 use pyth_sdk_solana::load_price_feed_from_account_info;
-// use std::str::FromStr;
+use std::str::FromStr;
 
-declare_id!("3AcX1jZSe1emKRvkXaefBWGwUM2wGVJp1545TCXwJiyu");
+declare_id!("6kyAE2eHjdiupYVp9Qs6pjbq8Frk7G5deLAaW8tEtEBu");
 
 use crate::{constants::*, states::*};
 
@@ -21,6 +21,11 @@ pub mod peer_protocol_contracts {
     pub fn initialize(ctx: Context<InitializeUser>) -> Result<()> {
         // Initialize user profile with default data
         let user_profile = &mut ctx.accounts.user_profile;
+        let pool = &mut ctx.accounts.pool;
+        let usdc_mint_pubkey_str = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
+        let usdc_mint_pubkey =
+            Pubkey::from_str(usdc_mint_pubkey_str).expect("Failed to parse public key string"); // Handle potential parsing errors
+        pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
         user_profile.authority = ctx.accounts.authority.key();
         user_profile.loan_count = 0;
         user_profile.last_loan = 0;
@@ -29,21 +34,24 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn create_ata(ctx: Context<CreateAta>) -> Result<()> {
-        let cpi_accounts = Create {
-            payer: ctx.accounts.payer.to_account_info(),
-            associated_token: ctx.accounts.token_account.to_account_info(),
-            authority: ctx.accounts.payer.to_account_info(),
-            mint: ctx.accounts.mint.to_account_info(),
-            system_program: ctx.accounts.system_program.to_account_info(),
-            token_program: ctx.accounts.token_program.to_account_info(),
-            // rent: ctx.accounts.rent.to_account_info(),
+    pub fn create_vault(ctx: Context<InitializeVault>) -> Result<()> {
+        Ok(())
+    }
+
+    pub fn cancel_deposit(ctx: Context<CancelDeposit>) -> Result<()> {
+        let seeds = &[ctx.accounts.pool.mint.as_ref(), &[ctx.accounts.pool.bump]];
+        let signer = &[&seeds[..]];
+        let cpi_accounts = SplTransfer {
+            from: ctx.accounts.vault.to_account_info().clone(),
+            to: ctx.accounts.user_token_account.to_account_info().clone(),
+            authority: ctx.accounts.vault.to_account_info().clone(),
         };
+        let cpi_program = ctx.accounts.token_program.to_account_info();
+        let cpi_context = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer);
+        token::transfer(cpi_context, 1)?;
 
-        let cpi_program = ctx.accounts.associated_token_program.to_account_info();
-
-        let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-        associated_token::create(cpi_ctx)
+        Ok(())
+        // token::transfer(cpi_context, ctx.accounts.user_deposit.amount)?;
     }
 
     pub fn deposit_collaterial(ctx: Context<TransferSpl>, amount: u64) -> Result<()> {
@@ -174,8 +182,44 @@ pub struct InitializeUser<'info> {
     )]
     pub user_profile: Box<Account<'info, UserProfile>>,
 
+    #[account(
+        init,
+        seeds = [ATA_PAY_TAG,authority.key().as_ref()],
+        bump,
+        payer = authority,
+        space = 8 + std::mem::size_of::<Pool>()
+    )]
+    pub pool: Box<Account<'info, Pool>>,
+
     pub system_program: Program<'info, System>,
 }
+
+// #[derive(Accounts)]
+// #[instruction()]
+// pub struct InitializeVault<'info> {
+//     #[account(mut)]
+//     pub authority: Signer<'info>,
+
+//     #[account(
+//         init,
+//         seeds = [USER_TAG,authority.key().as_ref()],
+//         bump,
+//         payer = authority,
+//         space = 8 + std::mem::size_of::<UserProfile>()
+//     )]
+//     pub user_profile: Box<Account<'info, UserProfile>>,
+
+//     #[account(
+//         init,
+//         seeds = [ATA_PAY_TAG,authority.key().as_ref()],
+//         bump,
+//         payer = authority,
+//         space = 8 + std::mem::size_of::<Pool>()
+//     )]
+//     pub pool: Box<Account<'info, Pool>>,
+
+//     pub system_program: Program<'info, System>,
+// }
 
 #[derive(Accounts)]
 #[instruction()]
@@ -289,15 +333,38 @@ pub enum FeedError {
 }
 
 #[derive(Accounts)]
-pub struct CreateAta<'info> {
+pub struct CancelDeposit<'info> {
     #[account(mut)]
-    pub payer: Signer<'info>,
-    /// CHECK: new token account
+    pub pool: Account<'info, Pool>,
+    #[account(
+        mut,
+        seeds = [pool.mint.as_ref()],
+        bump = pool.bump
+    )]
+    pub vault: Account<'info, TokenAccount>,
+
     #[account(mut)]
-    pub token_account: UncheckedAccount<'info>,
-    pub mint: Account<'info, Mint>,
+    pub authority: Signer<'info>,
+    #[account(mut)]
+    pub user_token_account: Account<'info, TokenAccount>,
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
-    pub associated_token_program: Program<'info, AssociatedToken>,
-    // pub rent: Sysvar<'info, Rent>,
+}
+
+#[derive(Accounts)]
+#[instruction()]
+pub struct InitializeVault<'info> {
+    #[account(mut)]
+    pub pool: Account<'info, Pool>,
+    #[account(
+        init,
+        payer = authority,
+        seeds = [pool.mint.as_ref()],
+        space = 8 + std::mem::size_of::<TokenAccount>(),
+        bump
+    )]
+    pub vault: Account<'info, TokenAccount>,
+    pub system_program: Program<'info, System>,
+    #[account(mut)]
+    pub authority: Signer<'info>,
 }
