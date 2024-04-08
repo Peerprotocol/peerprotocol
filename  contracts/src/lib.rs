@@ -2,15 +2,17 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer as SplTransfer};
 pub mod constants;
 pub mod states;
+use anchor_spl::associated_token::{self, AssociatedToken, Create};
+use anchor_spl::token::Mint;
 use pyth_sdk_solana::load_price_feed_from_account_info;
-use std::str::FromStr;
+// use std::str::FromStr;
 
 declare_id!("3AcX1jZSe1emKRvkXaefBWGwUM2wGVJp1545TCXwJiyu");
 
 use crate::{constants::*, states::*};
 
-const BTC_USDC_FEED: &str = "HovQMDrbAgAYPCmHVSrezcSmkMtXSSUsLDFANExrZh2J";
-const PYTH_USDC_FEED: &str = "EdVCmQ9FSPcVe5YySXDPCRmc8aDQLKJ9xvYBMZPie1Vw";
+// const BTC_USDC_FEED: &str = "HovQMDrbAgAYPCmHVSrezcSmkMtXSSUsLDFANExrZh2J";
+// const PYTH_USDC_FEED: &str = "EdVCmQ9FSPcVe5YySXDPCRmc8aDQLKJ9xvYBMZPie1Vw";
 const STALENESS_THRESHOLD: u64 = 60; // staleness threshold in seconds
 #[program]
 pub mod peer_protocol_contracts {
@@ -25,6 +27,23 @@ pub mod peer_protocol_contracts {
         user_profile.can_borrow = true;
         user_profile.can_deposit = true;
         Ok(())
+    }
+
+    pub fn create_ata(ctx: Context<CreateAta>) -> Result<()> {
+        let cpi_accounts = Create {
+            payer: ctx.accounts.payer.to_account_info(),
+            associated_token: ctx.accounts.token_account.to_account_info(),
+            authority: ctx.accounts.payer.to_account_info(),
+            mint: ctx.accounts.mint.to_account_info(),
+            system_program: ctx.accounts.system_program.to_account_info(),
+            token_program: ctx.accounts.token_program.to_account_info(),
+            // rent: ctx.accounts.rent.to_account_info(),
+        };
+
+        let cpi_program = ctx.accounts.associated_token_program.to_account_info();
+
+        let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
+        associated_token::create(cpi_ctx)
     }
 
     pub fn deposit_collaterial(ctx: Context<TransferSpl>, amount: u64) -> Result<()> {
@@ -267,4 +286,18 @@ pub struct FetchCollaterialPrice<'info> {
 pub enum FeedError {
     #[msg("Invalid Price Feed")]
     InvalidPriceFeed,
+}
+
+#[derive(Accounts)]
+pub struct CreateAta<'info> {
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    /// CHECK: new token account
+    #[account(mut)]
+    pub token_account: UncheckedAccount<'info>,
+    pub mint: Account<'info, Mint>,
+    pub token_program: Program<'info, Token>,
+    pub system_program: Program<'info, System>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    // pub rent: Sysvar<'info, Rent>,
 }
