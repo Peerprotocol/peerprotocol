@@ -4,12 +4,11 @@ import { usePathname } from "next/navigation";
 
 const SelectSwitch = () => {
   const pathname = usePathname();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState(0);
 
   const handleMaxClick = () => {
-    setAmount(maxAmount);
-    
+    // setAmount(maxAmount);
   };
 
   return (
@@ -26,8 +25,7 @@ const SelectSwitch = () => {
           <div className="border rounded-xl px-2 bg-[#ffffff15]">
             <select className="text-white relative p-2 px-4 py-3 bg-[#ffffff00]">
               <option value="" aria-disabled></option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
+              <option value="option3">Option 1</option>
             </select>
           </div>
 
@@ -36,7 +34,7 @@ const SelectSwitch = () => {
             inputMode="numeric"
             pattern="[0-9]*"
             value={amount}
-            onChange={(e) => setAmount(parseFloat(e.target.value))}
+            onChange={(e) => setAmount(e.target.value)}
             min={0}
             placeholder="Enter Amount"
             className="h-14 flex w-full rounded-2xl text-2xl bg-transparent border-none outline-none"

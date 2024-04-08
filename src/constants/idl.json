@@ -86,7 +86,9 @@
           { "name": "lastLoan", "type": "u8" },
           { "name": "loanCount", "type": "u8" },
           { "name": "canBorrow", "type": "bool" },
-          { "name": "canDeposit", "type": "bool" }
+          { "name": "canDeposit", "type": "bool" },
+          { "name": "totalDeposit", "type": "f64" },
+          { "name": "totalLent", "type": "f64" }
         ]
       }
     },
