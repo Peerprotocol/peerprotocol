@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import Navbar from "@/components/nav";
 import Image from "next/image";

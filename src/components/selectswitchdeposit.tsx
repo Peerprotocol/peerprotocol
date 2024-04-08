@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
-
+import { useUserState } from "@/hooks/user_states";
 const SelectSwitch = () => {
   const pathname = usePathname();
   const [amount, setAmount] = useState("");
@@ -10,6 +10,25 @@ const SelectSwitch = () => {
   const handleMaxClick = () => {
     // setAmount(maxAmount);
   };
+
+  const depositFunds = async (e: any) => {
+    e.preventDefault();
+    const realAmount = parseInt(amount);
+    depositCollaterial(
+      realAmount,
+      "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+    );
+  };
+
+  const {
+    initializeUser,
+    transactionPending,
+    initialized,
+    loading,
+    deposit,
+    lent,
+    depositCollaterial,
+  } = useUserState();
 
   return (
     <div>
@@ -24,8 +43,7 @@ const SelectSwitch = () => {
         <div className="w-full mt-4 flex gap-4 px-4 py-1.5 items-center bg-[#ffffff2c] rounded-2xl">
           <div className="border rounded-xl px-2 bg-[#ffffff15]">
             <select className="text-white relative p-2 px-4 py-3 bg-[#ffffff00]">
-              <option value="" aria-disabled></option>
-              <option value="option3">Option 1</option>
+              <option value="option3">USDC</option>
             </select>
           </div>
 
@@ -52,8 +70,15 @@ const SelectSwitch = () => {
         </div>
       </form>
 
-      <button className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full mt-9 h-fit">
-        {pathname === "/deposit" ? "Deposit" : "Withdraw"}
+      <button
+        className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full mt-9 h-fit"
+        onClick={(e: any) => depositFunds(e)}
+      >
+        {transactionPending
+          ? "Loading"
+          : pathname === "/deposit"
+          ? "Deposit"
+          : "Withdraw"}
       </button>
     </div>
   );

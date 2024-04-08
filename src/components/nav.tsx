@@ -60,7 +60,7 @@ const Navbar = () => {
               <></>
             )}
 
-            <WalletMultiButton
+            {/* <WalletMultiButton
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.07)",
                 opacity: "90",
@@ -70,7 +70,7 @@ const Navbar = () => {
               }}
 
               // disabled
-            />
+            /> */}
           </div>
         </div>
       </div>

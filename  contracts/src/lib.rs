@@ -5,7 +5,7 @@ pub mod states;
 use pyth_sdk_solana::load_price_feed_from_account_info;
 use std::str::FromStr;
 
-declare_id!("B4tFqnDzLvCfm9u4tKYotE8e5sTpfZpXxvATT1QmQc6W");
+declare_id!("3AcX1jZSe1emKRvkXaefBWGwUM2wGVJp1545TCXwJiyu");
 
 use crate::{constants::*, states::*};
 
@@ -49,6 +49,8 @@ pub mod peer_protocol_contracts {
         token::transfer(CpiContext::new(cpi_program, cpi_accounts), amount)?;
 
         user_profile.can_deposit = false;
+        // fetch_collaterial_price();
+        user_profile.total_deposit = user_profile.total_deposit.checked_add(amount).unwrap();
 
         Ok(())
     }
@@ -113,7 +115,7 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn fetch_collaterial_price(ctx: Context<FetchCollaterialPrice>) -> Result<()> {
+    pub fn fetch_collaterial_price(ctx: Context<FetchCollaterialPrice>) -> Result<f64> {
         // 1-Fetch latest price
         let price_account_info = &ctx.accounts.price_feed;
         msg!("getting price feed");
@@ -126,18 +128,15 @@ pub mod peer_protocol_contracts {
         msg!("{}", current_price.price);
         msg!("{:?}", current_price);
         // 2-Format display values rounded to nearest dollar
-        let display_price = f64::try_from(current_price.price).unwrap()
-            / 10f64.pow(u32::try_from(-current_price.expo).unwrap());
+        let display_price = (u64::try_from(current_price.price).unwrap() as f64)
+            / (10u64.pow(u32::try_from(-current_price.expo).unwrap()) as f64);
+
         let display_confidence = u64::try_from(current_price.conf).unwrap()
             / 10u64.pow(u32::try_from(-current_price.expo).unwrap());
 
         // // 3-Log result
-        msg!(
-            "BTC/USD price: ({} +- {})",
-            display_price,
-            display_confidence
-        );
-        Ok(())
+        msg!("/USD price: ({} +- {})", display_price, display_confidence);
+        Ok(display_price)
     }
 }
 
