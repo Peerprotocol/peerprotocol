@@ -1,81 +1,57 @@
-export const InfoCardprops = [
-    {
-        title: "Net Value", 
-        value: "$60,000", 
-        title1: 'Borrow Power', 
-        value1: '$2500'
-    },
+export const TransactionData = [
+  {
+    TransactionType: "Lend",
 
-    {
-        title: 'Total Deposit', 
-        value: '$600,000',
-        title1: 'Total Lent', 
-        value1: '$250,000'
-    },
-    
-    {
-        title: 'Total Earned Interest', 
-        value: '$250,000',
-        title1: 'APY(%)', 
-        value1: '$2500'
-    }
-  ];
+    Market: "Samo",
 
-  export const TransactionData = [
-    {
-      TransactionType: "Lend",
+    Amount: "$1,000,000",
 
-      Market: "Samo",
+    Netvalue: "$60,000",
 
-      Amount: "$1,000,000",
+    InterestRate: "3%",
+  },
+  {
+    TransactionType: "Lend",
 
-      Netvalue: "$60,000",
+    Market: "Ninja",
 
-      InterestRate: "3%",
-    },
-    {
-      TransactionType: "Lend",
+    Amount: "$340,000",
 
-      Market: "Ninja",
+    Netvalue: "$60,000",
 
-      Amount: "$340,000",
+    InterestRate: "3%",
+  },
+  {
+    TransactionType: "Borrow",
 
-      Netvalue: "$60,000",
+    Market: "Myro",
 
-      InterestRate: "3%",
-    },
-    {
-      TransactionType: "Borrow",
+    Amount: "$67,000",
 
-      Market: "Myro",
+    Netvalue: "$60,000",
 
-      Amount: "$67,000",
+    InterestRate: "3%",
+  },
+  {
+    TransactionType: "Lend",
 
-      Netvalue: "$60,000",
+    Market: "Orca",
 
-      InterestRate: "3%",
-    },
-    {
-      TransactionType: "Lend",
+    Amount: "$500,000",
 
-      Market: "Orca",
+    Netvalue: "$60,000",
 
-      Amount: "$500,000",
+    InterestRate: "3%",
+  },
+  {
+    TransactionType: "Borrow",
 
-      Netvalue: "$60,000",
+    Market: "Rin",
 
-      InterestRate: "3%",
-    },
-    {
-      TransactionType: "Borrow",
+    Amount: "$80,000",
 
-      Market: "Rin",
+    Netvalue: "$60,000",
 
-      Amount: "$80,000",
-
-      Netvalue: "$60,000",
-
-      InterestRate: "3%",
-    },
-  ];
-
+    InterestRate: "3%",
+  },
+];

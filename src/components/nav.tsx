@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,19 +8,26 @@ import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import * as anchor from "@project-serum/anchor";
+import { useEffect, useMemo } from "react";
+import toast from "react-hot-toast";
+import { SystemProgram } from "@solana/web3.js";
+import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
+import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
+import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
+import { useUserState } from "@/hooks/user_states";
+
 const Navbar = () => {
   const { select, wallets, publicKey, disconnect } = useWallet();
+  const {
+    initializeUser,
+    transactionPending,
+    initialized,
+    loading,
+    deposit,
+    lent,
+  } = useUserState();
   const wallet = wallets[0];
-
-  function ellipsifyFirstLast(str: String, numCharacters: any) {
-    if (str.length <= numCharacters * 2) {
-      return str;
-    } else {
-      const firstPart = str.substring(0, numCharacters);
-      const lastPart = str.substring(str.length - numCharacters);
-      return firstPart + "..." + lastPart;
-    }
-  }
 
   return (
     <nav role="navigation" className="flex justify-between mx-14 my-4">
@@ -34,7 +42,7 @@ const Navbar = () => {
         </div>
         <p className="text-2xl">Peer Protocol</p>
       </div>
-      <div className="flex">
+      <div className="flex" suppressHydrationWarning={true}>
         <div className="flex gap-16">
           <div className="flex items-center gap-8">
             <Link href="/">
@@ -46,8 +54,13 @@ const Navbar = () => {
             <Link href="/borrow">
               <p>Borrow/Lend</p>
             </Link>
+            {!initialized ? (
+              <button onClick={initializeUser}>Initialize</button>
+            ) : (
+              <></>
+            )}
 
-            <WalletMultiButton
+            {/* <WalletMultiButton
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.07)",
                 opacity: "90",
@@ -57,7 +70,7 @@ const Navbar = () => {
               }}
 
               // disabled
-            />
+            /> */}
           </div>
         </div>
       </div>
