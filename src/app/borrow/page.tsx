@@ -10,10 +10,11 @@ const Borrow = () => {
     <WalletConnectProvider>
       <div>
         <Navbar />
+
         <section className="max-w-7xl mx-auto w-full px-4 py-2">
           <div className="flex flex-row h-[4rem] w-full items-center justify-between px-4 py-2 mb-4 rounded-xl bg-[#FFFFFF0D] ">
             <span className="flex flex-row justify-evenly w-[12%]">
-              <Link href="/borrow">Borrow</Link>
+              <Link href="/borrow">Borrow {}</Link>
               <Link href="/borrow">Lend</Link>
             </span>
             <span className="flex flex-row justify-evenly w-[30%] text-white bg-transparent">

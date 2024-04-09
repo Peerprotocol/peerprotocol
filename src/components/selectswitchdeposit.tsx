@@ -28,6 +28,7 @@ const SelectSwitch = () => {
     deposit,
     lent,
     depositCollaterial,
+    loans,
   } = useUserState();
 
   return (

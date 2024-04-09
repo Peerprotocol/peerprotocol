@@ -28,6 +28,7 @@ export function useUserState() {
   const anchorWallet = useAnchorWallet();
   const [deposit, setTotalDeposit] = useState("");
   const [lent, setTotalLending] = useState("");
+  const [loans, setLoans] = useState([]);
 
   const [initialized, setInitialized] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -65,12 +66,15 @@ export function useUserState() {
 
           if (profileAccount) {
             console.log(profileAccount);
-            setTotalDeposit(profileAccount.totalDeposit ?? "***");
+            let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
+            setTotalDeposit(totalDeposit.toString() ?? "***");
             setTotalLending(profileAccount.totalLent ?? "***");
             setInitialized(true);
-            // const todoAccounts = await program.account.todoAccount.all([
-            //   authorFilter(publicKey.toString()),
-            // ]);
+            console.log(program.account);
+            const loanAccounts = (await program.account.loan.all([
+              // authorFilter(publicKey.toString()),
+            ])) as any;
+            setLoans(loanAccounts);
             // setTodos(todoAccounts);
           } else {
             setInitialized(false);
@@ -87,6 +91,15 @@ export function useUserState() {
 
     findProfileAccounts();
   }, [publicKey, program, transactionPending]);
+  function ellipsifyFirstLast(str: String, numCharacters: any) {
+    if (str.length <= numCharacters * 2) {
+      return str;
+    } else {
+      const firstPart = str.substring(0, numCharacters);
+      const lastPart = str.substring(str.length - numCharacters);
+      return firstPart + "..." + lastPart;
+    }
+  }
 
   const initializeUser = async () => {
     // Check if the program exist and wallet is connected
@@ -164,10 +177,126 @@ export function useUserState() {
     }
   };
 
+  const createLoan = async (
+    duration: number,
+    interest_rate: number,
+    amount: number,
+    loan_account: string
+  ) => {
+    if (+amount < 0) return;
+    // Check if the program exist and wallet is connected
+    // then run InitializeUser() from smart contract
+    if (program && publicKey) {
+      try {
+        const mint = new PublicKey(
+          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+        ); // USDC devnet
+
+        setTransactionPending(true);
+        const [profilePda, _] = await findProgramAddressSync(
+          [utf8.encode("USER_STATE"), publicKey.toBuffer()],
+          program.programId
+        );
+
+        const fromAta = await getOrCreateAssociatedTokenAccount(
+          program.provider.connection,
+          publicKey,
+          mint,
+          publicKey,
+          true
+        );
+
+        const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
+
+        const txHash = await program.methods
+          .createLoan(duration, interest_rate, amount)
+          .accounts({
+            fromAta: fromAta.address,
+            authority_public_key: new PublicKey(
+              "7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk"
+            ),
+            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
+            tokenProgram: TOKEN_PROGRAM_ID,
+            userProfile: profilePda,
+            pda: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
+            loanAccount: new PublicKey(loan_account),
+            systemProgram: new PublicKey("11111111111111111111111111111111"),
+            authority: publicKey,
+          })
+          .rpc();
+        toast.success("Successfully Intialized");
+
+        setInitialized(true);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.toString());
+      } finally {
+        setTransactionPending(false);
+      }
+    }
+  };
+
+  const acceptLoan = async (
+    loan_idx: number,
+    loan_account: string,
+    authority_public_key: string
+  ) => {
+    // Check if the program exist and wallet is connected
+    // then run InitializeUser() from smart contract
+    if (program && publicKey) {
+      try {
+        const mint = new PublicKey(
+          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+        ); // USDC devnet
+
+        setTransactionPending(true);
+        const [profilePda, _] = await findProgramAddressSync(
+          [utf8.encode("USER_STATE"), publicKey.toBuffer()],
+          program.programId
+        );
+
+        const fromAta = await getOrCreateAssociatedTokenAccount(
+          program.provider.connection,
+          publicKey,
+          mint,
+          publicKey,
+          true
+        );
+
+        const txHash = await program.methods
+          .acceptLoan(loan_idx)
+          .accounts({
+            fromAta: fromAta.address,
+            authority_public_key: new PublicKey(
+              "7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk"
+            ),
+            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
+            tokenProgram: TOKEN_PROGRAM_ID,
+            userProfile: profilePda,
+            pda: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
+            loanAccount: new PublicKey(loan_account),
+            systemProgram: new PublicKey("11111111111111111111111111111111"),
+            authorityPublicKey: new PublicKey(authority_public_key),
+            authority: publicKey,
+          })
+          .rpc();
+        toast.success("Successfully Intialized");
+
+        setInitialized(true);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.toString());
+      } finally {
+        setTransactionPending(false);
+      }
+    }
+  };
+
   const depositCollaterial = async (
     amount: number,
     token_public_key: string
   ) => {
+    if (+amount < 0) return;
     // Check if the program exist and wallet is connected
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
@@ -188,7 +317,7 @@ export function useUserState() {
           true
         );
 
-        const transferAmount = new BN(amount * 10 ** 6);
+        const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
         const txHash = await program.methods
           .depositCollaterial(transferAmount)
           .accounts({
@@ -218,5 +347,9 @@ export function useUserState() {
     deposit,
     lent,
     depositCollaterial,
+    createLoan,
+    acceptLoan,
+    loans,
+    ellipsifyFirstLast,
   };
 }

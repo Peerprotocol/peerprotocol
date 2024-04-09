@@ -21,11 +21,11 @@ pub mod peer_protocol_contracts {
     pub fn initialize(ctx: Context<InitializeUser>) -> Result<()> {
         // Initialize user profile with default data
         let user_profile = &mut ctx.accounts.user_profile;
-        let pool = &mut ctx.accounts.pool;
+        // let pool = &mut ctx.accounts.pool;
         let usdc_mint_pubkey_str = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
         let usdc_mint_pubkey =
             Pubkey::from_str(usdc_mint_pubkey_str).expect("Failed to parse public key string"); // Handle potential parsing errors
-        pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
+                                                                                                // pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
         user_profile.authority = ctx.accounts.authority.key();
         user_profile.loan_count = 0;
         user_profile.last_loan = 0;
@@ -55,7 +55,7 @@ pub mod peer_protocol_contracts {
 
         token::transfer(CpiContext::new(cpi_program, cpi_accounts), amount)?;
 
-        user_profile.can_deposit = false;
+        // user_profile.can_deposit = false;
         // fetch_collaterial_price();
         user_profile.total_deposit = user_profile.total_deposit.checked_add(amount).unwrap();
 
@@ -63,61 +63,116 @@ pub mod peer_protocol_contracts {
     }
 
     // lender creates a new loan with duration, interest rate, and collateral
-    pub fn create_loan(ctx: Context<CreateLoan>, duration: i64, interest_rate: f64) -> Result<()> {
+    pub fn create_loan(
+        ctx: Context<CreateLoan>,
+        duration: u64,
+        interest_rate: f64,
+        amount: u64,
+    ) -> Result<()> {
         msg!("Creating loan");
         let loan_account = &mut ctx.accounts.loan_account;
         let user_profile = &mut ctx.accounts.user_profile;
 
         loan_account.interest_rate = interest_rate;
         loan_account.lender = user_profile.authority;
+        loan_account.amount = amount;
         loan_account.status = LoanStatus::Open;
         loan_account.duration = duration;
         loan_account.authority = ctx.accounts.authority.key();
+        user_profile.total_deposit = user_profile
+            .total_deposit
+            .checked_sub(loan_account.amount)
+            .unwrap();
+        user_profile.total_lent = user_profile
+            .total_lent
+            .checked_add(loan_account.amount)
+            .unwrap();
 
-        // Increase todo idx for PDA
+        // // Increase todo idx for PDA
         user_profile.loan_count = user_profile.loan_count.checked_add(1).unwrap();
 
-        // Increase total todo count
+        // // Increase total todo count
         user_profile.last_loan = user_profile.last_loan.checked_add(1).unwrap();
 
         Ok(())
     }
 
-    // accept loan
-    pub fn accept_loan(ctx: Context<AcceptLoan>, _loan_idx: u8, loan_amount: u64) -> Result<()> {
+    pub fn move_money(ctx: Context<AcceptLoan>, loan_idx: u8) -> Result<()> {
+        let creatorKey = Pubkey::from_str("7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk")
+            .expect("Failed to parse public key string");
+
+        let auth_bump: u8 = 0;
+        let bump_vector = auth_bump.to_le_bytes();
+        let seeds = &[
+            ATA_PAY_TAG.as_ref(),
+            creatorKey.as_ref(),
+            bump_vector.as_ref(),
+        ];
+        let signer = &[&seeds[..]];
+        let loan_account = &mut ctx.accounts.loan_account;
+        let destination = &ctx.accounts.to_ata;
+        loan_account.borrower = ctx.accounts.authority.key();
+
+        msg!("{:?}", signer);
+        // token::transfer(
+        //     CpiContext::new_with_signer(
+        //         ctx.accounts.token_program.to_account_info(),
+        //         SplTransfer {
+        //             from: ctx.accounts.from_ata.to_account_info(),
+        //             to: destination.to_account_info().clone(),
+        //             authority: ctx.accounts.from_ata.to_account_info(),
+        //         },
+        //         signer,
+        //     ),
+        //     loan_account.amount, // Transfer all tokens from pda
+        // )?;
+        Ok(())
+    }
+
+    pub fn accept_loan(ctx: Context<AcceptLoan>, loan_idx: u8) -> Result<()> {
         let loan_account = &mut ctx.accounts.loan_account;
         let user_profile = &mut ctx.accounts.user_profile;
         let destination = &ctx.accounts.to_ata;
         let source = &ctx.accounts.from_ata;
         let authority = &ctx.accounts.authority;
+        let auth_bump: u8 = 0;
 
-        if !user_profile.can_borrow {
-            // return Err(ProgramError::Custom(1)); // Replace 1 with appropriate error code
-        }
+        // let creatorKey = Pubkey::from_str("7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk")
+        //     .expect("Failed to parse public key string");
 
-        // Check if the loan duration is valid
-        if loan_account.duration <= 0 {
-            // return Err(ProgramError::Custom(2)); // Replace 2 with appropriate error code
-        }
+        // // let auth_bump = *ctx.bumps.get("loan_account").unwrap();
+        // let seeds = &[ATA_PAY_TAG.as_ref(), creatorKey.as_ref(), &[auth_bump]];
+        // let signer = &[&seeds[..]];
 
-        // Check if the interest rate is valid
-        if loan_account.interest_rate <= 0.0 {
-            // return Err(ProgramError::Custom(3)); // Replace 3 with appropriate error code
-        }
+        // if !user_profile.can_borrow {
+        //     // return Err(ProgramError::Custom(1)); // Replace 1 with appropriate error code
+        // }
 
-        loan_account.status = LoanStatus::Closed;
-        loan_account.borrower = ctx.accounts.authority.key();
+        // // Check if the loan duration is valid
+        // if loan_account.duration <= 0 {
+        //     // return Err(ProgramError::Custom(2)); // Replace 2 with appropriate error code
+        // }
 
-        // Perform the token transfer
-        let cpi_accounts = SplTransfer {
-            from: source.to_account_info().clone(),
-            to: destination.to_account_info().clone(),
-            authority: authority.to_account_info().clone(),
-        };
+        // // Check if the interest rate is valid
+        // if loan_account.interest_rate <= 0.0 {
+        //     // return Err(ProgramError::Custom(3)); // Replace 3 with appropriate error code
+        // }
 
-        let cpi_program = ctx.accounts.token_program.to_account_info();
+        // loan_account.status = LoanStatus::Closed;
+        // loan_account.borrower = ctx.accounts.authority.key();
 
-        token::transfer(CpiContext::new(cpi_program, cpi_accounts), loan_amount)?;
+        // token::transfer(
+        //     CpiContext::new_with_signer(
+        //         ctx.accounts.token_program.to_account_info(),
+        //         SplTransfer {
+        //             from: ctx.accounts.from_ata.to_account_info(),
+        //             to: destination.to_account_info().clone(),
+        //             authority: ctx.accounts.from_ata.to_account_info(),
+        //         },
+        //         signer,
+        //     ),
+        //     loan_account.amount, // Transfer all tokens from pda
+        // )?;
 
         Ok(())
     }
@@ -155,51 +210,17 @@ pub struct InitializeUser<'info> {
 
     #[account(
         init,
-        seeds = [USER_TAG,authority.key().as_ref()],
+        seeds = [USER_TAG,authority.key.as_ref()],
         bump,
         payer = authority,
         space = 8 + std::mem::size_of::<UserProfile>()
     )]
     pub user_profile: Box<Account<'info, UserProfile>>,
 
-    #[account(
-        init,
-        seeds = [ATA_PAY_TAG,authority.key().as_ref()],
-        bump,
-        payer = authority,
-        space = 8 + std::mem::size_of::<Pool>()
-    )]
-    pub pool: Box<Account<'info, Pool>>,
-
     pub system_program: Program<'info, System>,
 }
 
 // #[derive(Accounts)]
-// #[instruction()]
-// pub struct InitializeVault<'info> {
-//     #[account(mut)]
-//     pub authority: Signer<'info>,
-
-//     #[account(
-//         init,
-//         seeds = [USER_TAG,authority.key().as_ref()],
-//         bump,
-//         payer = authority,
-//         space = 8 + std::mem::size_of::<UserProfile>()
-//     )]
-//     pub user_profile: Box<Account<'info, UserProfile>>,
-
-//     #[account(
-//         init,
-//         seeds = [ATA_PAY_TAG,authority.key().as_ref()],
-//         bump,
-//         payer = authority,
-//         space = 8 + std::mem::size_of::<Pool>()
-//     )]
-//     pub pool: Box<Account<'info, Pool>>,
-
-//     pub system_program: Program<'info, System>,
-// }
 
 #[derive(Accounts)]
 #[instruction()]
@@ -216,17 +237,12 @@ pub struct CreateLoan<'info> {
         payer = authority,
         seeds = [LOAN_TAG, authority.key().as_ref(),&[user_profile.last_loan as u8].as_ref()],
         bump,
-        has_one = authority,
         space = 8 + std::mem::size_of::<Loan>()
     )]
     pub loan_account: Box<Account<'info, Loan>>,
     #[account(mut)]
     pub authority: Signer<'info>,
     pub system_program: Program<'info, System>,
-    #[account(mut)]
-    pub from_ata: Account<'info, TokenAccount>,
-    #[account(mut)]
-    pub to_ata: Account<'info, TokenAccount>,
     pub token_program: Program<'info, Token>,
 }
 
@@ -240,13 +256,17 @@ pub struct AcceptLoan<'info> {
         has_one = authority
     )]
     pub user_profile: Box<Account<'info, UserProfile>>,
+
     #[account(mut)]
     authority: Signer<'info>,
-    #[account(mut,
-    seeds = [LOAN_TAG,authority.key().as_ref(),&[loan_idx].as_ref()],
+    #[account(
+    mut,
+    seeds = [LOAN_TAG,authority_public_key.key().as_ref(),&[loan_idx].as_ref()],
     bump,
     )]
     loan_account: Box<Account<'info, Loan>>,
+    #[account(mut)]
+    pub authority_public_key: AccountInfo<'info>,
     pub system_program: Program<'info, System>,
     #[account(mut)]
     pub from_ata: Box<Account<'info, TokenAccount>>,
@@ -271,7 +291,7 @@ pub struct RemoveLoan<'info> {
         close = authority,
         seeds = [LOAN_TAG, authority.key().as_ref(), &[loan_idx].as_ref()],
         bump,
-        has_one = authority
+        // has_one = authority
     )]
     pub loan_account: Box<Account<'info, Loan>>,
 
