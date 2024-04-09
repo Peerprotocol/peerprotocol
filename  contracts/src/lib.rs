@@ -34,26 +34,6 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn create_vault(ctx: Context<InitializeVault>) -> Result<()> {
-        Ok(())
-    }
-
-    pub fn cancel_deposit(ctx: Context<CancelDeposit>) -> Result<()> {
-        let seeds = &[ctx.accounts.pool.mint.as_ref(), &[ctx.accounts.pool.bump]];
-        let signer = &[&seeds[..]];
-        let cpi_accounts = SplTransfer {
-            from: ctx.accounts.vault.to_account_info().clone(),
-            to: ctx.accounts.user_token_account.to_account_info().clone(),
-            authority: ctx.accounts.vault.to_account_info().clone(),
-        };
-        let cpi_program = ctx.accounts.token_program.to_account_info();
-        let cpi_context = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer);
-        token::transfer(cpi_context, 1)?;
-
-        Ok(())
-        // token::transfer(cpi_context, ctx.accounts.user_deposit.amount)?;
-    }
-
     pub fn deposit_collaterial(ctx: Context<TransferSpl>, amount: u64) -> Result<()> {
         let destination = &ctx.accounts.to_ata;
         let source = &ctx.accounts.from_ata;
@@ -330,41 +310,4 @@ pub struct FetchCollaterialPrice<'info> {
 pub enum FeedError {
     #[msg("Invalid Price Feed")]
     InvalidPriceFeed,
-}
-
-#[derive(Accounts)]
-pub struct CancelDeposit<'info> {
-    #[account(mut)]
-    pub pool: Account<'info, Pool>,
-    #[account(
-        mut,
-        seeds = [pool.mint.as_ref()],
-        bump = pool.bump
-    )]
-    pub vault: Account<'info, TokenAccount>,
-
-    #[account(mut)]
-    pub authority: Signer<'info>,
-    #[account(mut)]
-    pub user_token_account: Account<'info, TokenAccount>,
-    pub token_program: Program<'info, Token>,
-    pub system_program: Program<'info, System>,
-}
-
-#[derive(Accounts)]
-#[instruction()]
-pub struct InitializeVault<'info> {
-    #[account(mut)]
-    pub pool: Account<'info, Pool>,
-    #[account(
-        init,
-        payer = authority,
-        seeds = [pool.mint.as_ref()],
-        space = 8 + std::mem::size_of::<TokenAccount>(),
-        bump
-    )]
-    pub vault: Account<'info, TokenAccount>,
-    pub system_program: Program<'info, System>,
-    #[account(mut)]
-    pub authority: Signer<'info>,
 }

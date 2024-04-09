@@ -57,6 +57,8 @@ export function useUserState() {
             program.programId
           );
 
+          console.log(profilePda);
+
           const profileAccount = await program.account.userProfile.fetch(
             profilePda
           );
@@ -115,8 +117,7 @@ export function useUserState() {
       }
     }
   };
-
-  const depositCollaterial = async (
+  const acceptCollaterial = async (
     amount: number,
     token_public_key: string
   ) => {
@@ -125,10 +126,6 @@ export function useUserState() {
     if (program && publicKey) {
       try {
         const mint = new PublicKey(token_public_key); // USDC devnet
-
-        // const mint = new PublicKey(
-        //   "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-        // ); // USDC devnet
 
         setTransactionPending(true);
         const [profilePda, _] = await findProgramAddressSync(
@@ -141,44 +138,65 @@ export function useUserState() {
           publicKey,
           mint,
           publicKey,
-          signTransaction
+          true
         );
 
-        //FIXME: This should be the token public key
-
-        const toPublicKey = new PublicKey(
-          "CikEi4TuJUYgYQAcV4pryWw2sU6qbFGSv6msSM3dH4cr"
-        );
-
-        const toAta = await getAssociatedTokenAddress(mint, toPublicKey);
-
-        // Fires a list of instructions
-        const mint_tx = new anchor.web3.Transaction().add(
-          // Create the ATA account that is associated with our To wallet
-          createAssociatedTokenAccountInstruction(
-            publicKey,
-            toAta,
-            toPublicKey,
-            mint
-          )
-        );
-
-        const signature = await sendTransaction(mint_tx, connection);
-        const response = await connection.confirmTransaction(
-          signature,
-          "processed"
-        );
-        console.log("response", response);
         const transferAmount = new BN(amount);
-        console.log(program);
         const txHash = await program.methods
-          .transferSplTokens(transferAmount)
+          .depositCollaterial(transferAmount)
           .accounts({
-            from: publicKey,
-            fromAta: fromAta,
-            toAta: toAta,
+            fromAta: fromAta.address,
+            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
             tokenProgram: TOKEN_PROGRAM_ID,
-            user_profile: profilePda,
+            userProfile: profilePda,
+            authority: publicKey,
+          })
+          .rpc();
+        toast.success("Successfully Intialized");
+
+        setInitialized(true);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.toString());
+      } finally {
+        setTransactionPending(false);
+      }
+    }
+  };
+
+  const depositCollaterial = async (
+    amount: number,
+    token_public_key: string
+  ) => {
+    // Check if the program exist and wallet is connected
+    // then run InitializeUser() from smart contract
+    if (program && publicKey) {
+      try {
+        const mint = new PublicKey(token_public_key); // USDC devnet
+
+        setTransactionPending(true);
+        const [profilePda, _] = await findProgramAddressSync(
+          [utf8.encode("USER_STATE"), publicKey.toBuffer()],
+          program.programId
+        );
+
+        const fromAta = await getOrCreateAssociatedTokenAccount(
+          program.provider.connection,
+          publicKey,
+          mint,
+          publicKey,
+          true
+        );
+
+        const transferAmount = new BN(amount * 10 ** 6);
+        const txHash = await program.methods
+          .depositCollaterial(transferAmount)
+          .accounts({
+            fromAta: fromAta.address,
+            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
+            tokenProgram: TOKEN_PROGRAM_ID,
+            userProfile: profilePda,
+            authority: publicKey,
           })
           .rpc();
         toast.success("Successfully Intialized");
