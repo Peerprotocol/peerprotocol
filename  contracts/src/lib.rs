@@ -2,15 +2,17 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer as SplTransfer};
 pub mod constants;
 pub mod states;
+use anchor_spl::associated_token::{self, AssociatedToken, Create};
+use anchor_spl::token::Mint;
 use pyth_sdk_solana::load_price_feed_from_account_info;
 use std::str::FromStr;
 
-declare_id!("B4tFqnDzLvCfm9u4tKYotE8e5sTpfZpXxvATT1QmQc6W");
+declare_id!("6kyAE2eHjdiupYVp9Qs6pjbq8Frk7G5deLAaW8tEtEBu");
 
 use crate::{constants::*, states::*};
 
-const BTC_USDC_FEED: &str = "HovQMDrbAgAYPCmHVSrezcSmkMtXSSUsLDFANExrZh2J";
-const PYTH_USDC_FEED: &str = "EdVCmQ9FSPcVe5YySXDPCRmc8aDQLKJ9xvYBMZPie1Vw";
+// const BTC_USDC_FEED: &str = "HovQMDrbAgAYPCmHVSrezcSmkMtXSSUsLDFANExrZh2J";
+// const PYTH_USDC_FEED: &str = "EdVCmQ9FSPcVe5YySXDPCRmc8aDQLKJ9xvYBMZPie1Vw";
 const STALENESS_THRESHOLD: u64 = 60; // staleness threshold in seconds
 #[program]
 pub mod peer_protocol_contracts {
@@ -19,6 +21,11 @@ pub mod peer_protocol_contracts {
     pub fn initialize(ctx: Context<InitializeUser>) -> Result<()> {
         // Initialize user profile with default data
         let user_profile = &mut ctx.accounts.user_profile;
+        let pool = &mut ctx.accounts.pool;
+        let usdc_mint_pubkey_str = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
+        let usdc_mint_pubkey =
+            Pubkey::from_str(usdc_mint_pubkey_str).expect("Failed to parse public key string"); // Handle potential parsing errors
+        pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
         user_profile.authority = ctx.accounts.authority.key();
         user_profile.loan_count = 0;
         user_profile.last_loan = 0;
@@ -49,6 +56,8 @@ pub mod peer_protocol_contracts {
         token::transfer(CpiContext::new(cpi_program, cpi_accounts), amount)?;
 
         user_profile.can_deposit = false;
+        // fetch_collaterial_price();
+        user_profile.total_deposit = user_profile.total_deposit.checked_add(amount).unwrap();
 
         Ok(())
     }
@@ -113,7 +122,7 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn fetch_collaterial_price(ctx: Context<FetchCollaterialPrice>) -> Result<()> {
+    pub fn fetch_collaterial_price(ctx: Context<FetchCollaterialPrice>) -> Result<f64> {
         // 1-Fetch latest price
         let price_account_info = &ctx.accounts.price_feed;
         msg!("getting price feed");
@@ -126,18 +135,15 @@ pub mod peer_protocol_contracts {
         msg!("{}", current_price.price);
         msg!("{:?}", current_price);
         // 2-Format display values rounded to nearest dollar
-        let display_price = f64::try_from(current_price.price).unwrap()
-            / 10f64.pow(u32::try_from(-current_price.expo).unwrap());
+        let display_price = (u64::try_from(current_price.price).unwrap() as f64)
+            / (10u64.pow(u32::try_from(-current_price.expo).unwrap()) as f64);
+
         let display_confidence = u64::try_from(current_price.conf).unwrap()
             / 10u64.pow(u32::try_from(-current_price.expo).unwrap());
 
         // // 3-Log result
-        msg!(
-            "BTC/USD price: ({} +- {})",
-            display_price,
-            display_confidence
-        );
-        Ok(())
+        msg!("/USD price: ({} +- {})", display_price, display_confidence);
+        Ok(display_price)
     }
 }
 
@@ -156,8 +162,44 @@ pub struct InitializeUser<'info> {
     )]
     pub user_profile: Box<Account<'info, UserProfile>>,
 
+    #[account(
+        init,
+        seeds = [ATA_PAY_TAG,authority.key().as_ref()],
+        bump,
+        payer = authority,
+        space = 8 + std::mem::size_of::<Pool>()
+    )]
+    pub pool: Box<Account<'info, Pool>>,
+
     pub system_program: Program<'info, System>,
 }
+
+// #[derive(Accounts)]
+// #[instruction()]
+// pub struct InitializeVault<'info> {
+//     #[account(mut)]
+//     pub authority: Signer<'info>,
+
+//     #[account(
+//         init,
+//         seeds = [USER_TAG,authority.key().as_ref()],
+//         bump,
+//         payer = authority,
+//         space = 8 + std::mem::size_of::<UserProfile>()
+//     )]
+//     pub user_profile: Box<Account<'info, UserProfile>>,
+
+//     #[account(
+//         init,
+//         seeds = [ATA_PAY_TAG,authority.key().as_ref()],
+//         bump,
+//         payer = authority,
+//         space = 8 + std::mem::size_of::<Pool>()
+//     )]
+//     pub pool: Box<Account<'info, Pool>>,
+
+//     pub system_program: Program<'info, System>,
+// }
 
 #[derive(Accounts)]
 #[instruction()]
