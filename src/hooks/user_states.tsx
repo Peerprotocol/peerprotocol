@@ -65,7 +65,8 @@ export function useUserState() {
 
           if (profileAccount) {
             console.log(profileAccount);
-            setTotalDeposit(profileAccount.totalDeposit ?? "***");
+            let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
+            setTotalDeposit(totalDeposit.toString() ?? "***");
             setTotalLending(profileAccount.totalLent ?? "***");
             setInitialized(true);
             // const todoAccounts = await program.account.todoAccount.all([
@@ -188,7 +189,7 @@ export function useUserState() {
           true
         );
 
-        const transferAmount = new BN(amount * 10 ** 6);
+        const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
         const txHash = await program.methods
           .depositCollaterial(transferAmount)
           .accounts({
