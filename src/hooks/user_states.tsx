@@ -117,6 +117,7 @@ export function useUserState() {
             userProfile: profilePda,
             systemProgram: SystemProgram.programId,
             authority: publicKey,
+            pool: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
           })
           .rpc();
         toast.success("Successfully Intialized");
@@ -212,13 +213,9 @@ export function useUserState() {
           .createLoan(duration, interest_rate, amount)
           .accounts({
             fromAta: fromAta.address,
-            authority_public_key: new PublicKey(
-              "7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk"
-            ),
             toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,
-            pda: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
             loanAccount: new PublicKey(loan_account),
             systemProgram: new PublicKey("11111111111111111111111111111111"),
             authority: publicKey,
@@ -239,7 +236,7 @@ export function useUserState() {
   const acceptLoan = async (
     loan_idx: number,
     loan_account: string,
-    authority_public_key: string
+    loan_owner_public_key: string
   ) => {
     // Check if the program exist and wallet is connected
     // then run InitializeUser() from smart contract
@@ -269,9 +266,6 @@ export function useUserState() {
           .acceptLoan(loan_idx)
           .accounts({
             toAta: toAta.address,
-            authority_public_key: new PublicKey(
-              "7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk"
-            ),
             fromAta: new PublicKey(
               "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
             ),
@@ -280,7 +274,7 @@ export function useUserState() {
             pda: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
             loanAccount: new PublicKey(loan_account),
             systemProgram: new PublicKey("11111111111111111111111111111111"),
-            authorityPublicKey: new PublicKey(authority_public_key),
+            authorityPublicKey: new PublicKey(loan_owner_public_key),
             authority: publicKey,
           })
           .rpc();
