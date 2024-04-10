@@ -1,6 +1,7 @@
-import React, { createContext } from "react";
+
+import React from "react";
 import Image from "next/image";
-// import { motion } from "framer-motion";
+
 import Link from "next/link";
 
 function Landing() {
@@ -37,9 +38,10 @@ function Landing() {
             {/* </a> */}
           </Link>
         </div>
-        <div className="flex justify-around items-center">
+
+        <div className="flex flex-row justify-evenly items-center mt-8">
           <div>
-            <p className="text-6xl font-sans font-semibold w-4/5 leading-tight">
+            <p className="text-6xl font-sans font-semibold w-[50bottom-[20rem] %] leading-tight">
               First decentralized peer-to-peer lending protocol
             </p>
             <div className="flex gap-3 mt-2 mb-2">
@@ -58,65 +60,58 @@ function Landing() {
               scalable peer-to-peer lending protocol.
             </p>
           </div>
-          {/* <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0, rotate: 360 }}
-            transition={{
-              delay: 0.6,
-              duration: 20,
-              ease: "linear",
-              repeat: Infinity,
-            }} */}
-          {/* > */}
-          <img
-            className="relative"
+          
+          <div className="relative w-full h-full">
+          <Image
+            className="w-full h-full "
             src="/images/world.svg"
             alt="World"
             width={2000}
+            height={2000}
           />
           <Image
-            className="absolute"
+            className="absolute top-[20%] left-[17%]"
             src="/images/myro.png"
             alt="Box Icon"
-            width={100}
-            height={20}
+            width={50}
+            height={50}
           />
           <Image
-            className="absolute top-[8rem] left-[75rem]"
+            className="absolute top-[8%] left-[50%]"
             src="/images/step.png"
             alt="Box Icon"
-            width={100}
-            height={20}
+            width={50}
+            height={50}
           />
           <Image
-            className="absolute bottom-[35rem] left-[55rem]"
+            className="absolute top-[60%] left-[10%]"
             src="/images/jup.png"
             alt="Box Icon"
-            width={100}
-            height={20}
+            width={50}
+            height={50}
           />
           <Image
-            className="absolute bottom-[20rem] left-[88rem]"
+            className="absolute bottom-[20%] right-[17%]"
             src="/images/raydium.png"
             alt="Box Icon"
-            width={100}
-            height={20}
+            width={50}
+            height={50}
           />
           <Image
-            className="absolute top-[42rem] right-[20rem]"
+            className="absolute bottom-[60%] right-[15%]"
             src="/images/wif.png"
             alt="Box Icon"
-            width={100}
-            height={20}
+            width={50}
+            height={50}
           />
           <Image
-            className="absolute top-[40rem] left-[55rem]"
+            className="absolute bottom-[8%] right-[50%]"
             src="/images/bonk.png"
             alt="Box Icon"
-            width={100}
-            height={20}
+            width={50}
+            height={50}
           />
-          {/* </motion.div> */}
+          </div>
         </div>
       </div>
 
