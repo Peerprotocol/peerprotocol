@@ -29,6 +29,12 @@ const Navbar = () => {
   } = useUserState();
   const wallet = wallets[0];
 
+  const handleWalletConnect = async () => {
+    console.log('connecting to your wallet before initializing...');
+    await new Promise(resolve => setTimeout(resolve, 4000)); 
+    await initializeUser();
+};
+
   return (
     <nav role="navigation" className="flex justify-between mx-14 my-4">
       <div className="flex gap-3 items-center">
@@ -45,7 +51,7 @@ const Navbar = () => {
       <div className="flex" suppressHydrationWarning={true}>
         <div className="flex gap-16">
           <div className="flex items-center gap-8">
-            <Link href="/">
+            <Link href="/peerapp">
               <p>Portfolio</p>
             </Link>
             <Link href="/deposit">
@@ -54,11 +60,12 @@ const Navbar = () => {
             <Link href="/borrow">
               <p>Borrow/Lend</p>
             </Link>
-            {!initialized ? (
-              <button onClick={initializeUser}>Initialize</button>
+            {/* {!initialized ? (
+              // <button onClick={initializeUser}>Initialize</button>
+              
             ) : (
               <></>
-            )}
+            )} */}
 
             <WalletMultiButton
               style={{
@@ -69,6 +76,7 @@ const Navbar = () => {
                 fontWeight: "100",
               }}
 
+              onClick={handleWalletConnect}
               // disabled
             />
           </div>

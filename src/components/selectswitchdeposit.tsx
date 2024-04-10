@@ -34,7 +34,7 @@ const SelectSwitch = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <span>Your&apos;e paying</span>
+        <span>You&apos;re paying</span>
         <span className="text-[#ffffff2c] text-sm cursor-pointer max-amount">
           {maxAmount} USDC
         </span>
