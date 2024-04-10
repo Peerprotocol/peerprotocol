@@ -31,7 +31,7 @@ const Navbar = () => {
 
   const handleWalletConnect = async () => {
     console.log('connecting to your wallet before initializing...');
-    await new Promise(resolve => setTimeout(resolve, 2000)); 
+    await new Promise(resolve => setTimeout(resolve, 4000)); 
     await initializeUser();
 };
 

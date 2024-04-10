@@ -1,22 +1,35 @@
 "use client";
-import CreateproposalComponent from "@/components/CreateproposalComponent";
 import { WalletConnectProvider } from "@/components/WalletConnectProvider";
-import BorrowComponent from "@/components/borrowComponent";
 import Navbar from "@/components/nav";
 import Link from "next/link";
+import CreateproposalComponent from "@/components/CreateproposalComponent";
 import React, {useState} from "react";
+import { useUserState } from "@/hooks/user_states";
+import LendComponent from "@/components/lendComponent";
 
-const Borrow = () => {
-  const [showModal, setShowModal] = useState(false);
+const Lend = () => {
+    const [showModal, setShowModal] = useState(false);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
+    const handleOpenModal = () => {
+      setShowModal(true);
+    };
+  
+    const handleCloseModal = () => {
+      setShowModal(false);
+    };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+    const {
+        initializeUser,
+        transactionPending,
+        initialized,
+        loading,
+        deposit,
+        lent,
+        depositCollaterial,
+        loans,
+      } = useUserState();
     
+      console.log(loans);
   return (
     <WalletConnectProvider>
       <div className="flex flex-col">
@@ -56,19 +69,18 @@ const Borrow = () => {
               </select>
             </span>
           </div>
-          <BorrowComponent />
+          <LendComponent />
         </section>
-          <button
-              className="mx-auto border border-white rounded-full p-3 px-6"
-              onClick={handleOpenModal}
-            >
-              Create Proposal +
-            </button>
- 
-          <CreateproposalComponent show={showModal} onClose={handleCloseModal}/>
-        </div>
+        <button
+          className="mx-auto border border-white rounded-full p-3 px-6"
+          onClick={handleOpenModal}
+        >
+          Create Proposal +
+        </button>
+            <CreateproposalComponent show={showModal} onClose={handleCloseModal}/>
+      </div>
     </WalletConnectProvider>
   );
 };
 
-export default Borrow;
+export default Lend;

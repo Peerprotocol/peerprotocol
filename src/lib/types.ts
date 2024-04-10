@@ -6,6 +6,8 @@ export interface infoDataType {
   // netvalue: string;
   // interestRate: string;
   // duration: string;
+  
 }
 
 export interface IconPropTypes extends SVGProps<SVGSVGElement> {}
+
