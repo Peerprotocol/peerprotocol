@@ -1,5 +1,5 @@
 export const infoTableLabels = [
-  "Borrower",
+  "Borrower/Lender",
   "Assets",
   "Net Value ($)",
   "Interest Rate (%)",

@@ -4,10 +4,12 @@ use anchor_lang::prelude::*;
 #[derive(Default)]
 pub struct UserProfile {
     pub authority: Pubkey,
-    pub last_loan: u8,
-    pub loan_count: u8,
+    pub last_loan: u64,
+    pub loan_count: u64,
     pub can_borrow: bool,
     pub can_deposit: bool,
+    pub total_deposit: u64,
+    pub total_lent: u64,
 }
 
 #[account]
@@ -25,6 +27,15 @@ pub struct Loan {
     pub token_program: Pubkey,
 }
 
+#[account]
+#[derive(Debug, Default)]
+pub struct Pool {
+    pub authority: Pubkey,
+    pub vault: Pubkey,
+    pub mint: Pubkey,
+    pub bump: u8,
+}
+
 #[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq)]
 pub enum LoanStatus {
     Open,
@@ -36,10 +47,3 @@ impl Default for LoanStatus {
         LoanStatus::Open
     }
 }
-
-// impl Default for states::LoanStatus {
-//     fn default() -> Self {
-//         // Define the default value for LoanStatus here
-//         LoanStatus::Open
-//     }
-// }

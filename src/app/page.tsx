@@ -1,5 +1,7 @@
+
 import React from "react";
 import Image from "next/image";
+
 import Link from "next/link";
 
 function Landing() {
@@ -36,6 +38,7 @@ function Landing() {
             {/* </a> */}
           </Link>
         </div>
+
         <div className="flex flex-row justify-evenly items-center mt-8">
           <div>
             <p className="text-6xl font-sans font-semibold w-[50bottom-[20rem] %] leading-tight">
