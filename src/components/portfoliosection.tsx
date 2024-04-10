@@ -12,6 +12,9 @@ const IndexPage = () => {
     deposit,
     lent,
   } = useUserState();
+
+  const displayDeposit = initialized ? deposit : 0;
+  const displayLent = initialized ? lent : 0;
   console.log(deposit);
   console.log(lent);
 
@@ -20,13 +23,13 @@ const IndexPage = () => {
       <div className="flex w-5/6 h-72 flex-row items-center justify-center my-8 bg-[#ffffff0e] border border-neutral-700 rounded-3xl">
         <div className="grid h-[fit-content] grid-cols-3 gap-28 place-items-start">
           <div className="flex h-full leading-10 tracking-widest">
-            <InfoCard title={"Total Deposited"} value={`$${deposit}`} />
+            <InfoCard title={"Total Deposited"} value={`$${displayDeposit}`} />
           </div>
           <div className="flex h-full leading-10 tracking-widest">
-            <InfoCard title={"Total Lended"} value={`$${lent}`} />
+            <InfoCard title={"Total Lended"} value={`$${displayLent}`} />
           </div>
           <div className="flex h-full leading-10 tracking-widest">
-            <InfoCard title={"Total Borrowed"} value={`$${lent}`} />
+            <InfoCard title={"Total Borrowed"} value={`$${displayLent}`} />
           </div>
         </div>
       </div>
