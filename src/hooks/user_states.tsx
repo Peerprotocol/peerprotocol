@@ -255,7 +255,7 @@ export function useUserState() {
           program.programId
         );
 
-        const fromAta = await getOrCreateAssociatedTokenAccount(
+        const toAta = await getOrCreateAssociatedTokenAccount(
           program.provider.connection,
           publicKey,
           mint,
@@ -263,14 +263,18 @@ export function useUserState() {
           true
         );
 
+        console.log("loaind");
+
         const txHash = await program.methods
           .acceptLoan(loan_idx)
           .accounts({
-            fromAta: fromAta.address,
+            toAta: toAta.address,
             authority_public_key: new PublicKey(
               "7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk"
             ),
-            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
+            fromAta: new PublicKey(
+              "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
+            ),
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,
             pda: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
@@ -318,6 +322,8 @@ export function useUserState() {
         );
 
         const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
+
+        console.log(transferAmount.toString());
         const txHash = await program.methods
           .depositCollaterial(transferAmount)
           .accounts({
