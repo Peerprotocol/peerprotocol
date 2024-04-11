@@ -28,6 +28,11 @@ const Navbar = () => {
     lent,
   } = useUserState();
   const wallet = wallets[0];
+  const [isClient, setisClient] = useState(false);
+
+  useEffect(() => {
+    setisClient(true);
+  }, []);
 
   const handleWalletConnect = async () => {
     console.log("connecting to your wallet before initializing...");
@@ -66,17 +71,18 @@ const Navbar = () => {
             ) : (
               <></>
             )} */}
-
-            <WalletMultiButton
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.07)",
-                opacity: "90",
-                color: "white",
-                borderRadius: "20px",
-                fontWeight: "100",
-              }}
-              // disabled
-            />
+            {isClient && (
+              <WalletMultiButton
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.07)",
+                  opacity: "90",
+                  color: "white",
+                  borderRadius: "20px",
+                  fontWeight: "100",
+                }}
+                // disabled
+              />
+            )}
           </div>
         </div>
       </div>
