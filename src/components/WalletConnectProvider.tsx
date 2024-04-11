@@ -21,6 +21,7 @@ import { ReactNode } from "react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { Toaster } from "react-hot-toast";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -31,9 +32,6 @@ export const WalletConnectProvider = ({
 }: WalletConnectProviderProps) => {
   let network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => {
-    if (network === WalletAdapterNetwork.Devnet) {
-      return "https://cosmological-practical-rain.solana-devnet.quiknode.pro/9e757085a5f8f6a5ae082c0da4906492a78f6c80/";
-    }
     return clusterApiUrl(network);
   }, [network]);
 
@@ -50,6 +48,7 @@ export const WalletConnectProvider = ({
 
   return (
     <ConnectionProvider endpoint={endpoint}>
+      <Toaster />
       <WalletProvider
         wallets={wallets}
         autoConnect

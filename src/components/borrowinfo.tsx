@@ -5,7 +5,7 @@ import { useUserState } from "@/hooks/user_states";
 // import { infoDataType } from "@/lib/types";
 
 const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
-  const { ellipsifyFirstLast, acceptLoan } = useUserState();
+  const { ellipsifyFirstLast, acceptLoan, transactionPending } = useUserState();
   const acceptLoanIdx = async (item: any) => {
     console.log(item.account.idx, item.publicKey.toString());
     await acceptLoan(
@@ -28,7 +28,7 @@ const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
               className="border border-white rounded-full p-3 px-6"
               onClick={(e) => acceptLoanIdx(item)}
             >
-              Borrow
+              {transactionPending ? "Pending" : "Borrow"}
             </button>
           </td>
         </tr>
