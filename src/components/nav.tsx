@@ -28,12 +28,17 @@ const Navbar = () => {
     lent,
   } = useUserState();
   const wallet = wallets[0];
+  const [isClient, setisClient] = useState(false);
+
+  useEffect(() => {
+    setisClient(true);
+  }, []);
 
   const handleWalletConnect = async () => {
-    console.log('connecting to your wallet before initializing...');
-    await new Promise(resolve => setTimeout(resolve, 4000)); 
+    console.log("connecting to your wallet before initializing...");
+    await new Promise((resolve) => setTimeout(resolve, 4000));
     await initializeUser();
-};
+  };
 
   return (
     <nav role="navigation" className="flex justify-between mx-14 my-4">
@@ -66,19 +71,18 @@ const Navbar = () => {
             ) : (
               <></>
             )} */}
-
-            <WalletMultiButton
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.07)",
-                opacity: "90",
-                color: "white",
-                borderRadius: "20px",
-                fontWeight: "100",
-              }}
-
-              onClick={handleWalletConnect}
-              // disabled
-            />
+            {isClient && (
+              <WalletMultiButton
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.07)",
+                  opacity: "90",
+                  color: "white",
+                  borderRadius: "20px",
+                  fontWeight: "100",
+                }}
+                // disabled
+              />
+            )}
           </div>
         </div>
       </div>

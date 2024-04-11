@@ -28,10 +28,13 @@ const BorrowComponent = () => {
     setPage,
     currentPage,
   } = usePagination<infoDataType>(1, tableData, PAGE_SIZE);
+
   return (
     <div className="w-full">
       <div className="bg-[#FFFFFF0D] p-4 rounded-xl mb-3 pb-6">
-        <InfoTable tableItems={loans} />
+        <InfoTable
+          tableItems={loans.filter((loan: any) => !loan.account.status.open)}
+        />
       </div>
       <div className="flex justify-end">
         <Pagination
