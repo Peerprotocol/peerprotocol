@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUserState } from "@/hooks/user_states";
 const SelectSwitch = () => {
@@ -7,19 +7,26 @@ const SelectSwitch = () => {
   const [amount, setAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState(0);
 
-  const handleMaxClick = () => {
-    // setAmount(maxAmount);
+  const handleMaxClick = async () => {
+    const balance = await getSplTokenBalance(
+      "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+    );
+    setAmount(`${balance}`);
   };
 
   const depositFunds = async (e: any) => {
     e.preventDefault();
     const realAmount = parseInt(amount);
-    depositCollaterial(
-      realAmount,
-      "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-    );
+    pathname === "/deposit"
+      ? depositCollaterial(
+          realAmount,
+          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+        )
+      : withdrawCollaterial(
+          realAmount,
+          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+        );
   };
-
   const {
     initializeUser,
     transactionPending,
@@ -28,8 +35,26 @@ const SelectSwitch = () => {
     deposit,
     lent,
     depositCollaterial,
+    withdrawCollaterial,
+    getSplTokenBalance,
     loans,
+    program,
+    publicKey,
   } = useUserState();
+
+  useEffect(() => {
+    if (!program) return;
+    if (!publicKey) return;
+    if (!initialized) return;
+    console.log("loans", loans);
+    const getAmount = async () => {
+      const balance = await getSplTokenBalance(
+        "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+      );
+      if (balance) setMaxAmount(balance);
+    };
+    getAmount();
+  }, [program, publicKey, initialized]);
 
   return (
     <div>

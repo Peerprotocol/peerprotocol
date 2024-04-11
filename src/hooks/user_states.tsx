@@ -117,52 +117,7 @@ export function useUserState() {
             userProfile: profilePda,
             systemProgram: SystemProgram.programId,
             authority: publicKey,
-          })
-          .rpc();
-        toast.success("Successfully Intialized");
-
-        setInitialized(true);
-      } catch (error: any) {
-        console.log(error);
-        toast.error(error.toString());
-      } finally {
-        setTransactionPending(false);
-      }
-    }
-  };
-  const acceptCollaterial = async (
-    amount: number,
-    token_public_key: string
-  ) => {
-    // Check if the program exist and wallet is connected
-    // then run InitializeUser() from smart contract
-    if (program && publicKey) {
-      try {
-        const mint = new PublicKey(token_public_key); // USDC devnet
-
-        setTransactionPending(true);
-        const [profilePda, _] = await findProgramAddressSync(
-          [utf8.encode("USER_STATE"), publicKey.toBuffer()],
-          program.programId
-        );
-
-        const fromAta = await getOrCreateAssociatedTokenAccount(
-          program.provider.connection,
-          publicKey,
-          mint,
-          publicKey,
-          true
-        );
-
-        const transferAmount = new BN(amount);
-        const txHash = await program.methods
-          .depositCollaterial(transferAmount)
-          .accounts({
-            fromAta: fromAta.address,
-            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
-            tokenProgram: TOKEN_PROGRAM_ID,
-            userProfile: profilePda,
-            authority: publicKey,
+            pool: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
           })
           .rpc();
         toast.success("Successfully Intialized");
@@ -212,13 +167,9 @@ export function useUserState() {
           .createLoan(duration, interest_rate, amount)
           .accounts({
             fromAta: fromAta.address,
-            authority_public_key: new PublicKey(
-              "7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk"
-            ),
             toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,
-            pda: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
             loanAccount: new PublicKey(loan_account),
             systemProgram: new PublicKey("11111111111111111111111111111111"),
             authority: publicKey,
@@ -239,7 +190,7 @@ export function useUserState() {
   const acceptLoan = async (
     loan_idx: number,
     loan_account: string,
-    authority_public_key: string
+    loan_owner_public_key: string
   ) => {
     // Check if the program exist and wallet is connected
     // then run InitializeUser() from smart contract
@@ -255,7 +206,7 @@ export function useUserState() {
           program.programId
         );
 
-        const fromAta = await getOrCreateAssociatedTokenAccount(
+        const toAta = await getOrCreateAssociatedTokenAccount(
           program.provider.connection,
           publicKey,
           mint,
@@ -263,20 +214,23 @@ export function useUserState() {
           true
         );
 
+        console.log("loaind");
+
         const txHash = await program.methods
           .acceptLoan(loan_idx)
           .accounts({
-            fromAta: fromAta.address,
-            authority_public_key: new PublicKey(
-              "7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk"
+            toAta: toAta.address,
+            fromAta: new PublicKey(
+              "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
             ),
-            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,
-            pda: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
+            ata_pda_authority: new PublicKey(
+              "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"
+            ),
             loanAccount: new PublicKey(loan_account),
             systemProgram: new PublicKey("11111111111111111111111111111111"),
-            authorityPublicKey: new PublicKey(authority_public_key),
+            authorityPublicKey: new PublicKey(loan_owner_public_key),
             authority: publicKey,
           })
           .rpc();
@@ -292,6 +246,76 @@ export function useUserState() {
     }
   };
 
+  const getSplTokenBalance = async (mint_: any) => {
+    if (!publicKey) return;
+    if (!program) return;
+    const mint = new PublicKey(mint_); // USDC devnet
+    const Ata = await getOrCreateAssociatedTokenAccount(
+      program.provider.connection,
+      publicKey,
+      mint,
+      publicKey,
+      true
+    );
+    const info = await connection.getTokenAccountBalance(Ata.address);
+    console.log(info);
+    if (info.value.uiAmount == null) throw new Error("No balance found");
+    console.log("Balance (using Solana-Web3.js): ", info.value.uiAmount);
+    return info.value.uiAmount;
+  };
+
+  const withdrawCollaterial = async (
+    amount: number,
+    token_public_key: string
+  ) => {
+    console.log(`withdrawing ${amount}`);
+    if (+amount < 0) return;
+    if (program && publicKey) {
+      try {
+        const mint = new PublicKey(token_public_key); // USDC devnet
+
+        setTransactionPending(true);
+        const [profilePda, _] = await findProgramAddressSync(
+          [utf8.encode("USER_STATE"), publicKey.toBuffer()],
+          program.programId
+        );
+
+        const toAta = await getOrCreateAssociatedTokenAccount(
+          program.provider.connection,
+          publicKey,
+          mint,
+          publicKey,
+          true
+        );
+
+        const withdrawAmount = new BN(Math.trunc(amount * 10 ** 6));
+
+        const txHash = await program.methods
+          .withdrawCollaterial(withdrawAmount)
+          .accounts({
+            fromAta: new PublicKey(
+              "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
+            ),
+            toAta: toAta.address,
+            tokenProgram: TOKEN_PROGRAM_ID,
+            userProfile: profilePda,
+            authority: publicKey,
+            ataPdaAuthority: new PublicKey(
+              "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"
+            ),
+          })
+          .rpc();
+        toast.success("Successfully Intialized");
+
+        setInitialized(true);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.toString());
+      } finally {
+        setTransactionPending(false);
+      }
+    }
+  };
   const depositCollaterial = async (
     amount: number,
     token_public_key: string
@@ -318,6 +342,8 @@ export function useUserState() {
         );
 
         const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
+
+        console.log(transferAmount.toString());
         const txHash = await program.methods
           .depositCollaterial(transferAmount)
           .accounts({
@@ -351,5 +377,9 @@ export function useUserState() {
     acceptLoan,
     loans,
     ellipsifyFirstLast,
+    withdrawCollaterial,
+    getSplTokenBalance,
+    publicKey,
+    program,
   };
 }
