@@ -21,6 +21,7 @@ import { ReactNode } from "react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { Toaster } from "react-hot-toast";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -47,6 +48,7 @@ export const WalletConnectProvider = ({
 
   return (
     <ConnectionProvider endpoint={endpoint}>
+      <Toaster />
       <WalletProvider
         wallets={wallets}
         autoConnect

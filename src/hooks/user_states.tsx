@@ -176,7 +176,7 @@ export function useUserState() {
             authority: publicKey,
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully created loan ${loan_account}`);
 
         setInitialized(true);
       } catch (error: any) {
@@ -236,7 +236,7 @@ export function useUserState() {
             authority: publicKey,
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully accepted loan ${loan_account}`);
 
         setInitialized(true);
       } catch (error: any) {
@@ -308,7 +308,7 @@ export function useUserState() {
             ),
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully withdrawn ${amount}`);
 
         setInitialized(true);
       } catch (error: any) {
@@ -358,7 +358,7 @@ export function useUserState() {
             authority: publicKey,
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully deposited ${amount}`);
 
         setInitialized(true);
       } catch (error: any) {
