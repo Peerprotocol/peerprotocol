@@ -250,6 +250,7 @@ export function useUserState() {
     amount: number,
     token_public_key: string
   ) => {
+    console.log(`withdrawing ${amount}`);
     if (+amount < 0) return;
     if (program && publicKey) {
       try {
@@ -269,10 +270,11 @@ export function useUserState() {
           true
         );
 
-        const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
+        const withdrawAmount = new BN(Math.trunc(amount * 10 ** 6));
+        
 
         const txHash = await program.methods
-          .depositCollaterial(transferAmount)
+          .withdrawCollaterial(withdrawAmount)
           .accounts({
             fromAta: new PublicKey(
               "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
@@ -358,5 +360,6 @@ export function useUserState() {
     acceptLoan,
     loans,
     ellipsifyFirstLast,
+    withdrawCollaterial,
   };
 }

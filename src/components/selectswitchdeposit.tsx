@@ -14,10 +14,15 @@ const SelectSwitch = () => {
   const depositFunds = async (e: any) => {
     e.preventDefault();
     const realAmount = parseInt(amount);
-    depositCollaterial(
-      realAmount,
-      "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-    );
+    pathname === "/deposit"
+      ? depositCollaterial(
+          realAmount,
+          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+        )
+      : withdrawCollaterial(
+          realAmount,
+          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+        );
   };
 
   const {
@@ -28,6 +33,7 @@ const SelectSwitch = () => {
     deposit,
     lent,
     depositCollaterial,
+    withdrawCollaterial,
     loans,
   } = useUserState();
 
