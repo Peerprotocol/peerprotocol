@@ -30,10 +30,10 @@ const Navbar = () => {
   const wallet = wallets[0];
 
   const handleWalletConnect = async () => {
-    console.log('connecting to your wallet before initializing...');
-    await new Promise(resolve => setTimeout(resolve, 4000)); 
+    console.log("connecting to your wallet before initializing...");
+    await new Promise((resolve) => setTimeout(resolve, 4000));
     await initializeUser();
-};
+  };
 
   return (
     <nav role="navigation" className="flex justify-between mx-14 my-4">
@@ -75,8 +75,6 @@ const Navbar = () => {
                 borderRadius: "20px",
                 fontWeight: "100",
               }}
-
-              onClick={handleWalletConnect}
               // disabled
             />
           </div>

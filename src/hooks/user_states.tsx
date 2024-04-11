@@ -143,6 +143,7 @@ export function useUserState() {
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
+        await initializeUser();
         const mint = new PublicKey(
           "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
         ); // USDC devnet
@@ -196,6 +197,7 @@ export function useUserState() {
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
+        await initializeUser();
         const mint = new PublicKey(
           "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
         ); // USDC devnet
@@ -272,6 +274,7 @@ export function useUserState() {
     if (+amount < 0) return;
     if (program && publicKey) {
       try {
+        await initializeUser();
         const mint = new PublicKey(token_public_key); // USDC devnet
 
         setTransactionPending(true);
@@ -325,6 +328,7 @@ export function useUserState() {
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
+        await initializeUser();
         const mint = new PublicKey(token_public_key); // USDC devnet
 
         setTransactionPending(true);
