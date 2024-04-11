@@ -143,6 +143,7 @@ export function useUserState() {
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
+        if (!initialized) await initializeUser();
         const mint = new PublicKey(
           "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
         ); // USDC devnet
@@ -175,7 +176,7 @@ export function useUserState() {
             authority: publicKey,
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully created loan ${loan_account}`);
 
         setInitialized(true);
       } catch (error: any) {
@@ -196,6 +197,7 @@ export function useUserState() {
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
+        if (!initialized) await initializeUser();
         const mint = new PublicKey(
           "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
         ); // USDC devnet
@@ -234,7 +236,7 @@ export function useUserState() {
             authority: publicKey,
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully accepted loan ${loan_account}`);
 
         setInitialized(true);
       } catch (error: any) {
@@ -272,6 +274,7 @@ export function useUserState() {
     if (+amount < 0) return;
     if (program && publicKey) {
       try {
+        if (!initialized) await initializeUser();
         const mint = new PublicKey(token_public_key); // USDC devnet
 
         setTransactionPending(true);
@@ -305,7 +308,7 @@ export function useUserState() {
             ),
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully withdrawn ${amount}`);
 
         setInitialized(true);
       } catch (error: any) {
@@ -325,6 +328,7 @@ export function useUserState() {
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
+        if (!initialized) await initializeUser();
         const mint = new PublicKey(token_public_key); // USDC devnet
 
         setTransactionPending(true);
@@ -354,7 +358,7 @@ export function useUserState() {
             authority: publicKey,
           })
           .rpc();
-        toast.success("Successfully Intialized");
+        toast.success(`Successfully deposited ${amount}`);
 
         setInitialized(true);
       } catch (error: any) {
