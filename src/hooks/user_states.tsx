@@ -246,6 +246,24 @@ export function useUserState() {
     }
   };
 
+  const getSplTokenBalance = async (mint_: any) => {
+    if (!publicKey) return;
+    if (!program) return;
+    const mint = new PublicKey(mint_); // USDC devnet
+    const Ata = await getOrCreateAssociatedTokenAccount(
+      program.provider.connection,
+      publicKey,
+      mint,
+      publicKey,
+      true
+    );
+    const info = await connection.getTokenAccountBalance(Ata.address);
+    console.log(info);
+    if (info.value.uiAmount == null) throw new Error("No balance found");
+    console.log("Balance (using Solana-Web3.js): ", info.value.uiAmount);
+    return info.value.uiAmount;
+  };
+
   const withdrawCollaterial = async (
     amount: number,
     token_public_key: string
@@ -271,7 +289,6 @@ export function useUserState() {
         );
 
         const withdrawAmount = new BN(Math.trunc(amount * 10 ** 6));
-        
 
         const txHash = await program.methods
           .withdrawCollaterial(withdrawAmount)
@@ -361,5 +378,8 @@ export function useUserState() {
     loans,
     ellipsifyFirstLast,
     withdrawCollaterial,
+    getSplTokenBalance,
+    publicKey,
+    program,
   };
 }
