@@ -31,9 +31,6 @@ export const WalletConnectProvider = ({
 }: WalletConnectProviderProps) => {
   let network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => {
-    if (network === WalletAdapterNetwork.Devnet) {
-      return "https://cosmological-practical-rain.solana-devnet.quiknode.pro/9e757085a5f8f6a5ae082c0da4906492a78f6c80/";
-    }
     return clusterApiUrl(network);
   }, [network]);
 
