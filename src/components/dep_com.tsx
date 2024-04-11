@@ -7,8 +7,8 @@ const DepCom = () => {
 
   return (
     <div className="bg-[#ffffff13] h-96 w-full max-w-xl px-6 py-6 rounded-3xl">
-      <div className="flex justify-between gap-24">
-        <div className="flex gap-6 mb-8">
+      <div className="flex justify-between gap-20">
+        <div className="flex gap-2 mb-8">
           <Link href="/deposit">
             <button>Deposit</button>
           </Link>
