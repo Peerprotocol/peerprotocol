@@ -54,7 +54,7 @@ const SelectSwitch = () => {
       if (balance) setMaxAmount(balance);
     };
     getAmount();
-  }, [program, publicKey, initialized]);
+  }, [program, publicKey, initialized, transactionPending]);
 
   return (
     <div>
