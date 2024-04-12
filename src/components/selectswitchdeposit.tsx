@@ -12,7 +12,10 @@ const SelectSwitch = () => {
   const [client, setClient] = useState(false);
 
   const handleMaxClick = async () => {
-    console.log(coin);
+    if (pathname === "/withdraw") {
+      setAmount(deposit);
+      return;
+    }
     const balance = await getSplTokenBalance(coin["mint_address"]);
     setAmount(`${balance}`);
   };
@@ -45,6 +48,7 @@ const SelectSwitch = () => {
     if (!initialized) return;
     console.log("loans", loans);
     const getAmount = async () => {
+      // deposit
       const balance = await getSplTokenBalance(coin["mint_address"]);
       setMaxAmount(`${balance}`);
     };
@@ -58,7 +62,9 @@ const SelectSwitch = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <span>You&apos;re paying</span>
+        <span>
+          You&apos;re {pathname === "/withdraw" ? "withdrawing" : "paying"}{" "}
+        </span>
         <span className="text-[#ffffff2c] text-sm cursor-pointer max-amount">
           {maxAmount} USD
         </span>
