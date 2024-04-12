@@ -120,6 +120,7 @@ pub mod peer_protocol_contracts {
         loan_account.status = LoanStatus::Open;
         loan_account.duration = duration;
         loan_account.authority = ctx.accounts.authority.key();
+        loan_account.idx = user_profile.last_loan;
         user_profile.total_deposit = user_profile
             .total_deposit
             .checked_sub(loan_account.amount)
@@ -156,16 +157,19 @@ pub mod peer_protocol_contracts {
         let user_profile = &mut ctx.accounts.user_profile;
 
         if !user_profile.can_borrow {
+            panic!("{:?}", ProgramError::USER_CANNOT_BORROW);
             // return Err(ProgramError::Custom(1)); // Replace 1 with appropriate error code
         }
 
         // Check if the loan duration is valid
         if loan_account.duration <= 0 {
+            panic!("{:?}", ProgramError::LOAN_DURATION_TOO_SMALL);
             // return Err(ProgramError::Custom(2)); // Replace 2 with appropriate error code
         }
 
         // Check if the interest rate is valid
         if loan_account.interest_rate <= 0.0 {
+            panic!("{:?}", ProgramError::INTEREST_TOO_SMALL);
             // return Err(ProgramError::Custom(3)); // Replace 3 with appropriate error code
         }
 
@@ -215,6 +219,9 @@ pub mod peer_protocol_contracts {
     pub fn remove_loan(ctx: Context<RemoveLoan>, loan_idx: u8) -> Result<()> {
         let user_profile = &mut ctx.accounts.user_profile;
         let loan_account = &mut ctx.accounts.loan_account;
+        if (loan_account.status == LoanStatus::Closed) {
+            panic!("{:?}", ProgramError::LOAN_ACCEPTED_BY_NOW);
+        }
         user_profile.total_deposit = user_profile
             .total_deposit
             .checked_add(loan_account.amount)
@@ -226,9 +233,6 @@ pub mod peer_protocol_contracts {
 
         // // Increase todo idx for ata_pda_authority
         user_profile.loan_count = user_profile.loan_count.checked_sub(1).unwrap();
-
-        // // Increase total todo count
-        user_profile.last_loan = user_profile.last_loan.checked_sub(1).unwrap();
         Ok(())
     }
 }
@@ -382,6 +386,10 @@ pub enum FeedError {
 pub enum ProgramError {
     USER_BALANCE_LESS_THAN_LENDING,
     USER_CANNOT_DEPOSIT,
+    USER_CANNOT_BORROW,
     LOAN_DURATION_TOO_MUCH,
+    LOAN_DURATION_TOO_SMALL,
+    INTEREST_TOO_SMALL,
     USER_CANNOT_WITHDRAW,
+    LOAN_ACCEPTED_BY_NOW,
 }
