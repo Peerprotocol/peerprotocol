@@ -7,7 +7,6 @@ pub struct UserProfile {
     pub last_loan: u64,
     pub loan_count: u64,
     pub can_borrow: bool,
-    pub can_withdraw: bool,
     pub can_deposit: bool,
     pub total_deposit: u64,
     pub total_lent: u64,
