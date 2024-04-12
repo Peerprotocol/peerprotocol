@@ -33,7 +33,6 @@ pub mod peer_protocol_contracts {
         user_profile.last_loan = 0;
         user_profile.can_borrow = true;
         user_profile.can_deposit = true;
-        user_profile.can_withdraw = true;
         Ok(())
     }
 
@@ -78,12 +77,6 @@ pub mod peer_protocol_contracts {
             bump_vector.as_ref(),
         ];
         let signer = &[&seeds[..]];
-
-        user_profile.can_withdraw = true;
-
-        if !user_profile.can_withdraw {
-            panic!("{:?}", ProgramError::USER_CANNOT_WITHDRAW); // Replace 1 with appropriate error code
-        }
 
         // Transfer tokens from taker to initializer
         token::transfer(
@@ -217,6 +210,26 @@ pub mod peer_protocol_contracts {
         // // 3-Log result
         msg!("/USD price: ({} +- {})", display_price, display_confidence);
         Ok(display_price)
+    }
+
+    pub fn remove_loan(ctx: Context<RemoveLoan>, loan_idx: u8) -> Result<()> {
+        let user_profile = &mut ctx.accounts.user_profile;
+        let loan_account = &mut ctx.accounts.loan_account;
+        user_profile.total_deposit = user_profile
+            .total_deposit
+            .checked_add(loan_account.amount)
+            .unwrap();
+        user_profile.total_lent = user_profile
+            .total_lent
+            .checked_sub(loan_account.amount)
+            .unwrap();
+
+        // // Increase todo idx for ata_pda_authority
+        user_profile.loan_count = user_profile.loan_count.checked_sub(1).unwrap();
+
+        // // Increase total todo count
+        user_profile.last_loan = user_profile.last_loan.checked_sub(1).unwrap();
+        Ok(())
     }
 }
 

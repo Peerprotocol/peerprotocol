@@ -11,7 +11,8 @@ const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
     await acceptLoan(
       item.account.idx,
       item.publicKey.toString(),
-      item.account.lender.toString()
+      item.account.lender.toString(),
+      item.account.mintAddress.toString()
     );
   };
   return (

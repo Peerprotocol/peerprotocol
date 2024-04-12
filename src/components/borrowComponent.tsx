@@ -21,7 +21,6 @@ const BorrowComponent = () => {
     loans,
   } = useUserState();
 
-  console.log(loans);
   const {
     paginatedItems: paginatedTableData,
     totalPages,
