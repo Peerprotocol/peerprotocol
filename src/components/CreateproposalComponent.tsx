@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import coins from "../constants/coins.json";
+import { useUserState } from "@/hooks/user_states";
 
 const CreateproposalComponent = ({
   show,
@@ -9,10 +10,31 @@ const CreateproposalComponent = ({
   show: any;
   onClose: any;
 }) => {
+  const {
+    initializeUser,
+    transactionPending,
+    initialized,
+    loading,
+    deposit,
+    lent,
+    depositCollaterial,
+    withdrawCollaterial,
+    getSplTokenBalance,
+    loans,
+    program,
+    publicKey,
+    createLoan,
+  } = useUserState();
   const [amount, setAmount] = useState("");
   const [percentage, setPercentage] = useState("");
   const [duration, setDuration] = useState("");
   const [coin, setCoin] = useState(coins[0]);
+
+  const createLoanProposal = async (e: any) => {
+    e.preventDefault();
+
+    await createLoan(+duration, +percentage, +amount, coin["mint_address"]);
+  };
 
   if (!show) {
     return null;
@@ -46,17 +68,7 @@ const CreateproposalComponent = ({
                   onChange={(e) => setCoin(coins[e.target.selectedIndex])}
                 >
                   {coins.map((coin_, i) => (
-                    <option key={i}>
-                      {/* {client && (
-                    <Image
-                      src={coin["image"]}
-                      alt="Description of the image"
-                      width={20}
-                      height={20}
-                    />
-                  )} */}
-                      {coin_["ticker"]}
-                    </option>
+                    <option key={i}>{coin_["ticker"]}</option>
                   ))}
                 </select>
               </div>
@@ -64,7 +76,6 @@ const CreateproposalComponent = ({
               <input
                 type="text"
                 inputMode="numeric"
-                pattern="[0-9]*"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 min={0}
@@ -76,7 +87,6 @@ const CreateproposalComponent = ({
             <input
               type="text"
               inputMode="numeric"
-              pattern="[0-9]*"
               value={percentage}
               onChange={(e) => setPercentage(e.target.value)}
               min={0}
@@ -106,6 +116,7 @@ const CreateproposalComponent = ({
             <button
               type="submit"
               className="mt-4 rounded-full px-4 py-4 text-[1.2rem] bg-green-600 w-[50%] self-center"
+              onClick={(e) => createLoanProposal(e)}
             >
               Submit
             </button>
