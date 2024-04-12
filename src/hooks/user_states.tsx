@@ -136,7 +136,8 @@ export function useUserState() {
     duration: number,
     interest_rate: number,
     amount: number,
-    loan_account: string
+    loan_account: string,
+    mint_address: string
   ) => {
     if (+amount < 0) return;
     // Check if the program exist and wallet is connected
@@ -144,9 +145,7 @@ export function useUserState() {
     if (program && publicKey) {
       try {
         if (!initialized) await initializeUser();
-        const mint = new PublicKey(
-          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-        ); // USDC devnet
+        const mint = new PublicKey(mint_address);
 
         setTransactionPending(true);
         const [profilePda, _] = await findProgramAddressSync(
@@ -191,16 +190,15 @@ export function useUserState() {
   const acceptLoan = async (
     loan_idx: number,
     loan_account: string,
-    loan_owner_public_key: string
+    loan_owner_public_key: string,
+    mint_address: string
   ) => {
     // Check if the program exist and wallet is connected
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
         if (!initialized) await initializeUser();
-        const mint = new PublicKey(
-          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-        ); // USDC devnet
+        const mint = new PublicKey(mint_address);
 
         setTransactionPending(true);
         const [profilePda, _] = await findProgramAddressSync(
