@@ -249,21 +249,28 @@ export function useUserState() {
   };
 
   const getSplTokenBalance = async (mint_: any) => {
-    if (!publicKey) return;
-    if (!program) return;
-    const mint = new PublicKey(mint_); // USDC devnet
-    const Ata = await getOrCreateAssociatedTokenAccount(
-      program.provider.connection,
-      publicKey,
-      mint,
-      publicKey,
-      true
-    );
-    const info = await connection.getTokenAccountBalance(Ata.address);
-    console.log(info);
-    if (info.value.uiAmount == null) throw new Error("No balance found");
-    console.log("Balance (using Solana-Web3.js): ", info.value.uiAmount);
-    return info.value.uiAmount;
+    try {
+      if (!publicKey) return;
+      if (!program) return;
+      const mint = new PublicKey(mint_); // USDC devnet
+      const Ata = await getOrCreateAssociatedTokenAccount(
+        program.provider.connection,
+        publicKey,
+        mint,
+        publicKey,
+        true
+      );
+      const info = await connection.getTokenAccountBalance(Ata.address);
+      console.log(info);
+      if (info.value.uiAmount == null) throw new Error("No balance found");
+      console.log("Balance (using Solana-Web3.js): ", info.value.uiAmount);
+      return info.value.uiAmount;
+    } catch (error: any) {
+      console.log(error.toString().includes("TokenAccountNotFoundError"));
+      if (error.toString().includes("TokenAccountNotFoundError")) {
+        return 0;
+      }
+    }
   };
 
   const withdrawCollaterial = async (
