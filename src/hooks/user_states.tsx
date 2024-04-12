@@ -140,7 +140,6 @@ export function useUserState() {
     if (program && publicKey) {
       try {
         if (!initialized) await initializeUser();
-        const mint = new PublicKey(mint_address);
 
         setTransactionPending(true);
         const [profilePda, _] = await findProgramAddressSync(
