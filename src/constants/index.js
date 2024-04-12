@@ -9,3 +9,5 @@ export const FROM_ATA = new PublicKey(
 export const FROM_ATA_PDA = new PublicKey(
   "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"
 );
+
+export const INTEREST_PERCENTAGE_DECIMAL = 2;

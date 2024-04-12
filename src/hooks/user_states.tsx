@@ -156,9 +156,8 @@ export function useUserState() {
           ],
           program.programId
         );
-
         const txHash = await program.methods
-          .createLoan(duration, interest_rate, transferAmount)
+          .createLoan(new BN(duration), interest_rate, transferAmount)
           .accounts({
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,

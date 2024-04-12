@@ -7,6 +7,7 @@ import Pagination from "./Pagination";
 import usePagination from "@/lib/hooks/usePagination";
 import { infoDataType } from "@/lib/types";
 import { PAGE_SIZE } from "@/lib/constants";
+import { BN } from "@project-serum/anchor";
 import { useUserState } from "@/hooks/user_states";
 
 const BorrowComponent = () => {
@@ -21,6 +22,14 @@ const BorrowComponent = () => {
     loans,
   } = useUserState();
 
+  console.log(
+    loans.filter((loan: any) => {
+      console.log(loan.publicKey.toString());
+      console.log(loan.account.amount);
+      return true;
+    })
+  );
+
   const {
     paginatedItems: paginatedTableData,
     totalPages,
@@ -32,7 +41,9 @@ const BorrowComponent = () => {
     <div className="w-full">
       <div className="bg-[#FFFFFF0D] p-4 rounded-xl mb-3 pb-6">
         <InfoTable
-          tableItems={loans.filter((loan: any) => !loan.account.status.open)}
+          tableItems={loans.filter(
+            (loan: any) => "open" in loan.account.status
+          )}
         />
       </div>
       <div className="flex justify-end">

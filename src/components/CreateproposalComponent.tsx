@@ -118,7 +118,7 @@ const CreateproposalComponent = ({
               className="mt-4 rounded-full px-4 py-4 text-[1.2rem] bg-green-600 w-[50%] self-center"
               onClick={(e) => createLoanProposal(e)}
             >
-              Submit
+              {transactionPending ? "Loading" : "Submit"}
             </button>
           </form>
         </div>
