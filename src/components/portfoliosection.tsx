@@ -16,11 +16,11 @@ const IndexPage = () => {
   const [health, setHealth] = useState(0);
 
   useEffect(() => {
-    if (parseInt(lent) > 0) {
-      setHealth((parseInt(deposit) / parseInt(lent)) * 100);
-    } else {
-      setHealth(100);
-    }
+    // if (parseInt(lent) > 0) {
+    //   setHealth((parseInt(deposit) / parseInt(lent)) * 100);
+    // } else {
+    setHealth(100);
+    // }
   }, [deposit, lent]);
 
   const displayDeposit = initialized ? deposit : 0;
