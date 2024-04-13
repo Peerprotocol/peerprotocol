@@ -41,8 +41,7 @@ const IndexPage = () => {
   const healthColor = getHealthColor(health);
   let debt = 0;
   for (let i = 0; i < userDebt.length; i++) {
-    console.log(userDebt[i].account.amount.toNumber());
-    debt += userDebt[i].account.amount.toNumber();
+    debt += (userDebt[i] as any).account.amount.toNumber();
   }
   return (
     <div className="flex justify-between gap-4 items-center">
