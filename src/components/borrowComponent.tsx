@@ -22,14 +22,6 @@ const BorrowComponent = () => {
     loans,
   } = useUserState();
 
-  console.log(
-    loans.filter((loan: any) => {
-      console.log(loan.publicKey.toString());
-      console.log(loan.account.amount);
-      return true;
-    })
-  );
-
   const {
     paginatedItems: paginatedTableData,
     totalPages,

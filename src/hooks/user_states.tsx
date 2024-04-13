@@ -71,15 +71,10 @@ export function useUserState() {
             setTotalLending(totalLent.toString() ?? "***");
             setLastLoan(profileAccount.lastLoan);
             setInitialized(true);
-            try {
-              const loanAccounts = await program.account.loan.all();
-              console.log(loanAccounts);
-            } catch (error) {
-              console.log(error);
-            }
 
-            setLoans([]);
-            // setTodos(todoAccounts);
+            const loanAccounts = await program.account.loan.all();
+
+            setLoans(loanAccounts as any);
           } else {
             setInitialized(false);
           }
@@ -220,7 +215,7 @@ export function useUserState() {
             ),
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,
-            ata_pda_authority: new PublicKey(
+            ataPdaAuthority: new PublicKey(
               "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"
             ),
             loanAccount: new PublicKey(loan_account),
