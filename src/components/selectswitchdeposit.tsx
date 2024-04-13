@@ -2,17 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { useUserState } from "@/hooks/user_states";
+import coins from "../constants/coins.json";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
 const SelectSwitch = () => {
   const pathname = usePathname();
   const [amount, setAmount] = useState("");
-  const [maxAmount, setMaxAmount] = useState(0);
+  const [maxAmount, setMaxAmount] = useState("-");
+  const [coin, setCoin] = useState(coins[0]);
+  const [client, setClient] = useState(false);
 
   const handleMaxClick = async () => {
-    const balance = await getSplTokenBalance(
-      "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-    );
+    const balance = await getSplTokenBalance(coin["mint_address"]);
 
     if (pathname === "/deposit") {
       setAmount(`${balance}`);
@@ -31,13 +33,13 @@ const SelectSwitch = () => {
         if (pathname === "/deposit") {
             await depositCollaterial(
               realAmount,
-              "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+              coin["mint_address"]
             );
             transactionMessage = `Successfully deposited ${realAmount} tokens.`;
         } else {
             await withdrawCollaterial(
               realAmount,
-              "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+              coin["mint_address"]
             );
             transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
         }
@@ -69,18 +71,21 @@ const SelectSwitch = () => {
     if (!initialized) return;
     console.log("loans", loans);
     const getAmount = async () => {
-      const balance = await getSplTokenBalance(
-        "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-      );
+      // deposit
+      const balance = await getSplTokenBalance(coin["mint_address"]);
      
       if (pathname === "/deposit") {
-        if (balance) setMaxAmount(balance);
+        setMaxAmount(`${balance}`);
       }else{
-        setMaxAmount(parseInt(deposit));
+        setMaxAmount(deposit.toString());
       }
     };
+    setClient(true);
     getAmount();
-  }, [program, publicKey, initialized]);
+  }, [program, publicKey, initialized, transactionPending, coin]);
+  const selectCoin = (e: any) => {
+    setCoin(coins[e.target.selectedIndex]);
+  };
 
 
   const isDepositPage = pathname === "/deposit";
@@ -93,15 +98,30 @@ const SelectSwitch = () => {
       <div className="flex justify-between items-center">
       <span>You&apos;re {actionText.toLowerCase()}ing</span>
         <span className="text-[#ffffff2c] text-sm cursor-pointer max-amount">
-          {maxAmount} USDC
+          {maxAmount} USD
         </span>
       </div>
 
       <form method="post">
         <div className="w-full mt-4 flex gap-4 px-4 py-1.5 items-center bg-[#ffffff2c] rounded-2xl">
           <div className="border rounded-xl px-2 bg-[#ffffff15]">
-            <select className="text-white relative p-2 px-4 py-3 bg-[#ffffff00]">
-              <option value="option3">USDC</option>
+            <select
+              className="text-white relative p-2 px-4 py-3 bg-[#ffffff00]"
+              onChange={(e) => selectCoin(e)}
+            >
+              {coins.map((coin_, i) => (
+                <option key={i}>
+                  {/* {client && (
+                    <Image
+                      src={coin["image"]}
+                      alt="Description of the image"
+                      width={20}
+                      height={20}
+                    />
+                  )} */}
+                  {coin_["ticker"]}
+                </option>
+              ))}
             </select>
           </div>
 
