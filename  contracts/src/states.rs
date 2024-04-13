@@ -16,7 +16,7 @@ pub struct UserProfile {
 #[derive(Default)]
 pub struct Loan {
     pub lender: Pubkey,
-    pub idx: u8,
+    pub idx: u64,
     pub duration: u64,
     pub interest_rate: f64,
     pub collateral: u64,
@@ -34,6 +34,23 @@ pub struct Pool {
     pub vault: Pubkey,
     pub mint: Pubkey,
     pub bump: u8,
+}
+
+#[account]
+#[derive(Debug, Default)]
+pub struct AdminProfile {
+    pub collaterial_count: u8,
+    pub authority: Pubkey,
+}
+
+#[account]
+#[derive(Debug, Default)]
+pub struct AcceptedCalleterial {
+    pub ticker: String,
+    pub mint_address: String,
+    pub pool_address: String,
+    pub image: String,
+    pub authority: Pubkey,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq)]

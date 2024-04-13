@@ -65,14 +65,16 @@ export function useUserState() {
 
           if (profileAccount) {
             let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
+            let totalLent = profileAccount.totalLent / 10 ** 6;
+
             setTotalDeposit(totalDeposit.toString() ?? "***");
-            setTotalLending(profileAccount.totalLent ?? "***");
+            setTotalLending(totalLent.toString() ?? "***");
             setLastLoan(profileAccount.lastLoan);
             setInitialized(true);
-            const loanAccounts = (await program.account.loan.all([
-              // authorFilter(publicKey.toString()),
-            ])) as any;
-            setLoans(loanAccounts);
+            // const loanAccounts = (await program.account.loan.all([
+            //   // authorFilter(publicKey.toString()),
+            // ])) as any;
+            setLoans([]);
             // setTodos(todoAccounts);
           } else {
             setInitialized(false);

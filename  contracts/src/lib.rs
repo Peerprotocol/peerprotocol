@@ -7,32 +7,59 @@ use anchor_spl::token::Mint;
 use pyth_sdk_solana::load_price_feed_from_account_info;
 use solana_program::pubkey;
 use std::str::FromStr;
+use std::sync::Mutex;
 
 declare_id!("6kyAE2eHjdiupYVp9Qs6pjbq8Frk7G5deLAaW8tEtEBu");
 
 use crate::{constants::*, states::*};
-const adminKey: Pubkey = pubkey!("7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk");
+const ADMIN_PUBKEY: Pubkey = pubkey!("7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk");
 
 const BTC_USDC_FEED: &str = "HovQMDrbAgAYPCmHVSrezcSmkMtXSSUsLDFANExrZh2J";
 // const PYTH_USDC_FEED: &str = "EdVCmQ9FSPcVe5YySXDPCRmc8aDQLKJ9xvYBMZPie1Vw";
 const STALENESS_THRESHOLD: u64 = 60; // staleness threshold in seconds
+
 #[program]
 pub mod peer_protocol_contracts {
     use super::*;
 
     pub fn initialize(ctx: Context<InitializeUser>) -> Result<()> {
         // Initialize user profile with default data
-        let user_profile = &mut ctx.accounts.user_profile;
-        // let pool = &mut ctx.accounts.pool;
-        let usdc_mint_pubkey_str = "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
-        let usdc_mint_pubkey =
-            Pubkey::from_str(usdc_mint_pubkey_str).expect("Failed to parse public key string"); // Handle potential parsing errors
-                                                                                                // pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
+        let user_profile = &mut ctx.accounts.user_profile; // pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
         user_profile.authority = ctx.accounts.authority.key();
         user_profile.loan_count = 0;
         user_profile.last_loan = 0;
         user_profile.can_borrow = true;
         user_profile.can_deposit = true;
+        Ok(())
+    }
+
+    pub fn initialize_admin(ctx: Context<InitializeAdmin>) -> Result<()> {
+        // Initialize admin profile with default data
+        let admin_profile = &mut ctx.accounts.admin_profile; // pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
+        admin_profile.authority = ctx.accounts.authority.key();
+        admin_profile.collaterial_count = 0;
+        Ok(())
+    }
+
+    pub fn add_accepted_collaterial(
+        ctx: Context<AddAcceptedCollaterial>,
+        ticker: String,
+        mint_address: String,
+        pool_address: String,
+        image: String,
+    ) -> Result<()> {
+        let accepted_collaterial = &mut ctx.accounts.accepted_collaterial;
+        let admin_profile = &mut ctx.accounts.admin_profile;
+        accepted_collaterial.ticker = ticker;
+        accepted_collaterial.mint_address = mint_address;
+        accepted_collaterial.pool_address = pool_address;
+        accepted_collaterial.image = image;
+        admin_profile.collaterial_count = admin_profile.collaterial_count.checked_add(1).unwrap();
+        accepted_collaterial.authority = ctx.accounts.authority.key();
+        Ok(())
+    }
+
+    pub fn remove_accepted_collaterial(ctx: Context<RemoveAcceptedCollaterial>) -> Result<()> {
         Ok(())
     }
 
@@ -43,9 +70,7 @@ pub mod peer_protocol_contracts {
         let authority = &ctx.accounts.authority;
         let user_profile = &mut ctx.accounts.user_profile;
 
-        if !user_profile.can_deposit {
-            panic!("{:?}", ProgramError::USER_CANNOT_DEPOSIT); // Replace 1 with appropriate error code
-        }
+        require!(user_profile.can_deposit, ProgramError::UserCannotDeposit);
 
         // Transfer tokens from taker to initializer
         let cpi_accounts = SplTransfer {
@@ -110,9 +135,11 @@ pub mod peer_protocol_contracts {
         let loan_account = &mut ctx.accounts.loan_account;
         let user_profile = &mut ctx.accounts.user_profile;
         let ninetyDays = 90 * 24 * 60 * 60;
-        if (loan_account.duration > ninetyDays) {
-            panic!("{:?}", ProgramError::LOAN_DURATION_TOO_MUCH);
-        }
+
+        require!(
+            loan_account.duration < ninetyDays,
+            ProgramError::LoanDurationTooMuch
+        );
 
         loan_account.interest_rate = interest_rate;
         loan_account.lender = user_profile.authority;
@@ -156,22 +183,15 @@ pub mod peer_protocol_contracts {
         loan_account.borrower = ctx.accounts.authority.key();
         let user_profile = &mut ctx.accounts.user_profile;
 
-        if !user_profile.can_borrow {
-            panic!("{:?}", ProgramError::USER_CANNOT_BORROW);
-            // return Err(ProgramError::Custom(1)); // Replace 1 with appropriate error code
-        }
-
-        // Check if the loan duration is valid
-        if loan_account.duration <= 0 {
-            panic!("{:?}", ProgramError::LOAN_DURATION_TOO_SMALL);
-            // return Err(ProgramError::Custom(2)); // Replace 2 with appropriate error code
-        }
-
-        // Check if the interest rate is valid
-        if loan_account.interest_rate <= 0.0 {
-            panic!("{:?}", ProgramError::INTEREST_TOO_SMALL);
-            // return Err(ProgramError::Custom(3)); // Replace 3 with appropriate error code
-        }
+        require!(user_profile.can_borrow, ProgramError::UserCannotBorrow);
+        require!(
+            loan_account.duration > 0,
+            ProgramError::LoanDurationTooSmall
+        );
+        require!(
+            loan_account.interest_rate > 0.0,
+            ProgramError::InterestTooSmall
+        );
 
         msg!("{:?}", signer);
         token::transfer(
@@ -216,12 +236,13 @@ pub mod peer_protocol_contracts {
         Ok(display_price)
     }
 
-    pub fn remove_loan(ctx: Context<RemoveLoan>, loan_idx: u8) -> Result<()> {
+    pub fn remove_loan(ctx: Context<RemoveLoan>, collaterial_idx: u8) -> Result<()> {
         let user_profile = &mut ctx.accounts.user_profile;
         let loan_account = &mut ctx.accounts.loan_account;
-        if (loan_account.status == LoanStatus::Closed) {
-            panic!("{:?}", ProgramError::LOAN_ACCEPTED_BY_NOW);
-        }
+        require!(
+            loan_account.status == LoanStatus::Open,
+            ProgramError::LoanAcceptedByNow
+        );
         user_profile.total_deposit = user_profile
             .total_deposit
             .checked_add(loan_account.amount)
@@ -382,14 +403,90 @@ pub enum FeedError {
     InvalidPriceFeed,
 }
 
-#[derive(Debug)]
+#[error_code]
 pub enum ProgramError {
-    USER_BALANCE_LESS_THAN_LENDING,
-    USER_CANNOT_DEPOSIT,
-    USER_CANNOT_BORROW,
-    LOAN_DURATION_TOO_MUCH,
-    LOAN_DURATION_TOO_SMALL,
-    INTEREST_TOO_SMALL,
-    USER_CANNOT_WITHDRAW,
-    LOAN_ACCEPTED_BY_NOW,
+    UserBalanceLessThanLending,
+    UserCannotDeposit,
+    UserCannotBorrow,
+    LoanDurationTooMuch,
+    LoanDurationTooSmall,
+    InterestTooSmall,
+    UserCannotWithdraw,
+    LoanAcceptedByNow,
+}
+
+#[derive(Accounts)]
+#[instruction()]
+pub struct InitializeAdmin<'info> {
+    #[account(
+        mut,
+        address = ADMIN_PUBKEY
+    )]
+    pub authority: Signer<'info>,
+    #[account(
+        init,
+        payer = authority,
+        seeds = [ADMIN_TAG,authority.key().as_ref()],
+        bump,
+        space = 8 + std::mem::size_of::<AdminProfile>()
+    )]
+    pub admin_profile: Box<Account<'info, AdminProfile>>,
+
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+#[instruction()]
+pub struct AddAcceptedCollaterial<'info> {
+    #[account(
+        mut,
+        address = ADMIN_PUBKEY
+    )]
+    pub authority: Signer<'info>,
+    #[account(
+        mut,
+        seeds = [ADMIN_TAG,authority.key().as_ref()],
+        bump,
+        has_one = authority
+    )]
+    pub admin_profile: Box<Account<'info, AdminProfile>>,
+
+    #[account(
+        init,
+        payer = authority,
+        seeds = [COLLATERIAL_TAG, authority.key().as_ref(),&[admin_profile.collaterial_count as u8].as_ref()],
+        bump,
+        space = 8 + std::mem::size_of::<AcceptedCalleterial>()
+        // has_one = authority
+    )]
+    pub accepted_collaterial: Box<Account<'info, AcceptedCalleterial>>,
+
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+#[instruction()]
+pub struct RemoveAcceptedCollaterial<'info> {
+    #[account(
+        mut,
+        address = ADMIN_PUBKEY
+    )]
+    pub authority: Signer<'info>,
+    #[account(
+        mut,
+        close = authority,
+        seeds = [COLLATERIAL_TAG, authority.key().as_ref(), &[admin_profile.collaterial_count as u8].as_ref()],
+        bump,
+        has_one = authority
+    )]
+    pub accepted_collaterial: Box<Account<'info, AcceptedCalleterial>>,
+
+    pub system_program: Program<'info, System>,
+    #[account(
+        mut,
+        seeds = [ADMIN_TAG,authority.key().as_ref()],
+        bump,
+        has_one = authority
+    )]
+    pub admin_profile: Box<Account<'info, AdminProfile>>,
 }
