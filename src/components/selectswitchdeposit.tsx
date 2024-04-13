@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useUserState } from "@/hooks/user_states";
@@ -18,38 +18,32 @@ const SelectSwitch = () => {
 
     if (pathname === "/deposit") {
       setAmount(`${balance}`);
-    }else{
+    } else {
       setAmount(deposit);
     }
   };
 
   const depositFunds = async (e: any) => {
     e.preventDefault();
-    const realAmount = parseInt(amount);
-    
-    try {
-        let transactionMessage = '';
-        
-        if (pathname === "/deposit") {
-            await depositCollaterial(
-              realAmount,
-              coin["mint_address"]
-            );
-            transactionMessage = `Successfully deposited ${realAmount} tokens.`;
-        } else {
-            await withdrawCollaterial(
-              realAmount,
-              coin["mint_address"]
-            );
-            transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
-        }
+    const realAmount = parseFloat(amount);
 
-        toast.success(transactionMessage);
+    try {
+      let transactionMessage = "";
+
+      if (pathname === "/deposit") {
+        await depositCollaterial(realAmount, coin["mint_address"]);
+        transactionMessage = `Successfully deposited ${realAmount} tokens.`;
+      } else {
+        await withdrawCollaterial(realAmount, coin["mint_address"]);
+        transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
+      }
+
+      toast.success(transactionMessage);
     } catch (error: any) {
-        console.error("Transaction failed:", error);
-        toast.error(`Transaction failed: ${error.message}`);
+      console.error("Transaction failed:", error);
+      toast.error(`Transaction failed: ${error.message}`);
     }
-};
+  };
   const {
     initializeUser,
     transactionPending,
@@ -73,10 +67,10 @@ const SelectSwitch = () => {
     const getAmount = async () => {
       // deposit
       const balance = await getSplTokenBalance(coin["mint_address"]);
-     
+
       if (pathname === "/deposit") {
         setMaxAmount(`${balance}`);
-      }else{
+      } else {
         setMaxAmount(deposit.toString());
       }
     };
@@ -87,16 +81,16 @@ const SelectSwitch = () => {
     setCoin(coins[e.target.selectedIndex]);
   };
 
-
   const isDepositPage = pathname === "/deposit";
   const actionText = isDepositPage ? "Deposit" : "Withdraw";
-  const placeholderText = isDepositPage ? "Enter amount to deposit" : "Enter amount to withdraw";
-
+  const placeholderText = isDepositPage
+    ? "Enter amount to deposit"
+    : "Enter amount to withdraw";
 
   return (
     <div>
       <div className="flex justify-between items-center">
-      <span>You&apos;re {actionText.toLowerCase()}ing</span>
+        <span>You&apos;re {actionText.toLowerCase()}ing</span>
         <span className="text-[#ffffff2c] text-sm cursor-pointer max-amount">
           {maxAmount} USD
         </span>
