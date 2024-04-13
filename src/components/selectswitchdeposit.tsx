@@ -14,10 +14,6 @@ const SelectSwitch = () => {
   const [client, setClient] = useState(false);
 
   const handleMaxClick = async () => {
-    if (pathname === "/withdraw") {
-      setAmount(deposit);
-      return;
-    }
     const balance = await getSplTokenBalance(coin["mint_address"]);
 
     if (pathname === "/deposit") {
@@ -37,13 +33,13 @@ const SelectSwitch = () => {
         if (pathname === "/deposit") {
             await depositCollaterial(
               realAmount,
-              "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+              coin["mint_address"]
             );
             transactionMessage = `Successfully deposited ${realAmount} tokens.`;
         } else {
             await withdrawCollaterial(
               realAmount,
-              "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+              coin["mint_address"]
             );
             transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
         }
@@ -81,7 +77,7 @@ const SelectSwitch = () => {
       if (pathname === "/deposit") {
         setMaxAmount(`${balance}`);
       }else{
-        setMaxAmount(parseInt(deposit));
+        setMaxAmount(deposit.toString());
       }
     };
     setClient(true);
