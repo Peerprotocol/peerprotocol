@@ -5,7 +5,7 @@ import Transaction from "../../components/TransactionHistory";
 import { WalletConnectProvider } from "../../components/WalletConnectProvider";
 export default function Home() {
   return (
-    <main className="w-full p-4">
+    <main className="w-full p-4 bg-black">
       <WalletConnectProvider>
         <Navbar />
         <section className="max-w-7xl mx-auto w-full p-4">
