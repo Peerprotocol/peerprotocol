@@ -28,7 +28,8 @@ export function useUserState() {
   const anchorWallet = useAnchorWallet();
   const [deposit, setTotalDeposit] = useState("");
   const [lent, setTotalLending] = useState("");
-  const [loans, setLoans] = useState([]);
+  const [availableLoans, setAvailableLoans] = useState([]);
+  const [userDebt, setUserDebt] = useState([]);
   const [lastLoan, setLastLoan] = useState(0);
 
   const [initialized, setInitialized] = useState(false);
@@ -48,6 +49,7 @@ export function useUserState() {
       );
     }
   }, [connection, anchorWallet]);
+
   useEffect(() => {
     // Fetch a userprofile from the blockchain
     const findProfileAccounts = async () => {
@@ -73,8 +75,9 @@ export function useUserState() {
             setInitialized(true);
 
             const loanAccounts = await program.account.loan.all();
+            await getUserDebts();
 
-            setLoans(loanAccounts as any);
+            setAvailableLoans(loanAccounts as any);
           } else {
             setInitialized(false);
           }
@@ -99,6 +102,23 @@ export function useUserState() {
       return firstPart + "..." + lastPart;
     }
   }
+
+  const getUserDebts = async () => {
+    if (program && publicKey && !transactionPending) {
+      const loanAccounts = await program.account.loan.all([
+        {
+          memcmp: {
+            offset: 64 + 8, // Discriminator.
+            bytes: publicKey.toBase58(),
+          },
+        },
+      ]);
+
+      setUserDebt(loanAccounts as any);
+
+      // 96
+    }
+  };
 
   const initializeUser = async () => {
     // Check if the program exist and wallet is connected
@@ -370,11 +390,12 @@ export function useUserState() {
     depositCollaterial,
     createLoan,
     acceptLoan,
-    loans,
+    loans: availableLoans,
     ellipsifyFirstLast,
     withdrawCollaterial,
     getSplTokenBalance,
     publicKey,
     program,
+    userDebt,
   };
 }
