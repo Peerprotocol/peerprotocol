@@ -49,7 +49,7 @@ const IndexPage = () => {
             <InfoCard title={"Total Lended"} value={`$${displayLent}`} />
           </div>
           <div className="flex h-full leading-10 tracking-widest">
-            <InfoCard title={"Total Borrowed"} value={`$${displayLent}`} />
+            <InfoCard title={"Total Borrowed"} value={`-`} />
           </div>
         </div>
       </div>

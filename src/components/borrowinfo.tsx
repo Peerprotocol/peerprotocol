@@ -7,11 +7,14 @@ import { useUserState } from "@/hooks/user_states";
 const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const { ellipsifyFirstLast, acceptLoan, transactionPending } = useUserState();
   const acceptLoanIdx = async (item: any) => {
-    console.log(item.account.idx, item.publicKey.toString());
     await acceptLoan(
       item.account.idx,
       item.publicKey.toString(),
-      item.account.lender.toString()
+      item.account.lender.toString(),
+      (
+        item.account.mintAddress ??
+        "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+      ).toString()
     );
   };
   return (
@@ -20,7 +23,7 @@ const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
         <tr className="[*&>td]:py-4" key={index}>
           <td>{ellipsifyFirstLast(item.account.lender.toString(), 5)}</td>
           <td>{item.assets ?? "USDC"}</td>
-          <td>{item.account.amount.toString()}</td>
+          <td>{item.account.amount / 10 ** 6}</td>
           <td>{item.account.interestRate}</td>
           <td>{item.account.duration.toString()}</td>
           <td>

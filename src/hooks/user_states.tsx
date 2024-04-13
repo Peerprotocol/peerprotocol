@@ -29,6 +29,7 @@ export function useUserState() {
   const [deposit, setTotalDeposit] = useState("");
   const [lent, setTotalLending] = useState("");
   const [loans, setLoans] = useState([]);
+  const [lastLoan, setLastLoan] = useState(0);
 
   const [initialized, setInitialized] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -58,24 +59,22 @@ export function useUserState() {
             program.programId
           );
 
-          console.log(profilePda);
-
           const profileAccount = await program.account.userProfile.fetch(
             profilePda
           );
 
           if (profileAccount) {
-            console.log(profileAccount);
             let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
+            let totalLent = profileAccount.totalLent / 10 ** 6;
+
             setTotalDeposit(totalDeposit.toString() ?? "***");
-            setTotalLending(profileAccount.totalLent ?? "***");
+            setTotalLending(totalLent.toString() ?? "***");
+            setLastLoan(profileAccount.lastLoan);
             setInitialized(true);
-            console.log(program.account);
-            const loanAccounts = (await program.account.loan.all([
-              // authorFilter(publicKey.toString()),
-            ])) as any;
-            setLoans(loanAccounts);
-            // setTodos(todoAccounts);
+
+            const loanAccounts = await program.account.loan.all();
+
+            setLoans(loanAccounts as any);
           } else {
             setInitialized(false);
           }
@@ -136,17 +135,12 @@ export function useUserState() {
     duration: number,
     interest_rate: number,
     amount: number,
-    loan_account: string
+    mint_address: string
   ) => {
     if (+amount < 0) return;
-    // Check if the program exist and wallet is connected
-    // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
         if (!initialized) await initializeUser();
-        const mint = new PublicKey(
-          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-        ); // USDC devnet
 
         setTransactionPending(true);
         const [profilePda, _] = await findProgramAddressSync(
@@ -154,29 +148,26 @@ export function useUserState() {
           program.programId
         );
 
-        const fromAta = await getOrCreateAssociatedTokenAccount(
-          program.provider.connection,
-          publicKey,
-          mint,
-          publicKey,
-          true
-        );
-
         const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
-
+        const [loanPda, loanBump] = await findProgramAddressSync(
+          [
+            utf8.encode("LOAN_STATE"),
+            publicKey.toBuffer(),
+            Uint8Array.from([lastLoan]),
+          ],
+          program.programId
+        );
         const txHash = await program.methods
-          .createLoan(duration, interest_rate, amount)
+          .createLoan(new BN(duration), interest_rate, transferAmount)
           .accounts({
-            fromAta: fromAta.address,
-            toAta: new PublicKey("cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"),
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,
-            loanAccount: new PublicKey(loan_account),
+            loanAccount: loanPda,
             systemProgram: new PublicKey("11111111111111111111111111111111"),
             authority: publicKey,
           })
           .rpc();
-        toast.success(`Successfully created loan ${loan_account}`);
+        toast.success(`Successfully created loan ${loanPda}`);
 
         setInitialized(true);
       } catch (error: any) {
@@ -191,16 +182,15 @@ export function useUserState() {
   const acceptLoan = async (
     loan_idx: number,
     loan_account: string,
-    loan_owner_public_key: string
+    loan_owner_public_key: string,
+    mint_address: string
   ) => {
     // Check if the program exist and wallet is connected
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
         if (!initialized) await initializeUser();
-        const mint = new PublicKey(
-          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-        ); // USDC devnet
+        const mint = new PublicKey(mint_address);
 
         setTransactionPending(true);
         const [profilePda, _] = await findProgramAddressSync(
@@ -216,8 +206,6 @@ export function useUserState() {
           true
         );
 
-        console.log("loaind");
-
         const txHash = await program.methods
           .acceptLoan(loan_idx)
           .accounts({
@@ -227,7 +215,7 @@ export function useUserState() {
             ),
             tokenProgram: TOKEN_PROGRAM_ID,
             userProfile: profilePda,
-            ata_pda_authority: new PublicKey(
+            ataPdaAuthority: new PublicKey(
               "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"
             ),
             loanAccount: new PublicKey(loan_account),
@@ -249,28 +237,32 @@ export function useUserState() {
   };
 
   const getSplTokenBalance = async (mint_: any) => {
-    if (!publicKey) return;
-    if (!program) return;
-    const mint = new PublicKey(mint_); // USDC devnet
-    const Ata = await getOrCreateAssociatedTokenAccount(
-      program.provider.connection,
-      publicKey,
-      mint,
-      publicKey,
-      true
-    );
-    const info = await connection.getTokenAccountBalance(Ata.address);
-    console.log(info);
-    if (info.value.uiAmount == null) throw new Error("No balance found");
-    console.log("Balance (using Solana-Web3.js): ", info.value.uiAmount);
-    return info.value.uiAmount;
+    try {
+      if (!publicKey) return;
+      if (!program) return;
+      const mint = new PublicKey(mint_); // USDC devnet
+      const Ata = await getOrCreateAssociatedTokenAccount(
+        program.provider.connection,
+        publicKey,
+        mint,
+        publicKey,
+        true
+      );
+      const info = await connection.getTokenAccountBalance(Ata.address);
+
+      if (info.value.uiAmount == null) throw new Error("No balance found");
+      return info.value.uiAmount;
+    } catch (error: any) {
+      if (error.toString().includes("TokenAccountNotFoundError")) {
+        return 0;
+      }
+    }
   };
 
   const withdrawCollaterial = async (
     amount: number,
     token_public_key: string
   ) => {
-    console.log(`withdrawing ${amount}`);
     if (+amount < 0) return;
     if (program && publicKey) {
       try {
@@ -347,7 +339,6 @@ export function useUserState() {
 
         const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
 
-        console.log(transferAmount.toString());
         const txHash = await program.methods
           .depositCollaterial(transferAmount)
           .accounts({
