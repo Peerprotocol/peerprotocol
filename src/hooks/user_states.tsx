@@ -71,9 +71,13 @@ export function useUserState() {
             setTotalLending(totalLent.toString() ?? "***");
             setLastLoan(profileAccount.lastLoan);
             setInitialized(true);
-            // const loanAccounts = (await program.account.loan.all([
-            //   // authorFilter(publicKey.toString()),
-            // ])) as any;
+            try {
+              const loanAccounts = await program.account.loan.all();
+              console.log(loanAccounts);
+            } catch (error) {
+              console.log(error);
+            }
+
             setLoans([]);
             // setTodos(todoAccounts);
           } else {
