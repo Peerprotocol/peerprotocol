@@ -11,6 +11,7 @@ const IndexPage = () => {
     loading,
     deposit,
     lent,
+    userDebt,
   } = useUserState();
 
   const [health, setHealth] = useState(0);
@@ -38,6 +39,11 @@ const IndexPage = () => {
   }
 
   const healthColor = getHealthColor(health);
+  let debt = 0;
+  for (let i = 0; i < userDebt.length; i++) {
+    console.log(userDebt[i].account.amount.toNumber());
+    debt += userDebt[i].account.amount.toNumber();
+  }
   return (
     <div className="flex justify-between gap-4 items-center">
       <div className="flex w-5/6 h-72 flex-row items-center justify-center my-8 bg-[#ffffff0e] border border-neutral-700 rounded-3xl">
@@ -49,7 +55,7 @@ const IndexPage = () => {
             <InfoCard title={"Total Lended"} value={`$${displayLent}`} />
           </div>
           <div className="flex h-full leading-10 tracking-widest">
-            <InfoCard title={"Total Borrowed"} value={`-`} />
+            <InfoCard title={"Total Borrowed"} value={`$${debt / 10 ** 6}`} />
           </div>
         </div>
       </div>

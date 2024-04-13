@@ -29,6 +29,7 @@ export function useUserState() {
   const [deposit, setTotalDeposit] = useState("");
   const [lent, setTotalLending] = useState("");
   const [availableLoans, setAvailableLoans] = useState([]);
+  const [userDebt, setUserDebt] = useState([]);
   const [lastLoan, setLastLoan] = useState(0);
 
   const [initialized, setInitialized] = useState(false);
@@ -113,7 +114,7 @@ export function useUserState() {
         },
       ]);
 
-      console.log("debts " + JSON.stringify(loanAccounts));
+      setUserDebt(loanAccounts as any);
 
       // 96
     }
@@ -395,5 +396,6 @@ export function useUserState() {
     getSplTokenBalance,
     publicKey,
     program,
+    userDebt,
   };
 }
