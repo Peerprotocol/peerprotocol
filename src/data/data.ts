@@ -1,13 +1,13 @@
 export const TransactionData = [
   {
-    TransactionType: "",
+    Transaction: "",
 
-    Market: "",
+    Asset: "",
 
     Amount: "",
 
     Netvalue: "",
 
-    InterestRate: "",
+    Duration: "",
   },
 ];
