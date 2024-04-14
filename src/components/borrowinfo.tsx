@@ -1,25 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import { infoTableLabels } from "@/lib/data";
 import { useUserState } from "@/hooks/user_states";
+import { toast } from "react-toastify";
 // import { infoDataType } from "@/lib/types";
 
 const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const [selectedPubKey, setSelectPubKey] = useState("");
-  const { ellipsifyFirstLast, acceptLoan, transactionPending } = useUserState();
+  const [isLoading, setIsLoading] = useState(true);
+  const {
+    ellipsifyFirstLast,
+    acceptLoan,
+    transactionPending,
+    deposit,
+    userDebt,
+  } = useUserState();
+
+  let debt = 0;
+  for (let i = 0; i < userDebt.length; i++) {
+    debt += (userDebt[i] as any).account.amount.toNumber();
+  }
+
+  const newdebt = debt / 10 ** 6;
+  const result = (newdebt / parseInt(deposit)) * 100;
+
   const acceptLoanIdx = async (item: any) => {
-    setSelectPubKey(item.publicKey.toString());
-    await acceptLoan(
-      item.account.idx,
-      item.publicKey.toString(),
-      item.account.lender.toString(),
-      (
-        item.account.mintAddress ??
-        "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-      ).toString()
-    );
+    if (result! <= 80) {
+      setSelectPubKey(item.publicKey.toString());
+      await acceptLoan(
+        item.account.idx,
+        item.publicKey.toString(),
+        item.account.lender.toString(),
+        (
+          item.account.mintAddress ??
+          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+        ).toString()
+      );
+    } else {
+      let transactionMessage =
+        "You have reached the maximum amount of debt you can take on. Please clear some of your debt before borrowing again";
+      toast.error(transactionMessage);
+    }
   };
-  return (
+
+  useEffect(() => {
+    if (tableItems && tableItems.length > 0) {
+      setIsLoading(false);
+    }
+  }, [tableItems]);
+
+  return isLoading ? (
+    <div className="flex justify-center">Loading, Please wait...</div>
+  ) : (
     <Table tableLabels={infoTableLabels} extraColumms={1}>
       {tableItems.map((item, index) => (
         <tr className="[*&>td]:py-4" key={index}>
@@ -32,6 +64,7 @@ const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
             <button
               className="border border-white rounded-full p-3 px-6"
               onClick={(e) => acceptLoanIdx(item)}
+              // disabled={result <= 80}
             >
               {transactionPending && selectedPubKey == item.publicKey.toString()
                 ? "Pending"
