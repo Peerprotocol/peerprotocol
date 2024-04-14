@@ -33,6 +33,7 @@ const IndexPage = () => {
 
   const displayDeposit = initialized ? deposit : "-";
   const displayLent = initialized ? lent : "-";
+  const displayDebt = initialized ? debt : "-";
 
   function getHealthColor(health: number) {
     let color;
@@ -59,7 +60,7 @@ const IndexPage = () => {
             <InfoCard title={"Total Lended"} value={`$${displayLent}`} />
           </div>
           <div className="flex h-full leading-10 tracking-widest">
-            <InfoCard title={"Total Borrowed"} value={`$${debt / 10 ** 6}`} />
+            <InfoCard title={"Total Borrowed"} value={`$${displayDebt}`} />
           </div>
         </div>
       </div>
