@@ -75,7 +75,7 @@ const Lend = () => {
           className="mx-auto border border-white rounded-full p-3 px-6"
           onClick={handleOpenModal}
         >
-          Create Proposal +
+          Create Lend Proposal +
         </button>
             <CreateproposalComponent show={showModal} onClose={handleCloseModal}/>
       </div>
