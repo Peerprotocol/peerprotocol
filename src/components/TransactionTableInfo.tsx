@@ -1,21 +1,21 @@
 import React from "react";
 
 interface TransactionProps {
-  TransactionType: string;
-  Market: string;
+  Transaction: string;
+  Asset: string;
   Amount: string;
-  InterestRate: string; 
+  Duration: string; 
   isHeader: boolean;
 };
 
-const TransactionTable: React.FC<TransactionProps> = ({ TransactionType, Market, Amount, InterestRate, isHeader})  =>  {
-  const headerColor = isHeader ? "text-[#ffffff7e]": "";
+const TransactionTable: React.FC<TransactionProps> = ({ Transaction, Asset, Amount, Duration, isHeader})  =>  {
+  const headerColor = isHeader ? "text-white": "";
     return (
       <>
-        <p className={ `leading-10 text-[1.2rem] ${headerColor}`}>{TransactionType}</p>
-        <p className={`tracking-widest text-[1.2rem] ${headerColor}`}>{Market}</p>
-        <h2 className={`tracking-widest text-[1.2rem]  ${headerColor}`}>{Amount}</h2>
-        <h1 className={`leading-10 text-[1.2rem] ${headerColor}`}>{InterestRate}</h1>
+        <p className={ `leading-10 text-[1.2rem] ${headerColor}`}>{Transaction}</p>
+        <p className={`leading-10 text-[1.2rem] ${headerColor}`}>{Asset}</p>
+        <h2 className={`leading-10 text-[1.2rem]  ${headerColor}`}>{Amount}</h2>
+        <h1 className={`leading-10 text-[1.2rem] ${headerColor}`}>{Duration}</h1>
       </>
     );
   };

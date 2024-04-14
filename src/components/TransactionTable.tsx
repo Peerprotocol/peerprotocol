@@ -11,10 +11,10 @@ const Transactiontable = () => {
             <React.Fragment key={index}>
               {index === 0 ? (
                 <TransactionTable
-                  TransactionType={"TransactionType"}
-                  Market={"Market"}
+                  Transaction={"Transaction"}
+                  Asset={"Asset"}
                   Amount={"Amount"}
-                  InterestRate={"InterestRate"}
+                  Duration={"Duration"}
                   isHeader={true}
                 />
               ) : (
@@ -23,11 +23,11 @@ const Transactiontable = () => {
 
               <TransactionTable
                 isHeader={false}
-                TransactionType={info.TransactionType}
+                Transaction={info.Transaction}
                 key={index}
-                Market={info.Market}
+                Asset={info.Asset}
                 Amount={info.Amount}
-                InterestRate={info.InterestRate}
+                Duration={info.Duration}
               />
             </React.Fragment>
           );
