@@ -31,8 +31,8 @@ const IndexPage = () => {
     }
   }, [deposit, lent, debt]);
 
-  const displayDeposit = initialized ? deposit : 0;
-  const displayLent = initialized ? lent : 0;
+  const displayDeposit = initialized ? deposit : "-";
+  const displayLent = initialized ? lent : "-";
 
   function getHealthColor(health: number) {
     let color;
@@ -67,7 +67,10 @@ const IndexPage = () => {
         className="flex flex-col justify-center w-80 h-72 items-center rounded-full tracking-widest"
         style={{ backgroundColor: healthColor }}
       >
-        <div className="flex flex-col items-center justify-center bg-transparent rounded-full w-[90%] h-[90%]" style={{ backgroundColor: healthColor }}>
+        <div
+          className="flex flex-col items-center justify-center bg-transparent rounded-full w-[90%] h-[90%]"
+          style={{ backgroundColor: healthColor }}
+        >
           <div className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black">
             <p className="text-7xl font-bold">{health}%</p>
             <p className="text-lg">Health</p>
