@@ -15,25 +15,21 @@ const IndexPage = () => {
   } = useUserState();
 
   const [health, setHealth] = useState(0);
-  let debt = 0;
-  for (let i = 0; i < userDebt.length; i++) {
-    debt += (userDebt[i] as any).account.amount.toNumber();
-  }
 
   useEffect(() => {
-    if (debt / 10 ** 6 > 0) {
-      const newdebt = debt / 10 ** 6;
+    if (+userDebt / 10 ** 6 > 0) {
+      const newdebt = +userDebt / 10 ** 6;
       const result = (newdebt / parseInt(deposit)) * 100;
       const newhealth = 100 - result;
       setHealth(parseFloat(newhealth.toPrecision(2)));
     } else {
       setHealth(100);
     }
-  }, [deposit, lent, debt]);
+  }, [deposit, lent, userDebt]);
 
   const displayDeposit = initialized ? deposit : "-";
   const displayLent = initialized ? lent : "-";
-  const displayDebt = initialized ? debt : "-";
+  const displayDebt = initialized ? userDebt : "-";
 
   function getHealthColor(health: number) {
     let color;

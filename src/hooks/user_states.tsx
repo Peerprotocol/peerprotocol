@@ -29,7 +29,7 @@ export function useUserState() {
   const [deposit, setTotalDeposit] = useState("");
   const [lent, setTotalLending] = useState("");
   const [availableLoans, setAvailableLoans] = useState([]);
-  const [userDebt, setUserDebt] = useState([]);
+  const [userDebt, setUserDebt] = useState("");
   const [lastLoan, setLastLoan] = useState(0);
 
   const [initialized, setInitialized] = useState(false);
@@ -69,13 +69,26 @@ export function useUserState() {
             let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
             let totalLent = profileAccount.totalLent / 10 ** 6;
 
+            const userLoan = await program.account.loan.all([
+              {
+                memcmp: {
+                  offset: 64 + 8, // Discriminator.
+                  bytes: publicKey.toBase58(),
+                },
+              },
+            ]);
+
+            const debt = userLoan.reduce((totalDebt, loan) => {
+              return totalDebt + loan.account.amount.toNumber();
+            }, 0);
+
+            setUserDebt(debt.toString() ?? "***");
             setTotalDeposit(totalDeposit.toString() ?? "***");
             setTotalLending(totalLent.toString() ?? "***");
             setLastLoan(profileAccount.lastLoan);
             setInitialized(true);
 
             const loanAccounts = await program.account.loan.all();
-            await getUserDebts();
 
             setAvailableLoans(loanAccounts as any);
           } else {
@@ -102,23 +115,6 @@ export function useUserState() {
       return firstPart + "..." + lastPart;
     }
   }
-
-  const getUserDebts = async () => {
-    if (program && publicKey && !transactionPending) {
-      const loanAccounts = await program.account.loan.all([
-        {
-          memcmp: {
-            offset: 64 + 8, // Discriminator.
-            bytes: publicKey.toBase58(),
-          },
-        },
-      ]);
-
-      setUserDebt(loanAccounts as any);
-
-      // 96
-    }
-  };
 
   const initializeUser = async () => {
     // Check if the program exist and wallet is connected
