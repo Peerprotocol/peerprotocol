@@ -16,31 +16,17 @@ const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
     userDebt,
   } = useUserState();
 
-  let debt = 0;
-  for (let i = 0; i < userDebt.length; i++) {
-    debt += (userDebt[i] as any).account.amount.toNumber();
-  }
-
-  const newdebt = debt / 10 ** 6;
-  const result = (newdebt / parseInt(deposit)) * 100;
-
   const acceptLoanIdx = async (item: any) => {
-    if (result! <= 80) {
-      setSelectPubKey(item.publicKey.toString());
-      await acceptLoan(
-        item.account.idx,
-        item.publicKey.toString(),
-        item.account.lender.toString(),
-        (
-          item.account.mintAddress ??
-          "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
-        ).toString()
-      );
-    } else {
-      let transactionMessage =
-        "You have reached the maximum amount of debt you can take on. Please clear some of your debt before borrowing again";
-      toast.error(transactionMessage);
-    }
+    setSelectPubKey(item.publicKey.toString());
+    await acceptLoan(
+      item.account.idx,
+      item.publicKey.toString(),
+      item.account.lender.toString(),
+      (
+        item.account.mintAddress ??
+        "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+      ).toString()
+    );
   };
 
   useEffect(() => {
