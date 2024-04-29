@@ -1,50 +1,81 @@
-import React from 'react';
-import InfoCard from './infocard';
+import React, { useState, useEffect } from "react";
+import InfoCard from "./infocard";
+import { useUserState } from "@/hooks/user_states";
+import { parse } from "path";
 
 const IndexPage = () => {
-  const infoData = [
-    {
-        title: "Net Value", 
-        value: "$60,000", 
-        title1: 'Borrow Power', 
-        value1: '$2500'
-    },
+  const {
+    initializeUser,
+    transactionPending,
+    initialized,
+    loading,
+    deposit,
+    lent,
+    userDebt,
+  } = useUserState();
 
-    {
-        title: 'Total Deposit', 
-        value: '$600,000',
-        title1: 'Total Lent', 
-        value1: '$250,000'
-    },
-    
-    {
-        title: 'Total Earned Interest', 
-        value: '$250,000',
-        title1: 'APY(%)', 
-        value1: '$2500'
+  const [health, setHealth] = useState(0);
+
+  useEffect(() => {
+    if (+userDebt / 10 ** 6 > 0) {
+      const newdebt = +userDebt / 10 ** 6;
+      const result = (newdebt / parseInt(deposit)) * 100;
+      const newhealth = 100 - result;
+      setHealth(parseFloat(newhealth.toPrecision(2)));
+    } else {
+      setHealth(100);
     }
-  ];
+  }, [deposit, lent, userDebt]);
 
+  const displayDeposit = initialized ? deposit : "-";
+  const displayLent = initialized ? lent : "-";
+  const displayDebt = initialized ? userDebt : "-";
+
+  function getHealthColor(health: number) {
+    let color;
+    if (health <= 20) {
+      color = `rgba(255, 0, 0)`;
+    } else if (health > 20 && health < 50) {
+      color = `rgba(${225}, ${Math.round(5.1 * health)}, 0)`;
+    } else {
+      const greenIntensity = Math.round(5.1 * (health - 50));
+      color = `rgba(${225 - greenIntensity}, ${166}, 0)`;
+    }
+    return color;
+  }
+
+  const healthColor = getHealthColor(health);
   return (
-    <div className="flex my-8 bg-[#ffffff0e] h-80 border border-neutral-700 rounded-3xl">
-      <div className= "flex items-center w-full justify-center mx-14">
-        <div className="grid grid-cols-3 gap-60">
-          {infoData.map((info, index) => (
-            <div key={index} className="flex tracking-widest leading-10">
-              <InfoCard 
-                    title={info.title} 
-                    value={info.value} 
-                    title1={info.title1} 
-                    value1={info.value1} 
-                    subtitle={undefined} />
-            </div>
-          ))}
+    <div className="flex justify-between gap-4 items-center">
+      <div className="flex w-5/6 h-72 flex-row items-center justify-center my-8 bg-[#ffffff0e] border border-neutral-700 rounded-3xl">
+        <div className="grid h-[fit-content] grid-cols-3 gap-28 place-items-start">
+          <div className="flex h-full leading-10 tracking-widest">
+            <InfoCard title={"Total Deposited"} value={`$${displayDeposit}`} />
+          </div>
+          <div className="flex h-full leading-10 tracking-widest">
+            <InfoCard title={"Total Lended"} value={`$${displayLent}`} />
+          </div>
+          <div className="flex h-full leading-10 tracking-widest">
+            <InfoCard title={"Total Borrowed"} value={`$${displayDebt}`} />
+          </div>
         </div>
       </div>
-
+      <div
+        className="flex flex-col justify-center w-80 h-72 items-center rounded-full tracking-widest"
+        style={{ backgroundColor: healthColor }}
+      >
+        <div
+          className="flex flex-col items-center justify-center bg-transparent rounded-full w-[90%] h-[90%]"
+          style={{ backgroundColor: healthColor }}
+        >
+          <div className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black">
+            <p className="text-7xl font-bold">{health}%</p>
+            <p className="text-lg">Health</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default IndexPage;
-

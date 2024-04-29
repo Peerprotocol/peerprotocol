@@ -1,41 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import { infoTableLabels } from "@/lib/data";
-import { infoDataType } from "@/lib/types";
+import { useUserState } from "@/hooks/user_states";
+import { toast } from "react-toastify";
+// import { infoDataType } from "@/lib/types";
 
-// const InfoTable = ({ Borrower, Netvalue, Assets, Duration, InterestRate,isHeader}: {
-//     Borrower: any;
-//     Assets: any;
-//     Netvalue: any | null;
-//     InterestRate: any  | null;
-//     Duration: any | null;
-//     isHeader: boolean;
-// })  =>  {
-//   const headerColor = isHeader ? "text-[#ffffff7e]": "";
-//     return (
-//       <>
-//         <p className={ `leading-10  ${headerColor}`}>{Borrower}</p>
-//         <p className={`tracking-widest ${headerColor}`}>{Assets}</p>
-//         <h2 className={`tracking-widest  ${headerColor}`}>{Netvalue}</h2>
-//         <h1 className={`leading-10 ${headerColor}`}>{InterestRate}</h1>
-//         <h1 className={`leading-10 ${headerColor}`}>{Duration}</h1>
-//       </>
-//     );
-//   };
+const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
+  const [selectedPubKey, setSelectPubKey] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const {
+    ellipsifyFirstLast,
+    acceptLoan,
+    transactionPending,
+    deposit,
+    userDebt,
+  } = useUserState();
 
-const InfoTable = ({ tableItems }: { tableItems: infoDataType[] }) => {
-  return (
+  const acceptLoanIdx = async (item: any) => {
+    setSelectPubKey(item.publicKey.toString());
+    await acceptLoan(
+      item.account.idx,
+      item.publicKey.toString(),
+      item.account.lender.toString(),
+      (
+        item.account.mintAddress ??
+        "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+      ).toString()
+    );
+  };
+
+  useEffect(() => {
+    if (tableItems && tableItems.length > 0) {
+      setIsLoading(false);
+    }
+  }, [tableItems]);
+
+  return isLoading ? (
+    <div className="flex justify-center">Loading, Please wait...</div>
+  ) : (
     <Table tableLabels={infoTableLabels} extraColumms={1}>
       {tableItems.map((item, index) => (
         <tr className="[*&>td]:py-4" key={index}>
-          <td>{item.borrower}</td>
-          <td>{item.assets}</td>
-          <td>{item.netvalue}</td>
-          <td>{item.interestRate}</td>
-          <td>{item.duration}</td>
+          <td>{ellipsifyFirstLast(item.account.lender.toString(), 5)}</td>
+          <td>{item.assets ?? "USDC"}</td>
+          <td>{item.account.amount / 10 ** 6}</td>
+          <td>{item.account.interestRate}</td>
+          <td>{item.account.duration.toString()}</td>
           <td>
-            <button className="border border-white rounded-full p-3 px-6">
-              Borrow
+            <button
+              className="border border-white rounded-full p-3 px-6"
+              onClick={(e) => acceptLoanIdx(item)}
+              // disabled={result <= 80}
+            >
+              {transactionPending && selectedPubKey == item.publicKey.toString()
+                ? "Pending"
+                : "Borrow"}
             </button>
           </td>
         </tr>
