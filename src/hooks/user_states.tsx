@@ -3,7 +3,12 @@ import { useEffect, useMemo, useState } from "react";
 import { PEER_PROTOCOL_PROGRAM_PUBKEY } from "../constants";
 import peerIDL from "../constants/idl.json";
 import toast from "react-hot-toast";
-import { PublicKey, SystemProgram } from "@solana/web3.js";
+import {
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  SystemProgram,
+  Transaction,
+} from "@solana/web3.js";
 import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
 import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
 import {
@@ -21,6 +26,7 @@ import {
   mintTo,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+// import { simulateTransaction } from "@project-serum/anchor/dist/cjs/utils/rpc";
 // https://solana.stackexchange.com/questions/2912/creating-an-associated-token-account-via-solana-program
 export function useUserState() {
   const { connection } = useConnection();
@@ -234,6 +240,7 @@ export function useUserState() {
             ataPdaAuthority: new PublicKey(
               "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"
             ),
+
             loanAccount: new PublicKey(loan_account),
             systemProgram: new PublicKey("11111111111111111111111111111111"),
             authorityPublicKey: new PublicKey(loan_owner_public_key),
@@ -280,6 +287,7 @@ export function useUserState() {
     token_public_key: string
   ) => {
     if (+amount < 0) return;
+
     if (program && publicKey) {
       try {
         if (!initialized) await initializeUser();
@@ -327,11 +335,101 @@ export function useUserState() {
       }
     }
   };
+
+  const withdrawLamport = async (amount: number) => {
+    if (+amount < 0) return;
+    // Check if the program exist and wallet is connected
+    // then run InitializeUser() from smart contract
+    if (program && publicKey) {
+      try {
+        if (!initialized) await initializeUser();
+
+        setTransactionPending(true);
+        const transferAmount = new BN(Math.trunc(amount * LAMPORTS_PER_SOL));
+
+        console.log(Math.trunc(amount * LAMPORTS_PER_SOL));
+
+        const txHash = await program.methods
+          .withdrawLamport(transferAmount)
+          .accounts({
+            from: publicKey,
+            to: new PublicKey("HGFNBb2iDtJieauecu8GPGa6zzUdVJfbQr4GzusgRAnn"),
+            systemProgram: SystemProgram.programId,
+          })
+          .rpc();
+        toast.success(`Successfully transfer sol ${amount}`);
+
+        setInitialized(true);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.toString());
+      } finally {
+        setTransactionPending(false);
+      }
+    }
+  };
+  const depositLamport = async (amount: number) => {
+    if (+amount < 0) return;
+    // Check if the program exist and wallet is connected
+    // then run InitializeUser() from smart contract
+    if (program && publicKey) {
+      try {
+        if (!initialized) await initializeUser();
+
+        setTransactionPending(true);
+        const transferAmount = new BN(Math.trunc(amount * LAMPORTS_PER_SOL));
+
+        const transaction = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey: publicKey,
+            toPubkey: new PublicKey(
+              "CikEi4TuJUYgYQAcV4pryWw2sU6qbFGSv6msSM3dH4cr"
+            ),
+            lamports: transferAmount,
+          })
+        );
+
+        // let a = await simulateTransaction(connection, transaction, []).then(
+        //   (res) => {
+        //     console.log(res);
+        //   }
+        // );
+        // console.log(a);
+
+        // const txHash = await program.methods
+        //   .withdrawLamport(transferAmount)
+        //   .accounts({
+        //     from: new PublicKey("9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"),
+        //     to: publicKey,
+        //     systemProgram: SystemProgram.programId,
+        //   })
+        //   .rpc();
+
+        const txHash2 = await program.methods
+          .depositLamport(transferAmount)
+          .accounts({
+            from: publicKey,
+            to: new PublicKey("CikEi4TuJUYgYQAcV4pryWw2sU6qbFGSv6msSM3dH4cr"),
+            systemProgram: SystemProgram.programId,
+          })
+          .rpc();
+        toast.success(`Successfully transfer sol ${amount}`);
+
+        setInitialized(true);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.toString());
+      } finally {
+        setTransactionPending(false);
+      }
+    }
+  };
   const depositCollaterial = async (
     amount: number,
     token_public_key: string
   ) => {
     if (+amount < 0) return;
+
     // Check if the program exist and wallet is connected
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
