@@ -1,6 +1,6 @@
 const Onboard = () => {
   return (
-    <div className="lg:h-screen p-0 bg-black text-white w-full flex flex-col justify-center h-fit py-8">
+    <div className="lg:h-screen p-0 bg-black text-white w-[100%] flex flex-col justify-center h-fit py-8">
       <div className="">
         <div className="leading-[10rem]">
           <p className="lg:text-[10rem] text-center font-bold lg:text-6xl text-4xl">GET</p>

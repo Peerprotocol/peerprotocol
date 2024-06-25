@@ -49,13 +49,13 @@ const IndexPage = () => {
     <div className="flex justify-between gap-4 items-center">
       <div className="flex w-5/6 h-72 flex-row items-center justify-center my-8 bg-[#ffffff0e] border border-neutral-700 rounded-3xl">
         <div className="grid h-[fit-content] grid-cols-3 gap-28 place-items-start">
-          <div className="flex h-full leading-10 tracking-widest">
+          <div className="flex h-full leading-10 tracking-widest text-white">
             <InfoCard title={"Total Deposited"} value={`$${displayDeposit}`} />
           </div>
-          <div className="flex h-full leading-10 tracking-widest">
+          <div className="flex h-full leading-10 tracking-widest text-white">
             <InfoCard title={"Total Lended"} value={`$${displayLent}`} />
           </div>
-          <div className="flex h-full leading-10 tracking-widest">
+          <div className="flex h-full leading-10 tracking-widest text-white">
             <InfoCard title={"Total Borrowed"} value={`$${displayDebt}`} />
           </div>
         </div>
@@ -68,7 +68,7 @@ const IndexPage = () => {
           className="flex flex-col items-center justify-center bg-transparent rounded-full w-[90%] h-[90%]"
           style={{ backgroundColor: healthColor }}
         >
-          <div className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black">
+          <div className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black text-white">
             <p className="text-7xl font-bold">{health}%</p>
             <p className="text-lg">Health</p>
           </div>

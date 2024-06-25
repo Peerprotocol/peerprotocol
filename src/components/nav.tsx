@@ -55,7 +55,7 @@ const Navbar = () => {
       </div>
       <div className="flex" suppressHydrationWarning={true}>
         <div className="flex gap-16">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-8 text-white">
             <Link href="/peerapp">
               <p>Portfolio</p>
             </Link>

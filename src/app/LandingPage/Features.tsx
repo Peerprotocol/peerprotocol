@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Features = () => {
   return (
-    <div className="bg-white flex flex-col lg:flex-row justify-center lg:gap-10 gap-6 py-40 lg:my-32 lg:w-full">
+    <div className="bg-white flex flex-col lg:flex-row justify-center lg:gap-10 gap-6 xl:py-40 py-20 lg:my-32 lg:w-full">
       {/* Card 1 */}
       <div className="border-2 border-black lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8">
         <Image src="./images/mybox.svg" width={40} height={40} alt="" className="lg:w-[40px] w-6"/>

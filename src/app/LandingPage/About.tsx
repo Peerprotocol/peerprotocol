@@ -73,7 +73,7 @@ const About = () => {
           />
         </summary>
         <p className="mt-2 ml-4 lg:text-xl font-thin font-opensans text-sm">
-          Peer Protocol's decentralized peer-to-peer marketplace serves as the
+          Peer Protocols decentralized peer-to-peer marketplace serves as the
           cornerstone of the app. It allows users to directly connect and
           transact with each other without intermediaries. This feature enables
           borrowers to access loans and lenders to offer funds, fostering a

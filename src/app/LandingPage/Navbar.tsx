@@ -23,10 +23,10 @@ const Navbar = () => {
           width={40}
           height={40}
           alt=""
-          className="w-10 lg:w-14"
+          className="lg:w-10 xl:w-14 w-6"
         />
 
-        <div className="lg:flex gap-24 hidden">
+        <div className="lg:flex gap-24 hidden items-center :border lg:border-green-600">
           <div className="flex gap-10">
             <div className="flex">
               <p className="cursor-pointer">Discord</p>
@@ -41,7 +41,7 @@ const Navbar = () => {
               <img src="./images/RightArrow.svg" alt="" />
             </div>
           </div>
-          <div className="flex gap-10">
+          <div className="flex gap-10 items-center">
             <a href="#Team">
               <p className="cursor-pointer">Team</p>
             </a>
@@ -68,24 +68,24 @@ const Navbar = () => {
           <div className="flex gap-4">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className={`lg:border lg:block lg:border-current lg:px-6 px-2 border border-black  py-2 rounded-3xl flex items-center space-x-2 ${
+              className={`lg:border lg:block lg:border-current lg:px-6 px-2 border border-black py-2 rounded-3xl flex items-center space-x-2 ${
                 isDarkMode
                   ? "hover:bg-white hover:text-black"
                   : "hover:bg-black hover:text-white"
               }`}
             >
               {isDarkMode ? (
-                <>
-                  <MoonIcon className="h-6 w-6" />
-                </>
+                <div className="xl:w-6 xl:h-6 w-3 h-3">
+                  <MoonIcon className="xl:w-6 xl:h-6 h-3 w-3" />
+                </div>
               ) : (
-                <>
-                  <SunIcon className="h-6 w-6" />
-                </>
+                <div className="xl:w-6 xl:h-6 w-3 h-3">
+                  <SunIcon className="xl:w-6 xl:h-6 h-3 w-3" />
+                </div>
               )}
             </button>
             <button className="block lg:hidden text-gray-700">
-              <MenuIcon className="w-8 h-8" />
+              <MenuIcon className="h-6 w-6" />
             </button>
           </div>
           <Link href="/peerapp" target="_blank">
