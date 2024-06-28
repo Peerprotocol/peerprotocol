@@ -56,62 +56,62 @@ export function useUserState() {
     }
   }, [connection, anchorWallet]);
 
-  useEffect(() => {
-    // Fetch a userprofile from the blockchain
-    const findProfileAccounts = async () => {
-      if (program && publicKey && !transactionPending) {
-        try {
-          setLoading(true);
-          const [profilePda, profileBump] = await findProgramAddressSync(
-            [utf8.encode("USER_STATE"), publicKey.toBuffer()],
-            program.programId
-          );
+  // useEffect(() => {
+  //   // Fetch a userprofile from the blockchain
+  //   const findProfileAccounts = async () => {
+  //     if (program && publicKey && !transactionPending) {
+  //       try {
+  //         setLoading(true);
+  //         const [profilePda, profileBump] = await findProgramAddressSync(
+  //           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
+  //           program.programId
+  //         );
 
-          const profileAccount = await program.account.userProfile.fetch(
-            profilePda
-          );
+  //         const profileAccount = await program.account.userProfile.fetch(
+  //           profilePda
+  //         );
 
-          if (profileAccount) {
-            let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
-            let totalLent = profileAccount.totalLent / 10 ** 6;
+  //         if (profileAccount) {
+  //           let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
+  //           let totalLent = profileAccount.totalLent / 10 ** 6;
 
-            const userLoan = await program.account.loan.all([
-              {
-                memcmp: {
-                  offset: 64 + 8, // Discriminator.
-                  bytes: publicKey.toBase58(),
-                },
-              },
-            ]);
+  //           const userLoan = await program.account.loan.all([
+  //             {
+  //               memcmp: {
+  //                 offset: 64 + 8, // Discriminator.
+  //                 bytes: publicKey.toBase58(),
+  //               },
+  //             },
+  //           ]);
 
-            const debt = userLoan.reduce((totalDebt, loan) => {
-              return totalDebt + loan.account.amount.toNumber();
-            }, 0);
+  //           const debt = userLoan.reduce((totalDebt, loan) => {
+  //             return totalDebt + loan.account.amount.toNumber();
+  //           }, 0);
 
-            setUserDebt(debt.toString() ?? "***");
-            setTotalDeposit(totalDeposit.toString() ?? "***");
-            setTotalLending(totalLent.toString() ?? "***");
-            setLastLoan(profileAccount.lastLoan);
-            setInitialized(true);
+  //           setUserDebt(debt.toString() ?? "***");
+  //           setTotalDeposit(totalDeposit.toString() ?? "***");
+  //           setTotalLending(totalLent.toString() ?? "***");
+  //           setLastLoan(profileAccount.lastLoan);
+  //           setInitialized(true);
 
-            const loanAccounts = await program.account.loan.all();
+  //           const loanAccounts = await program.account.loan.all();
 
-            setAvailableLoans(loanAccounts as any);
-          } else {
-            setInitialized(false);
-          }
-        } catch (error) {
-          console.log(error);
-          setInitialized(false);
-          // setTodos([]);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
+  //           setAvailableLoans(loanAccounts as any);
+  //         } else {
+  //           setInitialized(false);
+  //         }
+  //       } catch (error) {
+  //         console.log(error);
+  //         setInitialized(false);
+  //         // setTodos([]);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     }
+  //   };
 
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
+  //   findProfileAccounts();
+  // }, [publicKey, program, transactionPending]);
   function ellipsifyFirstLast(str: String, numCharacters: any) {
     if (str.length <= numCharacters * 2) {
       return str;
