@@ -35,17 +35,20 @@ const Navbar = () => {
 
   return (
     <nav role="navigation" className="flex justify-between mx-14 my-4">
-      <div className="flex gap-3 items-center">
-        <div>
-          <Image
-            src=".\images\logo.svg"
-            alt="Description of the image"
-            width={55}
-            height={55}
-          />
+      <Link href="/">
+        {" "}
+        <div className="flex gap-3 items-center">
+          <div>
+            <Image
+              src=".\images\logo.svg"
+              alt="Description of the image"
+              width={55}
+              height={55}
+            />
+          </div>
+          <p className="text-2xl">Peer Protocol</p>
         </div>
-        <p className="text-2xl">Peer Protocol</p>
-      </div>
+      </Link>
       <div className="flex" suppressHydrationWarning={true}>
         <div className="flex gap-16">
           <div className="flex items-center gap-8">
