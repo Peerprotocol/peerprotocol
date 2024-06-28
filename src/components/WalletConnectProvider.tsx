@@ -25,7 +25,7 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "react-hot-toast";
 import { programState } from "@/hooks/user_states";
 import { init } from "next/dist/compiled/webpack/webpack";
-import { UserContextValue, defaultState } from "@/interface/program_interface";
+import { UserContextValue } from "@/interface/program_interface";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -66,6 +66,37 @@ export const WalletConnectProvider = ({
     </ConnectionProvider>
   );
 };
+
+const defaultState: UserContextValue = {
+  initializeUser: () => {},
+  setInitialized: (value: boolean) => {},
+  Trxpend: false,
+  initialized: false,
+  loading: false,
+  deposit: "",
+  lent: "",
+  depositCollaterial: async (amount: number, token_public_key: string) => {},
+  createLoan: async (
+    duration: number,
+    interest_rate: number,
+    amount: number,
+    mint_address: string
+  ) => {},
+  acceptLoan: async (
+    loan_idx: number,
+    loan_account: string,
+    loan_owner_public_key: string,
+    mint_address: string
+  ) => {},
+  loans: [],
+  ellipsify: (str: string, numCharacters: any) => str,
+  withdrawCollaterial: async (amount: number, token_public_key: string) => {},
+  getTokenBalance: async (mint_: any) => undefined,
+  publicKey: null,
+  program: undefined,
+  userDebt: "",
+  findProfileAccounts: async () => {},
+};
 export const UserContext = createContext<UserContextValue>(defaultState);
 const InnerProvider = ({ children }: { children: ReactNode }) => {
   const state = programState();
@@ -73,9 +104,5 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
     state.findProfileAccounts();
   }, [state.publicKey, state.program, state.Trxpend]);
 
-  return (
-    <UserContext.Provider value={state}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={state}>{children}</UserContext.Provider>;
 };
