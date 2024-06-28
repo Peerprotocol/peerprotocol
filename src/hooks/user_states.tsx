@@ -57,7 +57,6 @@ export function useUserState() {
   }, [connection, anchorWallet]);
 
   const findProfileAccounts = async () => {
-   
     if (program && publicKey && !transactionPending) {
       try {
         setLoading(true);
@@ -473,7 +472,6 @@ export function useUserState() {
   };
   return {
     initializeUser,
-    findProfileAccounts,
     transactionPending,
     initialized,
     loading,
@@ -489,5 +487,6 @@ export function useUserState() {
     publicKey,
     program,
     userDebt,
+    findProfileAccounts,
   };
 }

@@ -28,7 +28,6 @@ const Lend = () => {
     depositCollaterial,
     loans,
     publicKey,
-    findProfileAccounts,
     program,
   } = useUserState();
 
