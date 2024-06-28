@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import coins from "../constants/coins.json";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
-import { useUserState } from "./WalletConnectProvider";
+import { UserContext } from "./WalletConnectProvider";
 const SelectSwitch = () => {
   const pathname = usePathname();
   const [amount, setAmount] = useState("");
@@ -13,7 +13,7 @@ const SelectSwitch = () => {
   const [coin, setCoin] = useState(coins[0]);
   const [client, setClient] = useState(false);
 
-  const pState = useUserState();
+  const pState = useContext(UserContext);
 
   const handleMaxClick = async () => {
     const balance = await pState.getTokenBalance(coin["mint_address"]);

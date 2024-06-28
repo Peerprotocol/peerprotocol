@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Table from "./Table";
 import { infoTableLabels } from "@/lib/data";
-import { useUserState } from "./WalletConnectProvider";
+import { UserContext } from "./WalletConnectProvider";
 
 const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +21,7 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
   };
 
   const [selectedPubKey, setSelectPubKey] = useState("");
-  const pState = useUserState();
+  const pState = useContext(UserContext);
 
   let debt = 0;
   for (let i = 0; i < pState.userDebt.length; i++) {

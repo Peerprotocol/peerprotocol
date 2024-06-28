@@ -1,8 +1,5 @@
 "use client";
-import {
-  WalletConnectProvider,
-  useUserState,
-} from "@/components/WalletConnectProvider";
+import { WalletConnectProvider } from "@/components/WalletConnectProvider";
 import Navbar from "@/components/nav";
 import Link from "next/link";
 import CreateproposalComponent from "@/components/CreateproposalComponent";
@@ -19,9 +16,6 @@ const Lend = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
-  const { initializeUser, depositCollaterial, publicKey, program } =
-    useUserState();
 
   return (
     <WalletConnectProvider>

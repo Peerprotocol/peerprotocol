@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import InfoTable from "./borrowinfo";
 import { tableData } from "@/lib/data";
 import Pagination from "./Pagination";
@@ -8,10 +8,10 @@ import usePagination from "@/lib/hooks/usePagination";
 import { infoDataType } from "@/lib/types";
 import { PAGE_SIZE } from "@/lib/constants";
 import { BN } from "@project-serum/anchor";
-import { useUserState } from "./WalletConnectProvider";
+import { UserContext } from "./WalletConnectProvider";
 
 const BorrowComponent = () => {
-  const pState = useUserState();
+  const pState = useContext(UserContext);
 
   const {
     paginatedItems: paginatedTableData,

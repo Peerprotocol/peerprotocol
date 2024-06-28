@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Table from "./Table";
 import { infoTableLabels } from "@/lib/data";
-import { useUserState } from "./WalletConnectProvider";
+import { UserContext } from "./WalletConnectProvider";
 import { toast } from "react-toastify";
 // import { infoDataType } from "@/lib/types";
 
 const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const [selectedPubKey, setSelectPubKey] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const pState = useUserState();
+  const pState = useContext(UserContext);
 
   const acceptLoanIdx = async (item: any) => {
     setSelectPubKey(item.publicKey.toString());

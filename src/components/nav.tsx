@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { WalletAdapter } from "@solana/wallet-adapter-base";
@@ -15,11 +15,11 @@ import { SystemProgram } from "@solana/web3.js";
 import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
 import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
-import { useUserState } from "./WalletConnectProvider";
+import { UserContext } from "./WalletConnectProvider";
 
 const Navbar = () => {
   const { select, wallets, publicKey, disconnect } = useWallet();
-  const pState = useUserState();
+  const pState = useContext(UserContext);
   const wallet = wallets[0];
   const [isClient, setisClient] = useState(false);
 

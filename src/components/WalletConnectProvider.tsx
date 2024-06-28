@@ -66,7 +66,7 @@ export const WalletConnectProvider = ({
     </ConnectionProvider>
   );
 };
-const UserContext = createContext<UserContextValue>(programState());
+export const UserContext = createContext<UserContextValue>(programState());
 const InnerProvider = ({ children }: { children: ReactNode }) => {
   const {
     findProfileAccounts,
@@ -83,7 +83,4 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </UserContext.Provider>
   );
-};
-export const useUserState = () => {
-  return useContext(UserContext);
 };

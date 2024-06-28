@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import coins from "../constants/coins.json";
-import { useUserState } from "./WalletConnectProvider";
+import { UserContext } from "./WalletConnectProvider";
 
 const CreateproposalComponent = ({
   show,
@@ -10,7 +10,7 @@ const CreateproposalComponent = ({
   show: any;
   onClose: any;
 }) => {
-  const pState = useUserState();
+  const pState = useContext(UserContext);
   const [amount, setAmount] = useState("");
   const [percentage, setPercentage] = useState("");
   const [duration, setDuration] = useState("");
@@ -19,7 +19,12 @@ const CreateproposalComponent = ({
   const createLoanProposal = async (e: any) => {
     e.preventDefault();
 
-    await pState.createLoan(+duration, +percentage, +amount, coin["mint_address"]);
+    await pState.createLoan(
+      +duration,
+      +percentage,
+      +amount,
+      coin["mint_address"]
+    );
   };
 
   if (!show) {

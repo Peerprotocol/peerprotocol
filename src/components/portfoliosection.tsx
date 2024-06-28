@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import InfoCard from "./infocard";
-import { useUserState } from "./WalletConnectProvider";
+import { UserContext } from "./WalletConnectProvider";
 import { parse } from "path";
 
 const IndexPage = () => {
-  const pState = useUserState();
+  const pState = useContext(UserContext);
 
   const [health, setHealth] = useState(0);
 
