@@ -111,7 +111,7 @@ export function programState(): UserContextValue {
     }
   };
 
-  function ellipsifyFirstLast(str: String, numCharacters: any) {
+  function ellipsify(str: string, numCharacters: any): string {
     if (str.length <= numCharacters * 2) {
       return str;
     } else {
@@ -485,7 +485,7 @@ export function programState(): UserContextValue {
     createLoan,
     acceptLoan,
     loans: availableLoans,
-    ellipsify: ellipsifyFirstLast,
+    ellipsify,
     withdrawCollaterial,
     getTokenBalance: getSplTokenBalance,
     publicKey,

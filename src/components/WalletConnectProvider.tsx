@@ -25,7 +25,7 @@ import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "react-hot-toast";
 import { programState } from "@/hooks/user_states";
 import { init } from "next/dist/compiled/webpack/webpack";
-import { UserContextValue } from "@/interface/program_interface";
+import { UserContextValue, defaultState } from "@/interface/program_interface";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -66,20 +66,15 @@ export const WalletConnectProvider = ({
     </ConnectionProvider>
   );
 };
-export const UserContext = createContext<UserContextValue>(programState());
+export const UserContext = createContext<UserContextValue>(defaultState);
 const InnerProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    findProfileAccounts,
-    publicKey,
-    program,
-    Trxpend: transactionPending,
-  } = programState();
+  const state = programState();
   useEffect(() => {
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
+    state.findProfileAccounts();
+  }, [state.publicKey, state.program, state.Trxpend]);
 
   return (
-    <UserContext.Provider value={programState()}>
+    <UserContext.Provider value={state}>
       {children}
     </UserContext.Provider>
   );
