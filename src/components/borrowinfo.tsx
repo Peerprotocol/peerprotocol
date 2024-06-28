@@ -13,7 +13,10 @@ const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
     acceptLoan,
     transactionPending,
     deposit,
+    findProfileAccounts,
     userDebt,
+    publicKey,
+    program,
   } = useUserState();
 
   const acceptLoanIdx = async (item: any) => {
@@ -34,6 +37,12 @@ const InfoTable = ({ tableItems }: { tableItems: any[] }) => {
       setIsLoading(false);
     }
   }, [tableItems]);
+
+  useEffect(() => {
+    // Fetch a userprofile from the blockchain
+
+    findProfileAccounts();
+  }, [publicKey, program, transactionPending]);
 
   return isLoading ? (
     <div className="flex justify-center">Loading, Please wait...</div>

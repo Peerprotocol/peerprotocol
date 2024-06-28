@@ -57,7 +57,14 @@ const SelectSwitch = () => {
     loans,
     program,
     publicKey,
+    findProfileAccounts,
   } = useUserState();
+
+  useEffect(() => {
+    // Fetch a userprofile from the blockchain
+
+    findProfileAccounts();
+  }, [publicKey, program, transactionPending]);
 
   useEffect(() => {
     if (!program) return;

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import LendInfoTable from "./lendinfo";
 import { tableData } from "@/lib/data";
 import Pagination from "./Pagination";
@@ -19,9 +19,16 @@ const LendComponent = () => {
     lent,
     depositCollaterial,
     loans,
+    findProfileAccounts,
+    publicKey,
+    program,
   } = useUserState();
 
-  console.log(loans);
+  useEffect(() => {
+    // Fetch a userprofile from the blockchain
+
+    findProfileAccounts();
+  }, [publicKey, program, transactionPending]);
   const {
     paginatedItems: paginatedTableData,
     totalPages,

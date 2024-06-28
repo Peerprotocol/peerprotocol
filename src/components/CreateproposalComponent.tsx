@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import coins from "../constants/coins.json";
 import { useUserState } from "@/hooks/user_states";
@@ -20,6 +20,7 @@ const CreateproposalComponent = ({
     depositCollaterial,
     withdrawCollaterial,
     getSplTokenBalance,
+    findProfileAccounts,
     loans,
     program,
     publicKey,
@@ -35,6 +36,12 @@ const CreateproposalComponent = ({
 
     await createLoan(+duration, +percentage, +amount, coin["mint_address"]);
   };
+
+  useEffect(() => {
+    // Fetch a userprofile from the blockchain
+
+    findProfileAccounts();
+  }, [publicKey, program, transactionPending]);
 
   if (!show) {
     return null;
