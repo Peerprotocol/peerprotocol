@@ -94,7 +94,6 @@ export function programState(): UserContextValue {
           setInitialized(true);
 
           const loanAccounts = await program.account.loan.all();
-          console.log();
 
           setAvailableLoans(loanAccounts as any);
         } else {
