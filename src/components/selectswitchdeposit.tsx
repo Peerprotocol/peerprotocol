@@ -6,6 +6,7 @@ import Image from "next/image";
 import coins from "../constants/coins.json";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
 import { UserContext } from "./WalletConnectProvider";
+
 const SelectSwitch = () => {
   const pathname = usePathname();
   const [amount, setAmount] = useState("");
