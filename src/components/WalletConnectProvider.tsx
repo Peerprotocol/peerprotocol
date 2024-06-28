@@ -17,12 +17,13 @@ import {
   TorusWalletAdapter,
   TrustWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "react-hot-toast";
+import { useUserState } from "@/hooks/user_states";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -48,6 +49,12 @@ export const WalletConnectProvider = ({
     [network]
   );
 
+  // useEffect(() => {
+  //   // Fetch a userprofile from the blockchain
+
+  //   findProfileAccounts();
+  // }, [publicKey, program, transactionPending]);
+
   return (
     <ConnectionProvider endpoint={endpoint}>
       <Toaster />
@@ -56,8 +63,19 @@ export const WalletConnectProvider = ({
         autoConnect
         onError={(e) => console.log(e)}
       >
-        <WalletModalProvider>{children}</WalletModalProvider>
+        <WalletModalProvider>
+          <InnerProvider>{children}</InnerProvider>
+        </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
+};
+const InnerProvider = ({ children }: { children: ReactNode }) => {
+  const { findProfileAccounts, publicKey, program, transactionPending } =
+    useUserState();
+  useEffect(() => {
+    findProfileAccounts();
+  }, [publicKey, program, transactionPending]);
+
+  return <>{children}</>;
 };

@@ -4,7 +4,8 @@ import { WalletConnectProvider } from "@/components/WalletConnectProvider";
 import BorrowComponent from "@/components/borrowComponent";
 import Navbar from "@/components/nav";
 import Link from "next/link";
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { useUserState } from "@/hooks/user_states";
 
 const Borrow = () => {
   const [showModal, setShowModal] = useState(false);
@@ -16,7 +17,7 @@ const Borrow = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-    
+
   return (
     <WalletConnectProvider>
       <div className="flex flex-col bg-black">
@@ -29,7 +30,11 @@ const Borrow = () => {
               <Link href="/lend">Lend</Link>
             </span>
             <span className="flex flex-row justify-evenly w-[30%] text-white bg-transparent">
-              <select name="filter" aria-readonly className="bg-black text-white">
+              <select
+                name="filter"
+                aria-readonly
+                className="bg-black text-white"
+              >
                 <option value="filter">Filter</option>
               </select>
               <select name="token" className="bg-black text-white">
@@ -58,15 +63,15 @@ const Borrow = () => {
           </div>
           <BorrowComponent />
         </section>
-          <button
-              className="mx-auto border border-white rounded-full p-3 px-6"
-              onClick={handleOpenModal}
-            >
-              Create Borrow Proposal +
-            </button>
- 
-          <CreateproposalComponent show={showModal} onClose={handleCloseModal}/>
-        </div>
+        <button
+          className="mx-auto border border-white rounded-full p-3 px-6"
+          onClick={handleOpenModal}
+        >
+          Create Borrow Proposal +
+        </button>
+
+        <CreateproposalComponent show={showModal} onClose={handleCloseModal} />
+      </div>
     </WalletConnectProvider>
   );
 };
