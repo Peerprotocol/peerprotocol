@@ -57,6 +57,7 @@ export function useUserState() {
   }, [connection, anchorWallet]);
 
   const findProfileAccounts = async () => {
+   
     if (program && publicKey && !transactionPending) {
       try {
         setLoading(true);
@@ -108,7 +109,6 @@ export function useUserState() {
     }
   };
 
- 
   function ellipsifyFirstLast(str: String, numCharacters: any) {
     if (str.length <= numCharacters * 2) {
       return str;
