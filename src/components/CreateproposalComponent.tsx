@@ -20,7 +20,6 @@ const CreateproposalComponent = ({
     depositCollaterial,
     withdrawCollaterial,
     getSplTokenBalance,
-    findProfileAccounts,
     loans,
     program,
     publicKey,
@@ -37,11 +36,6 @@ const CreateproposalComponent = ({
     await createLoan(+duration, +percentage, +amount, coin["mint_address"]);
   };
 
-  useEffect(() => {
-    // Fetch a userprofile from the blockchain
-
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
 
   if (!show) {
     return null;

@@ -19,16 +19,10 @@ const LendComponent = () => {
     lent,
     depositCollaterial,
     loans,
-    findProfileAccounts,
     publicKey,
     program,
   } = useUserState();
 
-  useEffect(() => {
-    // Fetch a userprofile from the blockchain
-
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
   const {
     paginatedItems: paginatedTableData,
     totalPages,

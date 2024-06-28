@@ -12,18 +12,11 @@ const IndexPage = () => {
     deposit,
     lent,
     userDebt,
-    findProfileAccounts,
     publicKey,
     program,
   } = useUserState();
 
   const [health, setHealth] = useState(0);
-
-  useEffect(() => {
-    // Fetch a userprofile from the blockchain
-
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
 
   useEffect(() => {
     if (+userDebt / 10 ** 6 > 0) {

@@ -32,13 +32,6 @@ const Lend = () => {
     program,
   } = useUserState();
 
-  console.log(loans);
-
-  useEffect(() => {
-    // Fetch a userprofile from the blockchain
-
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
   return (
     <WalletConnectProvider>
       <div className="flex flex-col bg-black">

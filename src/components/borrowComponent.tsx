@@ -22,14 +22,7 @@ const BorrowComponent = () => {
     loans,
     publicKey,
     program,
-    findProfileAccounts,
   } = useUserState();
-
-  useEffect(() => {
-    // Fetch a userprofile from the blockchain
-
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
 
   const {
     paginatedItems: paginatedTableData,

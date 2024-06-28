@@ -27,16 +27,9 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
     transactionPending,
     deposit,
     userDebt,
-    findProfileAccounts,
     publicKey,
     program,
   } = useUserState();
-
-  useEffect(() => {
-    // Fetch a userprofile from the blockchain
-
-    findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
 
   let debt = 0;
   for (let i = 0; i < userDebt.length; i++) {

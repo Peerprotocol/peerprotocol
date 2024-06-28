@@ -57,12 +57,7 @@ const SelectSwitch = () => {
     loans,
     program,
     publicKey,
-    findProfileAccounts,
   } = useUserState();
-
-  useEffect(() => {
-    findProfileAccounts();
-  }, [publicKey]);
 
   useEffect(() => {
     if (!program) return;
