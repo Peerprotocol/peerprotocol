@@ -475,17 +475,21 @@ export function useUserState() {
   return {
     initializeUser,
     setInitialized,
-
+    transactionPending,
+    initialized,
+    loading,
+    deposit,
+    lent,
     depositCollaterial,
     createLoan,
     acceptLoan,
-
+    loans: availableLoans,
     ellipsifyFirstLast,
     withdrawCollaterial,
     getSplTokenBalance,
     publicKey,
     program,
-
+    userDebt,
     findProfileAccounts,
   };
 }

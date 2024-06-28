@@ -71,9 +71,8 @@ export const WalletConnectProvider = ({
     </ConnectionProvider>
   );
 };
-
+const UserContext = createContext({});
 const InnerProvider = ({ children }: { children: ReactNode }) => {
-  const UserContext = createContext(useUserState());
   const {
     findProfileAccounts,
     publicKey,
@@ -92,17 +91,13 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
   } = useUserState();
   useEffect(() => {
     findProfileAccounts();
-    setInitialized(true);
   }, [publicKey, program, transactionPending, initialized]);
 
   return (
     <UserContext.Provider
       value={{
         userDebt,
-        totalDeposit,
-        totalLending,
-        lastLoan,
-        initialized,
+
         availableLoans,
         loading,
         findProfileAccounts,
