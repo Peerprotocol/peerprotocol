@@ -15,14 +15,11 @@ import { SystemProgram } from "@solana/web3.js";
 import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
 import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
 import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
-import { useUserState } from "@/hooks/user_states";
+import { useUserState } from "./WalletConnectProvider";
 
 const Navbar = () => {
   const { select, wallets, publicKey, disconnect } = useWallet();
-  const {
-    initializeUser,
- 
-  } = useUserState();
+  const pState = useUserState();
   const wallet = wallets[0];
   const [isClient, setisClient] = useState(false);
 
@@ -33,7 +30,7 @@ const Navbar = () => {
   const handleWalletConnect = async () => {
     console.log("connecting to your wallet before initializing...");
     await new Promise((resolve) => setTimeout(resolve, 4000));
-    await initializeUser();
+    pState.initializeUser();
   };
 
   return (

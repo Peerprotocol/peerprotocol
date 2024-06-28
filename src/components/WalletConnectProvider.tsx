@@ -51,12 +51,6 @@ export const WalletConnectProvider = ({
     [network]
   );
 
-  // useEffect(() => {
-  //   // Fetch a userprofile from the blockchain
-
-  //   findProfileAccounts();
-  // }, [publicKey, program, transactionPending]);
-
   return (
     <ConnectionProvider endpoint={endpoint}>
       <Toaster />
@@ -74,8 +68,12 @@ export const WalletConnectProvider = ({
 };
 const UserContext = createContext<UserContextValue>(programState());
 const InnerProvider = ({ children }: { children: ReactNode }) => {
-  const { findProfileAccounts, publicKey, program, transactionPending } =
-    programState();
+  const {
+    findProfileAccounts,
+    publicKey,
+    program,
+    Trxpend: transactionPending,
+  } = programState();
   useEffect(() => {
     findProfileAccounts();
   }, [publicKey, program, transactionPending]);

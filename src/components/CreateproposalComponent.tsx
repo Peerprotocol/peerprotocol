@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import coins from "../constants/coins.json";
-import { useUserState } from "@/hooks/user_states";
+import { useUserState } from "./WalletConnectProvider";
 
 const CreateproposalComponent = ({
   show,
@@ -10,17 +10,7 @@ const CreateproposalComponent = ({
   show: any;
   onClose: any;
 }) => {
-  const {
-    initializeUser,
-  
-    depositCollaterial,
-    withdrawCollaterial,
-    getSplTokenBalance,
-
-    program,
-    publicKey,
-    createLoan,
-  } = useUserState();
+  const pState = useUserState();
   const [amount, setAmount] = useState("");
   const [percentage, setPercentage] = useState("");
   const [duration, setDuration] = useState("");
@@ -29,9 +19,8 @@ const CreateproposalComponent = ({
   const createLoanProposal = async (e: any) => {
     e.preventDefault();
 
-    await createLoan(+duration, +percentage, +amount, coin["mint_address"]);
+    await pState.createLoan(+duration, +percentage, +amount, coin["mint_address"]);
   };
-
 
   if (!show) {
     return null;
@@ -115,7 +104,7 @@ const CreateproposalComponent = ({
               className="mt-4 rounded-full px-4 py-4 text-[1.2rem] bg-green-600 w-[50%] self-center"
               onClick={(e) => createLoanProposal(e)}
             >
-              {transactionPending ? "Loading" : "Submit"}
+              {pState.Trxpend ? "Loading" : "Submit"}
             </button>
           </form>
         </div>

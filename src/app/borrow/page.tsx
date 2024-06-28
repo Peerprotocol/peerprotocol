@@ -5,7 +5,6 @@ import BorrowComponent from "@/components/borrowComponent";
 import Navbar from "@/components/nav";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useUserState } from "@/hooks/user_states";
 
 const Borrow = () => {
   const [showModal, setShowModal] = useState(false);

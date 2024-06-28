@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useUserState } from "@/hooks/user_states";
 import coins from "../constants/coins.json";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
+import { useUserState } from "./WalletConnectProvider";
 const SelectSwitch = () => {
   const pathname = usePathname();
   const [amount, setAmount] = useState("");
@@ -13,13 +13,15 @@ const SelectSwitch = () => {
   const [coin, setCoin] = useState(coins[0]);
   const [client, setClient] = useState(false);
 
+  const pState = useUserState();
+
   const handleMaxClick = async () => {
-    const balance = await getSplTokenBalance(coin["mint_address"]);
+    const balance = await pState.getTokenBalance(coin["mint_address"]);
 
     if (pathname === "/deposit") {
       setAmount(`${balance}`);
     } else {
-      setAmount(deposit);
+      setAmount(pState.deposit);
     }
   };
 
@@ -31,10 +33,10 @@ const SelectSwitch = () => {
       let transactionMessage = "";
 
       if (pathname === "/deposit") {
-        await depositCollaterial(realAmount, coin["mint_address"]);
+        await pState.depositCollaterial(realAmount, coin["mint_address"]);
         transactionMessage = `Successfully deposited ${realAmount} tokens.`;
       } else {
-        await withdrawCollaterial(realAmount, coin["mint_address"]);
+        await pState.withdrawCollaterial(realAmount, coin["mint_address"]);
         transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
       }
 
@@ -44,35 +46,31 @@ const SelectSwitch = () => {
       toast.error(`Transaction failed: ${error.message}`);
     }
   };
-  const {
-    initializeUser,
-
-    depositCollaterial,
-    withdrawCollaterial,
-    getSplTokenBalance,
-
-    program,
-    publicKey,
-  } = useUserState();
 
   useEffect(() => {
-    if (!program) return;
-    if (!publicKey) return;
-    if (!initialized) return;
-    console.log("loans", loans);
+    if (!pState.program) return;
+    if (!pState.publicKey) return;
+    if (!pState.initialized) return;
+    console.log("loans", pState.loans);
     const getAmount = async () => {
       // deposit
-      const balance = await getSplTokenBalance(coin["mint_address"]);
+      const balance = await pState.getTokenBalance(coin["mint_address"]);
 
       if (pathname === "/deposit") {
         setMaxAmount(`${balance}`);
       } else {
-        setMaxAmount(deposit.toString());
+        setMaxAmount(pState.deposit.toString());
       }
     };
     setClient(true);
     getAmount();
-  }, [program, publicKey, initialized, transactionPending, coin]);
+  }, [
+    pState.program,
+    pState.publicKey,
+    pState.initialized,
+    pState.Trxpend,
+    coin,
+  ]);
   const selectCoin = (e: any) => {
     setCoin(coins[e.target.selectedIndex]);
   };
@@ -142,7 +140,7 @@ const SelectSwitch = () => {
         className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full mt-9 h-fit"
         onClick={(e: any) => depositFunds(e)}
       >
-        {transactionPending ? "Processing" : actionText}
+        {pState.Trxpend ? "Processing" : actionText}
       </button>
     </div>
   );

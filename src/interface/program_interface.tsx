@@ -4,11 +4,11 @@ import { PublicKey } from "@solana/web3.js";
 export interface UserContextValue {
   initializeUser: () => void;
   setInitialized: (value: boolean) => void;
-  transactionPending: boolean;
+  Trxpend: boolean;
   initialized: boolean;
   loading: boolean;
-  deposit: String;
-  lent: String;
+  deposit: string;
+  lent: string;
   depositCollaterial: (
     amount: number,
     token_public_key: string
@@ -26,12 +26,12 @@ export interface UserContextValue {
     mint_address: string
   ) => Promise<void>;
   loans: any[]; // Replace with actual type
-  ellipsifyFirstLast: (str: String, numCharacters: any) => string | String;
+  ellipsify: (str: String, numCharacters: any) => string | String;
   withdrawCollaterial: (
     amount: number,
     token_public_key: string
   ) => Promise<void>;
-  getSplTokenBalance: (mint_: any) => Promise<number | undefined>;
+  getTokenBalance: (mint_: any) => Promise<number | undefined>;
   publicKey: PublicKey | null;
   program: Program | undefined; // Replace with the actual type of your program
   userDebt: string;

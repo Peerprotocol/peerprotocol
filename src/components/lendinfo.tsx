@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import { infoTableLabels } from "@/lib/data";
-import { useUserState } from "@/hooks/user_states";
+import { useUserState } from "./WalletConnectProvider";
 
 const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const [showModal, setShowModal] = useState(false);
@@ -21,26 +21,20 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
   };
 
   const [selectedPubKey, setSelectPubKey] = useState("");
-  const {
-    ellipsifyFirstLast,
-    acceptLoan,
-  
-    publicKey,
-    program,
-  } = useUserState();
+  const pState = useUserState();
 
   let debt = 0;
-  for (let i = 0; i < userDebt.length; i++) {
-    debt += (userDebt[i] as any).account.amount.toNumber();
+  for (let i = 0; i < pState.userDebt.length; i++) {
+    debt += (pState.userDebt[i] as any).account.amount.toNumber();
   }
 
   const newdebt = debt / 10 ** 6;
-  const result = (newdebt / parseInt(deposit)) * 100;
+  const result = (newdebt / parseInt(pState.deposit)) * 100;
 
   const acceptLoanIdx = async (item: any) => {
     if (result! <= 80) {
       setSelectPubKey(item.publicKey.toString());
-      await acceptLoan(
+      await pState.acceptLoan(
         item.account.idx,
         item.publicKey.toString(),
         item.account.lender.toString(),
@@ -68,7 +62,7 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
       {tableItems.map((item, index) => (
         <React.Fragment key={index}>
           <tr className="[*&>td]:py-4">
-            <td>{ellipsifyFirstLast(item.account.lender.toString(), 5)}</td>
+            <td>{pState.ellipsify(item.account.lender.toString(), 5)}</td>
             <td>{item.assets ?? "USDC"}</td>
             <td>{item.account.amount.toString()}</td>
             <td>{item.account.interestRate}</td>
@@ -90,7 +84,7 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
                     <span className="flex flex-row justify-between">
                       <p>Author:</p>
                       <p>
-                        {ellipsifyFirstLast(item.account.lender.toString(), 5)}
+                        {pState.ellipsify(item.account.lender.toString(), 5)}
                       </p>
                     </span>
                     <span className="flex flex-row justify-between">
@@ -110,7 +104,7 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
                         </select>
                       </div>
                       <p>
-                        {ellipsifyFirstLast(item.account.lender.toString(), 5)}
+                        {pState.ellipsify(item.account.lender.toString(), 5)}
                       </p>
                     </span>
                     <span className="flex flex-row justify-between">

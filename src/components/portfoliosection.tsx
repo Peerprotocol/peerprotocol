@@ -1,32 +1,27 @@
 import React, { useState, useEffect } from "react";
 import InfoCard from "./infocard";
-import { useUserState } from "@/hooks/user_states";
+import { useUserState } from "./WalletConnectProvider";
 import { parse } from "path";
 
 const IndexPage = () => {
-  const {
-    initializeUser,
-
-    publicKey,
-    program,
-  } = useUserState();
+  const pState = useUserState();
 
   const [health, setHealth] = useState(0);
 
   useEffect(() => {
-    if (+userDebt / 10 ** 6 > 0) {
-      const newdebt = +userDebt / 10 ** 6;
-      const result = (newdebt / parseInt(deposit)) * 100;
+    if (+pState.userDebt / 10 ** 6 > 0) {
+      const newdebt = +pState.userDebt / 10 ** 6;
+      const result = (newdebt / parseInt(pState.deposit)) * 100;
       const newhealth = 100 - result;
       setHealth(parseFloat(newhealth.toPrecision(2)));
     } else {
       setHealth(100);
     }
-  }, [deposit, lent, userDebt]);
+  }, [pState.deposit, pState.lent, pState.userDebt]);
 
-  const displayDeposit = initialized ? deposit : "-";
-  const displayLent = initialized ? lent : "-";
-  const displayDebt = initialized ? userDebt : "-";
+  const displayDeposit = pState.initialized ? pState.deposit : "-";
+  const displayLent = pState.initialized ? pState.lent : "-";
+  const displayDebt = pState.initialized ? pState.userDebt : "-";
 
   function getHealthColor(health: number) {
     let color;
