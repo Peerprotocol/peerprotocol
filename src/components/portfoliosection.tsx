@@ -6,12 +6,7 @@ import { parse } from "path";
 const IndexPage = () => {
   const {
     initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
-    userDebt,
+
     publicKey,
     program,
   } = useUserState();

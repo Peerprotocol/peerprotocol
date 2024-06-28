@@ -12,15 +12,11 @@ const CreateproposalComponent = ({
 }) => {
   const {
     initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
+  
     depositCollaterial,
     withdrawCollaterial,
     getSplTokenBalance,
-    loans,
+
     program,
     publicKey,
     createLoan,

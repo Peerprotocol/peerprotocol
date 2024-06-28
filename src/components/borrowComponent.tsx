@@ -13,13 +13,9 @@ import { useUserState } from "@/hooks/user_states";
 const BorrowComponent = () => {
   const {
     initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
+ 
     depositCollaterial,
-    loans,
+ 
     publicKey,
     program,
   } = useUserState();

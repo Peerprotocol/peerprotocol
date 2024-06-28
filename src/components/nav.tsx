@@ -21,11 +21,7 @@ const Navbar = () => {
   const { select, wallets, publicKey, disconnect } = useWallet();
   const {
     initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
+ 
   } = useUserState();
   const wallet = wallets[0];
   const [isClient, setisClient] = useState(false);

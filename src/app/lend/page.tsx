@@ -20,13 +20,9 @@ const Lend = () => {
 
   const {
     initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
+   
     depositCollaterial,
-    loans,
+
     publicKey,
     program,
   } = useUserState();

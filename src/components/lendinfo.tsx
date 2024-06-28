@@ -24,9 +24,7 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const {
     ellipsifyFirstLast,
     acceptLoan,
-    transactionPending,
-    deposit,
-    userDebt,
+  
     publicKey,
     program,
   } = useUserState();

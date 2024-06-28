@@ -12,13 +12,9 @@ import { useUserState } from "@/hooks/user_states";
 const LendComponent = () => {
   const {
     initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
+  
     depositCollaterial,
-    loans,
+ 
     publicKey,
     program,
   } = useUserState();

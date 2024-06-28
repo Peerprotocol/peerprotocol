@@ -17,7 +17,7 @@ import {
   TorusWalletAdapter,
   TrustWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, createContext, useContext, useEffect } from "react";
 
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
@@ -71,7 +71,9 @@ export const WalletConnectProvider = ({
     </ConnectionProvider>
   );
 };
+
 const InnerProvider = ({ children }: { children: ReactNode }) => {
+  const UserContext = createContext(useUserState());
   const {
     findProfileAccounts,
     publicKey,
@@ -79,11 +81,34 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
     transactionPending,
     setInitialized,
     initialized,
+    userDebt,
+    loans: availableLoans,
+    transactionPending,
+    initialized,
+    loading,
+    deposit,
+    lent,
+    userDebt,
   } = useUserState();
   useEffect(() => {
     findProfileAccounts();
     setInitialized(true);
   }, [publicKey, program, transactionPending, initialized]);
 
-  return <>{children}</>;
+  return (
+    <UserContext.Provider
+      value={{
+        userDebt,
+        totalDeposit,
+        totalLending,
+        lastLoan,
+        initialized,
+        availableLoans,
+        loading,
+        findProfileAccounts,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };
