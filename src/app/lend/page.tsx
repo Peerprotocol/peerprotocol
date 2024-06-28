@@ -1,10 +1,12 @@
 "use client";
-import { WalletConnectProvider } from "@/components/WalletConnectProvider";
+import {
+  WalletConnectProvider,
+  useUserState,
+} from "@/components/WalletConnectProvider";
 import Navbar from "@/components/nav";
 import Link from "next/link";
 import CreateproposalComponent from "@/components/CreateproposalComponent";
 import React, { useEffect, useState } from "react";
-import { useUserState } from "@/hooks/user_states";
 import LendComponent from "@/components/lendComponent";
 
 const Lend = () => {
@@ -18,14 +20,8 @@ const Lend = () => {
     setShowModal(false);
   };
 
-  const {
-    initializeUser,
-   
-    depositCollaterial,
-
-    publicKey,
-    program,
-  } = useUserState();
+  const { initializeUser, depositCollaterial, publicKey, program } =
+    useUserState();
 
   return (
     <WalletConnectProvider>

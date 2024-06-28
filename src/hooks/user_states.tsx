@@ -26,9 +26,10 @@ import {
   mintTo,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+import { UserContextValue } from "../interface/program_interface";
 // import { simulateTransaction } from "@project-serum/anchor/dist/cjs/utils/rpc";
 // https://solana.stackexchange.com/questions/2912/creating-an-associated-token-account-via-solana-program
-export function useUserState() {
+export function programState(): UserContextValue {
   const { connection } = useConnection();
   const { sendTransaction, publicKey, signTransaction } = useWallet();
   const anchorWallet = useAnchorWallet();

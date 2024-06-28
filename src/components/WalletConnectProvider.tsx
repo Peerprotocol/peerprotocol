@@ -23,8 +23,9 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "react-hot-toast";
-import { useUserState } from "@/hooks/user_states";
+import { programState } from "@/hooks/user_states";
 import { init } from "next/dist/compiled/webpack/webpack";
+import { UserContextValue } from "@/interface/program_interface";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -71,39 +72,20 @@ export const WalletConnectProvider = ({
     </ConnectionProvider>
   );
 };
-const UserContext = createContext({});
+const UserContext = createContext<UserContextValue>(programState());
 const InnerProvider = ({ children }: { children: ReactNode }) => {
-  const {
-    findProfileAccounts,
-    publicKey,
-    program,
-    transactionPending,
-    setInitialized,
-    initialized,
-    userDebt,
-    loans: availableLoans,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
-    userDebt,
-  } = useUserState();
+  const { findProfileAccounts, publicKey, program, transactionPending } =
+    programState();
   useEffect(() => {
     findProfileAccounts();
-  }, [publicKey, program, transactionPending, initialized]);
+  }, [publicKey, program, transactionPending]);
 
   return (
-    <UserContext.Provider
-      value={{
-        userDebt,
-
-        availableLoans,
-        loading,
-        findProfileAccounts,
-      }}
-    >
+    <UserContext.Provider value={programState()}>
       {children}
     </UserContext.Provider>
   );
+};
+export const useUserState = () => {
+  return useContext(UserContext);
 };
