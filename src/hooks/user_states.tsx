@@ -257,7 +257,7 @@ export function programState(): UserContextValue {
     }
   };
 
-  const getSplTokenBalance = async (mint_: any) => {
+  const getTokenBalance = async (mint_: any) => {
     try {
       if (!publicKey) return;
       if (!program) return;
@@ -486,7 +486,7 @@ export function programState(): UserContextValue {
     availableLoans,
     ellipsify,
     withdrawCollaterial,
-    getTokenBalance: getSplTokenBalance,
+    getTokenBalance,
     publicKey,
     program,
     userDebt,
