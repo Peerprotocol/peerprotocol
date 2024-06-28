@@ -60,9 +60,8 @@ export function programState(): UserContextValue {
   const findProfileAccounts = async () => {
     if (program && publicKey && !transactionPending) {
       try {
-        console.log("Finding profile accounts");
         setLoading(true);
-        const [profilePda, profileBump] = await findProgramAddressSync(
+        const [profilePda, profileBump] = findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
         );
