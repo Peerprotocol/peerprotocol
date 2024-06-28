@@ -88,7 +88,7 @@ const defaultState: UserContextValue = {
     loan_owner_public_key: string,
     mint_address: string
   ) => {},
-  loans: [],
+  availableLoans: [],
   ellipsify: (str: string, numCharacters: any) => str,
   withdrawCollaterial: async (amount: number, token_public_key: string) => {},
   getTokenBalance: async (mint_: any) => undefined,

@@ -51,7 +51,7 @@ const SelectSwitch = () => {
     if (!pState.program) return;
     if (!pState.publicKey) return;
     if (!pState.initialized) return;
-    console.log("loans", pState.loans);
+    console.log("loans", pState.availableLoans);
     const getAmount = async () => {
       // deposit
       const balance = await pState.getTokenBalance(coin["mint_address"]);

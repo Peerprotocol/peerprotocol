@@ -41,7 +41,7 @@ export function programState(): UserContextValue {
 
   const [initialized, setInitialized] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [transactionPending, setTransactionPending] = useState(false);
+  const [Trxpend, setTrxPend] = useState(false);
   const program = useMemo(() => {
     if (anchorWallet) {
       const provider = new anchor.AnchorProvider(
@@ -58,7 +58,7 @@ export function programState(): UserContextValue {
   }, [connection, anchorWallet]);
 
   const findProfileAccounts = async () => {
-    if (program && publicKey && !transactionPending) {
+    if (program && publicKey && !Trxpend) {
       try {
         setLoading(true);
         const [profilePda, profileBump] = findProgramAddressSync(
@@ -94,6 +94,7 @@ export function programState(): UserContextValue {
           setInitialized(true);
 
           const loanAccounts = await program.account.loan.all();
+          console.log();
 
           setAvailableLoans(loanAccounts as any);
         } else {
@@ -125,7 +126,7 @@ export function programState(): UserContextValue {
     // then run InitializeUser() from smart contract
     if (program && publicKey) {
       try {
-        setTransactionPending(true);
+        setTrxPend(true);
         const [profilePda, profileBump] = await findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
@@ -146,7 +147,7 @@ export function programState(): UserContextValue {
         console.log(error);
         toast.error(error.toString());
       } finally {
-        setTransactionPending(false);
+        setTrxPend(false);
       }
     }
   };
@@ -162,7 +163,7 @@ export function programState(): UserContextValue {
       try {
         if (!initialized) await initializeUser();
 
-        setTransactionPending(true);
+        setTrxPend(true);
         const [profilePda, _] = await findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
@@ -194,7 +195,7 @@ export function programState(): UserContextValue {
         console.log(error);
         toast.error(error.toString());
       } finally {
-        setTransactionPending(false);
+        setTrxPend(false);
       }
     }
   };
@@ -212,7 +213,7 @@ export function programState(): UserContextValue {
         if (!initialized) await initializeUser();
         const mint = new PublicKey(mint_address);
 
-        setTransactionPending(true);
+        setTrxPend(true);
         const [profilePda, _] = await findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
@@ -252,7 +253,7 @@ export function programState(): UserContextValue {
         console.log(error);
         toast.error(error.toString());
       } finally {
-        setTransactionPending(false);
+        setTrxPend(false);
       }
     }
   };
@@ -291,7 +292,7 @@ export function programState(): UserContextValue {
         if (!initialized) await initializeUser();
         const mint = new PublicKey(token_public_key); // USDC devnet
 
-        setTransactionPending(true);
+        setTrxPend(true);
         const [profilePda, _] = await findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
@@ -329,7 +330,7 @@ export function programState(): UserContextValue {
         console.log(error);
         toast.error(error.toString());
       } finally {
-        setTransactionPending(false);
+        setTrxPend(false);
       }
     }
   };
@@ -342,7 +343,7 @@ export function programState(): UserContextValue {
       try {
         if (!initialized) await initializeUser();
 
-        setTransactionPending(true);
+        setTrxPend(true);
         const transferAmount = new BN(Math.trunc(amount * LAMPORTS_PER_SOL));
 
         console.log(Math.trunc(amount * LAMPORTS_PER_SOL));
@@ -362,7 +363,7 @@ export function programState(): UserContextValue {
         console.log(error);
         toast.error(error.toString());
       } finally {
-        setTransactionPending(false);
+        setTrxPend(false);
       }
     }
   };
@@ -374,7 +375,7 @@ export function programState(): UserContextValue {
       try {
         if (!initialized) await initializeUser();
 
-        setTransactionPending(true);
+        setTrxPend(true);
         const transferAmount = new BN(Math.trunc(amount * LAMPORTS_PER_SOL));
 
         const transaction = new Transaction().add(
@@ -418,7 +419,7 @@ export function programState(): UserContextValue {
         console.log(error);
         toast.error(error.toString());
       } finally {
-        setTransactionPending(false);
+        setTrxPend(false);
       }
     }
   };
@@ -435,7 +436,7 @@ export function programState(): UserContextValue {
         if (!initialized) await initializeUser();
         const mint = new PublicKey(token_public_key); // USDC devnet
 
-        setTransactionPending(true);
+        setTrxPend(true);
         const [profilePda, _] = await findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
@@ -468,14 +469,14 @@ export function programState(): UserContextValue {
         console.log(error);
         toast.error(error.toString());
       } finally {
-        setTransactionPending(false);
+        setTrxPend(false);
       }
     }
   };
   return {
     initializeUser,
     setInitialized,
-    Trxpend: transactionPending,
+    Trxpend,
     initialized,
     loading,
     deposit,
@@ -483,7 +484,7 @@ export function programState(): UserContextValue {
     depositCollaterial,
     createLoan,
     acceptLoan,
-    loans: availableLoans,
+    availableLoans,
     ellipsify,
     withdrawCollaterial,
     getTokenBalance: getSplTokenBalance,

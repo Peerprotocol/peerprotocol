@@ -25,7 +25,7 @@ export interface UserContextValue {
     loan_owner_public_key: string,
     mint_address: string
   ) => Promise<void>;
-  loans: any[]; // Replace with actual type
+  availableLoans: any[]; // Replace with actual type
   ellipsify: (str: string, numCharacters: any) => string;
   withdrawCollaterial: (
     amount: number,
@@ -37,5 +37,3 @@ export interface UserContextValue {
   userDebt: string;
   findProfileAccounts: () => Promise<void>;
 }
-
-

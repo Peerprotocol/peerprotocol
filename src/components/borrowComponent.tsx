@@ -24,7 +24,7 @@ const BorrowComponent = () => {
     <div className="w-full">
       <div className="bg-[#FFFFFF0D] p-4 rounded-xl mb-3 pb-6">
         <InfoTable
-          tableItems={pState.loans.filter(
+          tableItems={pState.availableLoans.filter(
             (loan: any) => "open" in loan.account.status
           )}
         />

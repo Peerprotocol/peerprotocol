@@ -21,7 +21,7 @@ const LendComponent = () => {
   return (
     <div className="w-full">
       <div className="bg-[#FFFFFF0D] p-4 rounded-xl mb-3 pb-6">
-        <LendInfoTable tableItems={pState.loans} />
+        <LendInfoTable tableItems={pState.availableLoans} />
       </div>
       <div className="flex justify-end">
         <Pagination
