@@ -59,6 +59,7 @@ export function useUserState() {
   const findProfileAccounts = async () => {
     if (program && publicKey && !transactionPending) {
       try {
+        console.log("Finding profile accounts");
         setLoading(true);
         const [profilePda, profileBump] = await findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
@@ -98,9 +99,10 @@ export function useUserState() {
         } else {
           setInitialized(false);
         }
+        console.log(initialized);
       } catch (error) {
         console.log(error);
-        setInitialized(false);
+        setInitialized(loading);
         // setTodos([]);
       } finally {
         setLoading(false);
@@ -472,6 +474,7 @@ export function useUserState() {
   };
   return {
     initializeUser,
+    setInitialized,
     transactionPending,
     initialized,
     loading,

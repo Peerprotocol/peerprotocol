@@ -24,6 +24,7 @@ import { useMemo } from "react";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { Toaster } from "react-hot-toast";
 import { useUserState } from "@/hooks/user_states";
+import { init } from "next/dist/compiled/webpack/webpack";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -71,11 +72,18 @@ export const WalletConnectProvider = ({
   );
 };
 const InnerProvider = ({ children }: { children: ReactNode }) => {
-  const { findProfileAccounts, publicKey, program, transactionPending } =
-    useUserState();
+  const {
+    findProfileAccounts,
+    publicKey,
+    program,
+    transactionPending,
+    setInitialized,
+    initialized,
+  } = useUserState();
   useEffect(() => {
     findProfileAccounts();
-  }, [publicKey, program, transactionPending]);
+    setInitialized(true);
+  }, [publicKey, program, transactionPending, initialized]);
 
   return <>{children}</>;
 };
