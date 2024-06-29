@@ -8,8 +8,8 @@ pub struct UserProfile {
     pub loan_count: u64,
     pub can_borrow: bool,
     pub can_deposit: bool,
-    pub coins: Vec<AcceptedColleterial>,
-    pub total_lent: u64,
+    pub coins_deposited: Vec<AcceptedColleterial>,
+    pub coins_lent: Vec<AcceptedColleterial>,
 }
 
 #[account]
