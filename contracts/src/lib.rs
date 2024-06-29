@@ -60,7 +60,7 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn remove_accepted_collaterial(ctx: Context<RemoveAcceptedCollaterial>) -> Result<()> {
+    pub fn remove_accepted_collaterial(_ctx: Context<RemoveAcceptedCollaterial>) -> Result<()> {
         Ok(())
     }
 
