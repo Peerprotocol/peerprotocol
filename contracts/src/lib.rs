@@ -456,10 +456,10 @@ pub struct AddAcceptedCollaterial<'info> {
         payer = authority,
         seeds = [COLLATERIAL_TAG, authority.key().as_ref(),&[admin_profile.collaterial_count as u8].as_ref()],
         bump,
-        space = 8 + std::mem::size_of::<AcceptedCalleterial>()
+        space = 8 + std::mem::size_of::<AcceptedColleterial>()
         // has_one = authority
     )]
-    pub accepted_collaterial: Box<Account<'info, AcceptedCalleterial>>,
+    pub accepted_collaterial: Box<Account<'info, AcceptedColleterial>>,
 
     pub system_program: Program<'info, System>,
 }
@@ -479,7 +479,7 @@ pub struct RemoveAcceptedCollaterial<'info> {
         bump,
         has_one = authority
     )]
-    pub accepted_collaterial: Box<Account<'info, AcceptedCalleterial>>,
+    pub accepted_collaterial: Box<Account<'info, AcceptedColleterial>>,
 
     pub system_program: Program<'info, System>,
     #[account(
