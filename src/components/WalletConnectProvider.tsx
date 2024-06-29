@@ -303,6 +303,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
           true
         );
         const info = await connection.getTokenAccountBalance(Ata.address);
+        console.log(info.value);
 
         if (info.value.uiAmount == null) throw new Error("No balance found");
         return info.value.uiAmount;

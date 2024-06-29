@@ -6,6 +6,7 @@ import Image from "next/image";
 import { allowedCoins } from "../constants/coins";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
 import { UserContext } from "./WalletConnectProvider";
+import { formatNumber } from "@/data/format_number";
 
 const SelectSwitch = () => {
   const pathname = usePathname();
@@ -87,7 +88,7 @@ const SelectSwitch = () => {
       <div className="flex justify-between items-center">
         <span>You&apos;re {actionText.toLowerCase()}ing</span>
         <span className="text-[#ffffff2c] text-sm cursor-pointer max-amount">
-          {maxAmount} USD
+          {formatNumber(+maxAmount)} USD
         </span>
       </div>
 
