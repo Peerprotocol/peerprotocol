@@ -52,6 +52,7 @@ pub struct AcceptedColleterial {
     pub image: String,
     pub admin_ata: Pubkey,
     pub admin_ata_pda: Pubkey,
+    pub authority: Pubkey,
     pub decimals: u8,
 }
 

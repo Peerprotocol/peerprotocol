@@ -2,12 +2,9 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer as SplTransfer};
 pub mod constants;
 pub mod states;
-use anchor_spl::associated_token::{self, AssociatedToken, Create};
-use anchor_spl::token::Mint;
 use pyth_sdk_solana::load_price_feed_from_account_info;
 use solana_program::pubkey;
 use std::str::FromStr;
-use std::sync::Mutex;
 
 declare_id!("6kyAE2eHjdiupYVp9Qs6pjbq8Frk7G5deLAaW8tEtEBu");
 
@@ -59,6 +56,7 @@ pub mod peer_protocol_contracts {
         accepted_collaterial.image = image;
         admin_profile.collaterial_count = admin_profile.collaterial_count.checked_add(1).unwrap();
         accepted_collaterial.authority = ctx.accounts.authority.key();
+
         Ok(())
     }
 
