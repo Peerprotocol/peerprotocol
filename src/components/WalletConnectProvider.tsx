@@ -11,6 +11,7 @@ import {
   WalletDisconnectButton,
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
+
 import {
   // GlowWalletAdapter,
   PhantomWalletAdapter,
@@ -57,6 +58,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { UserContextValue } from "../interface/program_interface";
+import { Coin } from "@/constants/coins";
 
 interface WalletConnectProviderProps {
   children: any;
@@ -190,8 +192,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
     const createLoan = async (
       duration: number,
       interest_rate: number,
-      amount: number,
-      mint_address: string
+      amount: number
     ) => {
       if (+amount < 0) return;
       if (program && publicKey) {
@@ -239,14 +240,14 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
       loan_idx: number,
       loan_account: string,
       loan_owner_public_key: string,
-      mint_address: string
+      token_details: Coin
     ) => {
       // Check if the program exist and wallet is connected
       // then run InitializeUser() from smart contract
       if (program && publicKey) {
         try {
           if (!initialized) await initializeUser();
-          const mint = new PublicKey(mint_address);
+          const mint = new PublicKey(token_details.mint_address);
 
           setTrxPend(true);
           const [profilePda, _] = await findProgramAddressSync(
@@ -266,14 +267,10 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
             .acceptLoan(loan_idx)
             .accounts({
               toAta: toAta.address,
-              fromAta: new PublicKey(
-                "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
-              ),
+              fromAta: new PublicKey(token_details.admin_ata),
               tokenProgram: TOKEN_PROGRAM_ID,
               userProfile: profilePda,
-              ataPdaAuthority: new PublicKey(
-                "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE"
-              ),
+              ataPdaAuthority: new PublicKey(token_details.admin_ata_pda),
 
               loanAccount: new PublicKey(loan_account),
               systemProgram: new PublicKey("11111111111111111111111111111111"),
@@ -316,16 +313,13 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    const withdrawCollaterial = async (
-      amount: number,
-      token_public_key: string
-    ) => {
+    const withdrawCollaterial = async (amount: number, token_details: Coin) => {
       if (+amount < 0) return;
 
       if (program && publicKey) {
         try {
           if (!initialized) await initializeUser();
-          const mint = new PublicKey(token_public_key); // USDC devnet
+          const mint = new PublicKey(token_details.mint_address); // USDC devnet
 
           setTrxPend(true);
           const [profilePda, _] = await findProgramAddressSync(
@@ -346,9 +340,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
           const txHash = await program.methods
             .withdrawCollaterial(withdrawAmount)
             .accounts({
-              fromAta: new PublicKey(
-                "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
-              ),
+              fromAta: new PublicKey(token_details.admin_ata),
               toAta: toAta.address,
               tokenProgram: TOKEN_PROGRAM_ID,
               userProfile: profilePda,
@@ -458,10 +450,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
         }
       }
     };
-    const depositCollaterial = async (
-      amount: number,
-      token_public_key: string
-    ) => {
+    const depositCollaterial = async (amount: number, token_details: Coin) => {
       if (+amount < 0) return;
 
       // Check if the program exist and wallet is connected
@@ -469,7 +458,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
       if (program && publicKey) {
         try {
           if (!initialized) await initializeUser();
-          const mint = new PublicKey(token_public_key); // USDC devnet
+          const mint = new PublicKey(token_details.mint_address); // USDC devnet
 
           setTrxPend(true);
           const [profilePda, _] = await findProgramAddressSync(
@@ -491,9 +480,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
             .depositCollaterial(transferAmount)
             .accounts({
               fromAta: fromAta.address,
-              toAta: new PublicKey(
-                "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN"
-              ),
+              toAta: new PublicKey(token_details.admin_ata),
               tokenProgram: TOKEN_PROGRAM_ID,
               userProfile: profilePda,
               authority: publicKey,
