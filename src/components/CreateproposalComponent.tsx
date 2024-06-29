@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
-import coins from "../constants/coins.json";
+import coins from "../constants/coins";
 import { UserContext } from "./WalletConnectProvider";
 
 const CreateproposalComponent = ({

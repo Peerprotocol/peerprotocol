@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import coins from "../constants/coins.json";
+import { allowedCoins } from "../constants/coins";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
 import { UserContext } from "./WalletConnectProvider";
 
@@ -11,7 +11,7 @@ const SelectSwitch = () => {
   const pathname = usePathname();
   const [amount, setAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState("-");
-  const [coin, setCoin] = useState(coins[0]);
+  const [coin, setCoin] = useState(allowedCoins[0]);
   const [client, setClient] = useState(false);
 
   const pState = useContext(UserContext);
@@ -73,7 +73,7 @@ const SelectSwitch = () => {
     coin,
   ]);
   const selectCoin = (e: any) => {
-    setCoin(coins[e.target.selectedIndex]);
+    setCoin(allowedCoins[e.target.selectedIndex]);
   };
 
   const isDepositPage = pathname === "/deposit";
@@ -98,7 +98,7 @@ const SelectSwitch = () => {
               className="text-white relative p-2 px-4 py-3 bg-[#ffffff00]"
               onChange={(e) => selectCoin(e)}
             >
-              {coins.map((coin_, i) => (
+              {allowedCoins.map((coin_, i) => (
                 <option key={i}>
                   {/* {client && (
                     <Image
@@ -108,7 +108,7 @@ const SelectSwitch = () => {
                       height={20}
                     />
                   )} */}
-                  {coin_["ticker"]}
+                  {coin_.ticker}
                 </option>
               ))}
             </select>
