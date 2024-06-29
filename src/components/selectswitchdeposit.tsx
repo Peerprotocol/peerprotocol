@@ -34,10 +34,10 @@ const SelectSwitch = () => {
       let transactionMessage = "";
 
       if (pathname === "/deposit") {
-        await pState.depositCollaterial(realAmount, coin["mint_address"]);
+        await pState.depositCollaterial(realAmount, coin);
         transactionMessage = `Successfully deposited ${realAmount} tokens.`;
       } else {
-        await pState.withdrawCollaterial(realAmount, coin["mint_address"]);
+        await pState.withdrawCollaterial(realAmount, coin);
         transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
       }
 
