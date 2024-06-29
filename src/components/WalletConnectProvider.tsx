@@ -206,7 +206,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
           );
 
           const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
-          const [loanPda, loanBump] = await findProgramAddressSync(
+          const [loanPda, loanBump] = findProgramAddressSync(
             [
               utf8.encode("LOAN_STATE"),
               publicKey.toBuffer(),
@@ -335,7 +335,9 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
             true
           );
 
-          const withdrawAmount = new BN(Math.trunc(amount * 10 ** 6));
+          const withdrawAmount = new BN(
+            Math.trunc(amount * 10 ** token_details.decimals)
+          );
 
           const txHash = await program.methods
             .withdrawCollaterial(withdrawAmount)
@@ -474,7 +476,9 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
             true
           );
 
-          const transferAmount = new BN(Math.trunc(amount * 10 ** 6));
+          const transferAmount = new BN(
+            Math.trunc(amount * 10 ** token_details.decimals)
+          );
 
           const txHash = await program.methods
             .depositCollaterial(transferAmount)

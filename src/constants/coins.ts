@@ -7,6 +7,7 @@ export interface Coin {
   image: string;
   admin_ata: string;
   admin_ata_pda: string;
+  decimals: number;
 }
 
 export const allowedCoins: Coin[] = [
@@ -17,6 +18,7 @@ export const allowedCoins: Coin[] = [
     image: "/image/logo.png",
     admin_ata: "EMYEazKVjntZiqaxNpzxgvX1Dou59vJWMS87EmqyApab",
     admin_ata_pda: "DMuppmf23iDMZ2yv3wLRos7ddkxZb4QDwJeX9kGB7NXc",
+    decimals: 9,
   },
   {
     ticker: "USDC",
@@ -25,5 +27,6 @@ export const allowedCoins: Coin[] = [
     image: "/image/usdc.png",
     admin_ata: "cqYNVxjS7Xin1LmfM7KMwqKockNZpa4yiPkJ1L8ZvWN",
     admin_ata_pda: "9BzsJTjC7N2y1qCYAhtYFy1FdNxAUYyfbTiz8XevTVBE",
+    decimals: 6,
   },
 ];
