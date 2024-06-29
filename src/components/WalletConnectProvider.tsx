@@ -109,22 +109,22 @@ const defaultState: UserContextValue = {
   loading: false,
   deposit: "",
   lent: "",
-  depositCollaterial: async (amount: number, token_public_key: string) => {},
+  depositCollaterial: async (amount: number, token_details: Coin) => {},
   createLoan: async (
     duration: number,
     interest_rate: number,
     amount: number,
-    mint_address: string
+    token_details: Coin
   ) => {},
   acceptLoan: async (
     loan_idx: number,
     loan_account: string,
     loan_owner_public_key: string,
-    mint_address: string
+    token_details: Coin
   ) => {},
   availableLoans: [],
   ellipsify: (str: string, numCharacters: any) => str,
-  withdrawCollaterial: async (amount: number, token_public_key: string) => {},
+  withdrawCollaterial: async (amount: number, token_details: Coin) => {},
   getTokenBalance: async (mint_: any) => undefined,
   publicKey: null,
   program: undefined,
