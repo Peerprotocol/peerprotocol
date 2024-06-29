@@ -283,15 +283,12 @@ pub struct InitializeUser<'info> {
 pub struct DeleteUser<'info> {
     #[account(
         mut,
-        close = admin_pub_key,
+        close = authority,
     )]
     pub user_profile: Box<Account<'info, UserProfile>>,
 
     #[account(mut, address = ADMIN_PUBKEY)]
     pub authority: Signer<'info>,
-
-    #[account(mut)]
-    pub admin_pub_key: UncheckedAccount<'info>,
 
     pub system_program: Program<'info, System>,
 }
