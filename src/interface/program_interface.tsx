@@ -26,7 +26,7 @@ export interface UserContextValue {
   availableLoans: any[]; // Replace with actual type
   ellipsify: (str: string, numCharacters: any) => string;
   withdrawCollaterial: (amount: number, token_details: Coin) => Promise<void>;
-  getTokenBalance: (mint_: any) => Promise<number | undefined>;
+  getTokenBalance: (mint_: Coin) => Promise<number | undefined>;
   publicKey: PublicKey | null;
   program: Program | undefined; // Replace with the actual type of your program
   userDebt: string;

@@ -17,7 +17,7 @@ const SelectSwitch = () => {
   const pState = useContext(UserContext);
 
   const handleMaxClick = async () => {
-    const balance = await pState.getTokenBalance(coin["mint_address"]);
+    const balance = await pState.getTokenBalance(coin);
 
     if (pathname === "/deposit") {
       setAmount(`${balance}`);
@@ -55,7 +55,7 @@ const SelectSwitch = () => {
     console.log("loans", pState.availableLoans);
     const getAmount = async () => {
       // deposit
-      const balance = await pState.getTokenBalance(coin["mint_address"]);
+      const balance = await pState.getTokenBalance(coin);
 
       if (pathname === "/deposit") {
         setMaxAmount(`${balance}`);

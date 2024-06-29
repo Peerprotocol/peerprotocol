@@ -125,7 +125,7 @@ const defaultState: UserContextValue = {
   availableLoans: [],
   ellipsify: (str: string, numCharacters: any) => str,
   withdrawCollaterial: async (amount: number, token_details: Coin) => {},
-  getTokenBalance: async (mint_: any) => undefined,
+  getTokenBalance: async (mint_: Coin) => undefined,
   publicKey: null,
   program: undefined,
   userDebt: "",
@@ -290,11 +290,11 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    const getTokenBalance = async (mint_: any) => {
+    const getTokenBalance = async ( token_details: Coin) => {
       try {
         if (!publicKey) return;
         if (!program) return;
-        const mint = new PublicKey(mint_); // USDC devnet
+        const mint = new PublicKey(token_details.mint_address); // USDC devnet
         const Ata = await getOrCreateAssociatedTokenAccount(
           program.provider.connection,
           publicKey,
