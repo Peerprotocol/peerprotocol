@@ -537,7 +537,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
         );
 
         if (profileAccount) {
-          let totalDeposit = profileAccount.totalDeposit / 10 ** 6;
+          let totalDeposit = profileAccount.totalDeposit / 10 ** 9;
           let totalLent = profileAccount.totalLent / 10 ** 6;
 
           const userLoan = await program.account.loan.all([
