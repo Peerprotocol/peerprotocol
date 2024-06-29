@@ -32,6 +32,9 @@ pub mod peer_protocol_contracts {
         user_profile.can_deposit = true;
         Ok(())
     }
+    pub fn close_account(_ctx: Context<DeleteUser>) -> Result<()> {
+        Ok(())
+    }
 
     pub fn initialize_admin(ctx: Context<InitializeAdmin>) -> Result<()> {
         // Initialize admin profile with default data
@@ -275,6 +278,23 @@ pub struct InitializeUser<'info> {
 
     pub system_program: Program<'info, System>,
 }
+#[derive(Accounts)]
+#[instruction()]
+pub struct DeleteUser<'info> {
+    #[account(
+        mut,
+        close = admin_pub_key,
+    )]
+    pub user_profile: Box<Account<'info, UserProfile>>,
+
+    #[account(mut, address = ADMIN_PUBKEY)]
+    pub authority: Signer<'info>,
+
+    #[account(mut)]
+    pub admin_pub_key: UncheckedAccount<'info>,
+
+    pub system_program: Program<'info, System>,
+}
 
 // #[derive(Accounts)]
 
@@ -325,6 +345,24 @@ pub struct AcceptLoan<'info> {
     pub token_program: Program<'info, Token>,
     #[account(mut)]
     pub ata_pda_authority: AccountInfo<'info>,
+}
+
+#[derive(Accounts)]
+#[instruction()]
+pub struct CloseUserProfile<'info> {
+    #[account(
+        mut,
+        seeds = [USER_TAG,authority.key().as_ref()],
+        bump,
+        has_one = authority,
+        close = authority,
+    )]
+    pub user_profile: Box<Account<'info, UserProfile>>,
+
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
