@@ -15,8 +15,8 @@ export const allowedCoins: Coin[] = [
     mint_address: "B2Mc28Ehe4m4TvqJhAVVGnucuKwLgPg88qB9zX87WQEd",
     pool_address: "",
     image: "/image/logo.png",
-    from_ata: "",
-    from_ata_pda: "",
+    from_ata: "EMYEazKVjntZiqaxNpzxgvX1Dou59vJWMS87EmqyApab",
+    from_ata_pda: "DMuppmf23iDMZ2yv3wLRos7ddkxZb4QDwJeX9kGB7NXc",
   },
   {
     ticker: "USDC",
