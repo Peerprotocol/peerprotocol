@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer as SplTransfer};
 pub mod constants;
 pub mod states;
+
 use anchor_spl::associated_token::{self, AssociatedToken, Create};
 use anchor_spl::token::Mint;
 use pyth_sdk_solana::load_price_feed_from_account_info;
@@ -33,6 +34,10 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
+    pub fn close_account(_ctx: Context<DeleteUser>) -> Result<()> {
+        Ok(())
+    }
+
     pub fn initialize_admin(ctx: Context<InitializeAdmin>) -> Result<()> {
         // Initialize admin profile with default data
         let admin_profile = &mut ctx.accounts.admin_profile; // pool.mint = usdc_mint_pubkey; // pool.mint = usdc_mint_pubkey;
@@ -60,6 +65,8 @@ pub mod peer_protocol_contracts {
     }
 
     pub fn remove_accepted_collaterial(ctx: Context<RemoveAcceptedCollaterial>) -> Result<()> {
+
+
         Ok(())
     }
 
@@ -276,6 +283,21 @@ pub struct InitializeUser<'info> {
     pub system_program: Program<'info, System>,
 }
 
+#[derive(Accounts)]
+#[instruction()]
+pub struct DeleteUser<'info> {
+    #[account(
+        mut,
+        close = authority,
+    )]
+    pub user_profile: Box<Account<'info, UserProfile>>,
+
+    #[account(mut, address = ADMIN_PUBKEY)]
+    pub authority: Signer<'info>,
+
+    pub system_program: Program<'info, System>,
+}
+
 // #[derive(Accounts)]
 
 #[derive(Accounts)]
@@ -328,6 +350,26 @@ pub struct AcceptLoan<'info> {
 }
 
 #[derive(Accounts)]
+
+#[instruction()]
+pub struct CloseUserProfile<'info> {
+    #[account(
+        mut,
+        seeds = [USER_TAG,authority.key().as_ref()],
+        bump,
+        has_one = authority,
+        close = authority,
+    )]
+    pub user_profile: Box<Account<'info, UserProfile>>,
+
+    #[account(mut)]
+    pub authority: Signer<'info>,
+
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+
 #[instruction(loan_idx:u8)]
 pub struct RemoveLoan<'info> {
     #[account(
@@ -456,10 +498,10 @@ pub struct AddAcceptedCollaterial<'info> {
         payer = authority,
         seeds = [COLLATERIAL_TAG, authority.key().as_ref(),&[admin_profile.collaterial_count as u8].as_ref()],
         bump,
-        space = 8 + std::mem::size_of::<AcceptedCalleterial>()
+        space = 8 + std::mem::size_of::<AcceptedColleterial>()
         // has_one = authority
     )]
-    pub accepted_collaterial: Box<Account<'info, AcceptedCalleterial>>,
+    pub accepted_collaterial: Box<Account<'info, AcceptedColleterial>>,
 
     pub system_program: Program<'info, System>,
 }
@@ -479,7 +521,8 @@ pub struct RemoveAcceptedCollaterial<'info> {
         bump,
         has_one = authority
     )]
-    pub accepted_collaterial: Box<Account<'info, AcceptedCalleterial>>,
+    pub accepted_collaterial: Box<Account<'info, AcceptedColleterial>>,
+
 
     pub system_program: Program<'info, System>,
     #[account(

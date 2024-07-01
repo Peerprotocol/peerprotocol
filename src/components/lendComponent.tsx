@@ -1,27 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import LendInfoTable from "./lendinfo";
 import { tableData } from "@/lib/data";
 import Pagination from "./Pagination";
 import usePagination from "@/lib/hooks/usePagination";
 import { infoDataType } from "@/lib/types";
 import { PAGE_SIZE } from "@/lib/constants";
-import { useUserState } from "@/hooks/user_states";
+import { UserContext } from "./WalletConnectProvider";
 
 const LendComponent = () => {
-  const {
-    initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
-    depositCollaterial,
-    loans,
-  } = useUserState();
+  const pState = useContext(UserContext);
 
-  console.log(loans);
   const {
     paginatedItems: paginatedTableData,
     totalPages,
@@ -31,7 +21,7 @@ const LendComponent = () => {
   return (
     <div className="w-full">
       <div className="bg-[#FFFFFF0D] p-4 rounded-xl mb-3 pb-6">
-        <LendInfoTable tableItems={loans} />
+        <LendInfoTable tableItems={pState.availableLoans} />
       </div>
       <div className="flex justify-end">
         <Pagination
