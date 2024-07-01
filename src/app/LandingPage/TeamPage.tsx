@@ -100,7 +100,7 @@ const Team = () => {
 
         {/* Izzy face card */}
         <div className="cursor-pointer lg:m-0 my-10">
-          <Image src="/images/izzy.png" alt="" width={380} height={40} />
+          <Image src="/images/Izzy.png" alt="" width={380} height={40} />
           <p className="text-2xl font-semibold text-black py-1">Isaac Onyemachi</p>
           <div className="flex justify-between">
             <p className="text-gray-500 font-semibold text-sm">Co-founder & CTO</p>
