@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { MenuIcon } from "@heroicons/react/outline";
-
 import React, { useState, useEffect } from "react";
+
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -19,7 +19,7 @@ const Navbar = () => {
     <div>
       <nav className="flex items-center justify-between py-6 h-[15vh] bg-background text-text">
         <img
-          src={isDarkMode ? "./images/logoWhite.svg" : "./images/logoBlack.svg"}
+          src={isDarkMode ? "/images/LogoWhite.svg" : "/images/LogoBlack.svg"}
           width={40}
           height={40}
           alt=""
