@@ -2,9 +2,13 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer as SplTransfer};
 pub mod constants;
 pub mod states;
+
+use anchor_spl::associated_token::{self, AssociatedToken, Create};
+use anchor_spl::token::Mint;
 use pyth_sdk_solana::load_price_feed_from_account_info;
 use solana_program::pubkey;
 use std::str::FromStr;
+use std::sync::Mutex;
 
 declare_id!("6kyAE2eHjdiupYVp9Qs6pjbq8Frk7G5deLAaW8tEtEBu");
 
@@ -29,6 +33,7 @@ pub mod peer_protocol_contracts {
         user_profile.can_deposit = true;
         Ok(())
     }
+
     pub fn close_account(_ctx: Context<DeleteUser>) -> Result<()> {
         Ok(())
     }
@@ -56,11 +61,12 @@ pub mod peer_protocol_contracts {
         accepted_collaterial.image = image;
         admin_profile.collaterial_count = admin_profile.collaterial_count.checked_add(1).unwrap();
         accepted_collaterial.authority = ctx.accounts.authority.key();
-
         Ok(())
     }
 
-    pub fn remove_accepted_collaterial(_ctx: Context<RemoveAcceptedCollaterial>) -> Result<()> {
+    pub fn remove_accepted_collaterial(ctx: Context<RemoveAcceptedCollaterial>) -> Result<()> {
+
+
         Ok(())
     }
 
@@ -276,6 +282,7 @@ pub struct InitializeUser<'info> {
 
     pub system_program: Program<'info, System>,
 }
+
 #[derive(Accounts)]
 #[instruction()]
 pub struct DeleteUser<'info> {
@@ -343,6 +350,7 @@ pub struct AcceptLoan<'info> {
 }
 
 #[derive(Accounts)]
+
 #[instruction()]
 pub struct CloseUserProfile<'info> {
     #[account(
@@ -361,6 +369,7 @@ pub struct CloseUserProfile<'info> {
 }
 
 #[derive(Accounts)]
+
 #[instruction(loan_idx:u8)]
 pub struct RemoveLoan<'info> {
     #[account(
@@ -513,6 +522,7 @@ pub struct RemoveAcceptedCollaterial<'info> {
         has_one = authority
     )]
     pub accepted_collaterial: Box<Account<'info, AcceptedColleterial>>,
+
 
     pub system_program: Program<'info, System>,
     #[account(

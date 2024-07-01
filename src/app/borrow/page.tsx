@@ -19,7 +19,7 @@ const Borrow = () => {
 
   return (
     <WalletConnectProvider>
-      <div className="flex flex-col bg-black">
+      <div className="flex flex-col bg-black h-screen text-white">
         <Navbar />
 
         <section className="max-w-7xl mx-auto w-full px-4 py-2">
