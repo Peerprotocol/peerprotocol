@@ -1,25 +1,29 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useUserState } from "@/hooks/user_states";
-import coins from "../constants/coins.json";
+import { allowedCoins } from "../constants/coins";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
+import { UserContext } from "./WalletConnectProvider";
+import { formatNumber } from "@/data/format_number";
+
 const SelectSwitch = () => {
   const pathname = usePathname();
   const [amount, setAmount] = useState("");
   const [maxAmount, setMaxAmount] = useState("-");
-  const [coin, setCoin] = useState(coins[0]);
+  const [coin, setCoin] = useState(allowedCoins[0]);
   const [client, setClient] = useState(false);
 
+  const pState = useContext(UserContext);
+
   const handleMaxClick = async () => {
-    const balance = await getSplTokenBalance(coin["mint_address"]);
+    const balance = await pState.getTokenBalance(coin);
 
     if (pathname === "/deposit") {
       setAmount(`${balance}`);
     } else {
-      setAmount(deposit);
+      setAmount(pState.deposit);
     }
   };
 
@@ -31,10 +35,10 @@ const SelectSwitch = () => {
       let transactionMessage = "";
 
       if (pathname === "/deposit") {
-        await depositCollaterial(realAmount, coin["mint_address"]);
+        await pState.depositCollaterial(realAmount, coin);
         transactionMessage = `Successfully deposited ${realAmount} tokens.`;
       } else {
-        await withdrawCollaterial(realAmount, coin["mint_address"]);
+        await pState.withdrawCollaterial(realAmount, coin);
         transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
       }
 
@@ -44,41 +48,33 @@ const SelectSwitch = () => {
       toast.error(`Transaction failed: ${error.message}`);
     }
   };
-  const {
-    initializeUser,
-    transactionPending,
-    initialized,
-    loading,
-    deposit,
-    lent,
-    depositCollaterial,
-    withdrawCollaterial,
-    getSplTokenBalance,
-    loans,
-    program,
-    publicKey,
-  } = useUserState();
 
   useEffect(() => {
-    if (!program) return;
-    if (!publicKey) return;
-    if (!initialized) return;
-    console.log("loans", loans);
+    if (!pState.program) return;
+    if (!pState.publicKey) return;
+    if (!pState.initialized) return;
+    console.log("loans", pState.availableLoans);
     const getAmount = async () => {
       // deposit
-      const balance = await getSplTokenBalance(coin["mint_address"]);
+      const balance = await pState.getTokenBalance(coin);
 
       if (pathname === "/deposit") {
         setMaxAmount(`${balance}`);
       } else {
-        setMaxAmount(deposit.toString());
+        setMaxAmount(pState.deposit.toString());
       }
     };
     setClient(true);
     getAmount();
-  }, [program, publicKey, initialized, transactionPending, coin]);
+  }, [
+    pState.program,
+    pState.publicKey,
+    pState.initialized,
+    pState.Trxpend,
+    coin,
+  ]);
   const selectCoin = (e: any) => {
-    setCoin(coins[e.target.selectedIndex]);
+    setCoin(allowedCoins[e.target.selectedIndex]);
   };
 
   const isDepositPage = pathname === "/deposit";
@@ -92,7 +88,7 @@ const SelectSwitch = () => {
       <div className="flex justify-between items-center">
         <span>You&apos;re {actionText.toLowerCase()}ing</span>
         <span className="text-[#ffffff2c] text-sm cursor-pointer max-amount">
-          {maxAmount} USD
+          {formatNumber(+maxAmount)} USD
         </span>
       </div>
 
@@ -103,7 +99,7 @@ const SelectSwitch = () => {
               className="text-white relative p-2 px-4 py-3 bg-[#ffffff00]"
               onChange={(e) => selectCoin(e)}
             >
-              {coins.map((coin_, i) => (
+              {allowedCoins.map((coin_, i) => (
                 <option key={i}>
                   {/* {client && (
                     <Image
@@ -113,7 +109,7 @@ const SelectSwitch = () => {
                       height={20}
                     />
                   )} */}
-                  {coin_["ticker"]}
+                  {coin_.ticker}
                 </option>
               ))}
             </select>
@@ -146,7 +142,7 @@ const SelectSwitch = () => {
         className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full mt-9 h-fit"
         onClick={(e: any) => depositFunds(e)}
       >
-        {transactionPending ? "Processing" : actionText}
+        {pState.Trxpend ? "Processing" : actionText}
       </button>
     </div>
   );

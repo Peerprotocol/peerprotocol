@@ -1409,6 +1409,7 @@ dependencies = [
  "anchor-lang",
  "anchor-spl",
  "pyth-sdk-solana",
+ "solana-program",
 ]
 
 [[package]]
