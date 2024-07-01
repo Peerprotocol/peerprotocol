@@ -3,33 +3,20 @@ import { WalletConnectProvider } from "@/components/WalletConnectProvider";
 import Navbar from "@/components/nav";
 import Link from "next/link";
 import CreateproposalComponent from "@/components/CreateproposalComponent";
-import React, {useState} from "react";
-import { useUserState } from "@/hooks/user_states";
+import React, { useEffect, useState } from "react";
 import LendComponent from "@/components/lendComponent";
 
 const Lend = () => {
-    const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => {
-      setShowModal(true);
-    };
-  
-    const handleCloseModal = () => {
-      setShowModal(false);
-    };
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
 
-    const {
-        initializeUser,
-        transactionPending,
-        initialized,
-        loading,
-        deposit,
-        lent,
-        depositCollaterial,
-        loans,
-      } = useUserState();
-    
-      console.log(loans);
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <WalletConnectProvider>
       <div className="flex flex-col bg-black">
@@ -42,7 +29,11 @@ const Lend = () => {
               <Link href="/lend">Lend</Link>
             </span>
             <span className="flex flex-row justify-evenly w-[30%] text-white bg-transparent">
-              <select name="filter" aria-readonly className="bg-black text-white">
+              <select
+                name="filter"
+                aria-readonly
+                className="bg-black text-white"
+              >
                 <option value="filter">Filter</option>
               </select>
               <select name="token" className="bg-black text-white">
@@ -77,7 +68,7 @@ const Lend = () => {
         >
           Create Lend Proposal +
         </button>
-            <CreateproposalComponent show={showModal} onClose={handleCloseModal}/>
+        <CreateproposalComponent show={showModal} onClose={handleCloseModal} />
       </div>
     </WalletConnectProvider>
   );
