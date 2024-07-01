@@ -15,6 +15,7 @@ import {
   LedgerWalletAdapter,
   SolflareWalletAdapter,
   TorusWalletAdapter,
+  TrustWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { ReactNode } from "react";
 
@@ -42,6 +43,7 @@ export const WalletConnectProvider = ({
       new LedgerWalletAdapter(),
       // new SolflareWalletAdapter({ network }),
       new TorusWalletAdapter(),
+      new TrustWalletAdapter(),
     ],
     [network]
   );

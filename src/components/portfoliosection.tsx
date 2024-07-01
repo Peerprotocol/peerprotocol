@@ -15,24 +15,21 @@ const IndexPage = () => {
   } = useUserState();
 
   const [health, setHealth] = useState(0);
-  let debt = 0;
-  for (let i = 0; i < userDebt.length; i++) {
-    debt += (userDebt[i] as any).account.amount.toNumber();
-  }
 
   useEffect(() => {
-    if (debt / 10 ** 6 > 0) {
-      const newdebt = debt / 10 ** 6;
+    if (+userDebt / 10 ** 6 > 0) {
+      const newdebt = +userDebt / 10 ** 6;
       const result = (newdebt / parseInt(deposit)) * 100;
       const newhealth = 100 - result;
       setHealth(parseFloat(newhealth.toPrecision(2)));
     } else {
       setHealth(100);
     }
-  }, [deposit, lent, debt]);
+  }, [deposit, lent, userDebt]);
 
-  const displayDeposit = initialized ? deposit : 0;
-  const displayLent = initialized ? lent : 0;
+  const displayDeposit = initialized ? deposit : "-";
+  const displayLent = initialized ? lent : "-";
+  const displayDebt = initialized ? userDebt : "-";
 
   function getHealthColor(health: number) {
     let color;
@@ -59,7 +56,7 @@ const IndexPage = () => {
             <InfoCard title={"Total Lended"} value={`$${displayLent}`} />
           </div>
           <div className="flex h-full leading-10 tracking-widest">
-            <InfoCard title={"Total Borrowed"} value={`$${debt / 10 ** 6}`} />
+            <InfoCard title={"Total Borrowed"} value={`$${displayDebt}`} />
           </div>
         </div>
       </div>
@@ -67,7 +64,10 @@ const IndexPage = () => {
         className="flex flex-col justify-center w-80 h-72 items-center rounded-full tracking-widest"
         style={{ backgroundColor: healthColor }}
       >
-        <div className="flex flex-col items-center justify-center bg-transparent rounded-full w-[90%] h-[90%]" style={{ backgroundColor: healthColor }}>
+        <div
+          className="flex flex-col items-center justify-center bg-transparent rounded-full w-[90%] h-[90%]"
+          style={{ backgroundColor: healthColor }}
+        >
           <div className="w-full h-full flex flex-col items-center justify-center rounded-full bg-black">
             <p className="text-7xl font-bold">{health}%</p>
             <p className="text-lg">Health</p>
