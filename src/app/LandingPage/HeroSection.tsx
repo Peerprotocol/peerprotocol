@@ -10,7 +10,7 @@ const HeroPage = () => {
             Peer-To-Peer
           </span>
         </p>
-        <div className="border border-red-700 flex flex-col justify-center items-center relative">
+        <div className="flex flex-col justify-center items-center relative">
           <p className="lg:flex flex-row lg:m-0 text-center font-bold xl:text-[13rem] relative lg:text-[4rem] text-[3.5rem] mt-[-1rem]">
             LENDING
           </p>
