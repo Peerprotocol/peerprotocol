@@ -1,12 +1,18 @@
 "use client";
 import Link from "next/link";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
-import { MenuIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   useEffect(() => {
     if (isDarkMode) {
@@ -115,9 +121,89 @@ const Navbar = () => {
                 </div>
               )}
             </button>
-            <button className="block lg:hidden text-gray-700">
-              <MenuIcon className="h-6 w-6" />
-            </button>
+            <div className="relative z-10">
+              <button
+                onClick={toggleMenu}
+                className="block lg:hidden text-gray-700"
+              >
+                {menuOpen ? (
+                  <XIcon className="h-6 w-6" />
+                ) : (
+                  <MenuIcon className="h-6 w-6" />
+                )}
+              </button>
+
+              <div
+                className={`fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 ${
+                  menuOpen ? "translate-x-0" : "translate-x-full"
+                }`}
+              >
+                <button
+                  onClick={toggleMenu}
+                  className="absolute top-4 right-4 text-gray-700"
+                >
+                  <XIcon className="h-6 w-6" />
+                </button>
+
+                <ul className="p-4 my-16 text-center leading-[4rem] text-2xl">
+                  <div className="flex items-center justify-center">
+                    <p className="cursor-pointer">Discord</p>
+                    <Image
+                      src="/images/RightArrow.svg"
+                      width={25}
+                      height={25}
+                      alt="Picture of the author"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="cursor-pointer">Twitter</p>
+                    <Image
+                      src="/images/RightArrow.svg"
+                      width={25}
+                      height={25}
+                      alt="Picture of the author"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="cursor-pointer">Blog</p>
+                    <Image
+                      src="/images/RightArrow.svg"
+                      width={25}
+                      height={25}
+                      alt="Picture of the author"
+                    />
+                  </div>
+                  <p className="cursor-pointer">Team</p>
+                  <div className="flex items-center justify-center">
+                    <p className="cursor-pointer">Documentation</p>
+                    <Image
+                      src="/images/RightArrow.svg"
+                      width={25}
+                      height={25}
+                      alt="Picture of the author"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="cursor-pointer">Careers</p>
+                    <Image
+                      src="/images/RightArrow.svg"
+                      width={25}
+                      height={25}
+                      alt="Picture of the author"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <p className="cursor-pointer">Reach out</p>
+                    <Image
+                      src="/images/RightArrow.svg"
+                      width={25}
+                      height={25}
+                      alt="Picture of the author"
+                    />
+                  </div>
+                </ul>
+              </div>
+            </div>
           </div>
           <Link href="/peerapp" target="_blank">
             <button
