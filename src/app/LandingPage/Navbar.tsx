@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { MenuIcon } from "@heroicons/react/outline";
 import React, { useState, useEffect } from "react";
-
+import Image from "next/image";
 
 const Navbar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -28,17 +28,33 @@ const Navbar = () => {
 
         <div className="lg:flex gap-24 hidden items-center :border lg:border-green-600">
           <div className="flex gap-10">
-            <div className="flex">
+            <div className="flex items-center">
               <p className="cursor-pointer">Discord</p>
-              <img src="./images/RightArrow.svg" alt="" />
+              <Image
+                src="/images/RightArrow.svg"
+                width={25}
+                height={25}
+                alt="Picture of the author"
+              />
             </div>
-            <div className="flex">
+
+            <div className="flex items-center">
               <p className="cursor-pointer">Twitter</p>
-              <img src="./images/RightArrow.svg" alt="" />
+              <Image
+                src="/images/RightArrow.svg"
+                width={25}
+                height={25}
+                alt="Picture of the author"
+              />
             </div>
-            <div className="flex">
+            <div className="flex items-center">
               <p className="cursor-pointer">Blog</p>
-              <img src="./images/RightArrow.svg" alt="" />
+              <Image
+                src="/images/RightArrow.svg"
+                width={25}
+                height={25}
+                alt="Picture of the author"
+              />
             </div>
           </div>
           <div className="flex gap-10 items-center">
@@ -49,18 +65,33 @@ const Navbar = () => {
               href="https://app.gitbook.com/o/02QY6ijdm8nYPzf6caHW/s/MMuGCmhvKWQDxvmAvsYO/"
               target="_blank"
             >
-              <div className="flex">
+              <div className="flex items-center">
                 <p className="cursor-pointer">Documentation</p>
-                <img src="./images/RightArrow.svg" alt="" />
+                <Image
+                  src="/images/RightArrow.svg"
+                  width={25}
+                  height={25}
+                  alt="Picture of the author"
+                />
               </div>
             </Link>
-            <div className="flex">
+            <div className="flex items-center">
               <p className="cursor-pointer">Careers</p>
-              <img src="./images/RightArrow.svg" alt="" />
+              <Image
+                src="/images/RightArrow.svg"
+                width={25}
+                height={25}
+                alt="Picture of the author"
+              />
             </div>
-            <div className="flex">
+            <div className="flex items-center">
               <p className="cursor-pointer">Reach Out</p>
-              <img src="./images/RightArrow.svg" alt="" />
+              <Image
+                src="/images/RightArrow.svg"
+                width={25}
+                height={25}
+                alt="Picture of the author"
+              />
             </div>
           </div>
         </div>
