@@ -56,7 +56,7 @@ const HeroPage = () => {
             Interoperable
           </p>
         </div>
-        <p className="xl:text-left text-center text-[0.35rem] xl:text-base xl:w-[53%] opacity-60 lg:mt-[-3rem] w-[100%]">
+        <p className="xl:text-left text-center text-xs xl:text-base xl:w-[53%] opacity-60 lg:mt-[-3rem] w-[100%]">
           Experience the power of decentralized finance, earn interest and
           unlock borrowing possibilities across a diverse range of assets and
           pools on our lightning-fast, cost-effective, and highly scalable
