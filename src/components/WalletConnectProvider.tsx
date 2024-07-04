@@ -69,7 +69,7 @@ export const WalletConnectProvider = ({
 }: WalletConnectProviderProps) => {
   let network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => {
-    return "http://127.0.0.1:8899";
+    // return "http://127.0.0.1:8899";
     return clusterApiUrl(network);
   }, [network]);
 
@@ -290,7 +290,7 @@ const InnerProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    const getTokenBalance = async ( token_details: Coin) => {
+    const getTokenBalance = async (token_details: Coin) => {
       try {
         if (!publicKey) return;
         if (!program) return;
