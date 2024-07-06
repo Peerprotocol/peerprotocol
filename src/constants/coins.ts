@@ -11,15 +11,15 @@ export interface Coin {
 }
 
 export const allowedCoins: Coin[] = [
-  {
-    ticker: "PEER",
-    mint_address: "B2Mc28Ehe4m4TvqJhAVVGnucuKwLgPg88qB9zX87WQEd",
-    pool_address: "",
-    image: "/image/logo.png",
-    admin_ata: "EMYEazKVjntZiqaxNpzxgvX1Dou59vJWMS87EmqyApab",
-    admin_ata_pda: "DMuppmf23iDMZ2yv3wLRos7ddkxZb4QDwJeX9kGB7NXc",
-    decimals: 9,
-  },
+  // {
+  //   ticker: "PEER",
+  //   mint_address: "B2Mc28Ehe4m4TvqJhAVVGnucuKwLgPg88qB9zX87WQEd",
+  //   pool_address: "",
+  //   image: "/image/logo.png",
+  //   admin_ata: "EMYEazKVjntZiqaxNpzxgvX1Dou59vJWMS87EmqyApab",
+  //   admin_ata_pda: "DMuppmf23iDMZ2yv3wLRos7ddkxZb4QDwJeX9kGB7NXc",
+  //   decimals: 9,
+  // },
   {
     ticker: "USDC",
     mint_address: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
