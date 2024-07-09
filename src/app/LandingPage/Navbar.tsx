@@ -32,7 +32,7 @@ const Navbar = () => {
           className="lg:w-10 xl:w-14 w-6"
         />
 
-        <div className="lg:flex gap-24 hidden items-center :border lg:border-green-600">
+        <div className="lg:flex gap-24 hidden items-center">
           <div className="flex gap-10">
             <div className="flex items-center">
               <p className="cursor-pointer">Discord</p>

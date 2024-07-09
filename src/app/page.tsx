@@ -9,7 +9,7 @@ import BlogPost from "./LandingPage/Blog";
 import Footer from "./LandingPage/Footer";
 const Page = () => {
   return (
-    <div>
+    <div className="bg-important">
       <div className="lg:px-8 px-3">
         <Navbar />
         <HeroPage />

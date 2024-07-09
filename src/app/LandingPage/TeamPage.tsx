@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Team = () => {
   return (
-      <div id="Team" className="py-56"> 
+      <div id="Team" className="py-32"> 
       {/* start here */}
       <div className="lg:grid grid-cols-3 w-fit gap-16 mx-auto block">
         <div className="col-span-3">
@@ -130,7 +130,7 @@ const Team = () => {
         {/* Stephen face card */}
         <div className="cursor-pointer lg:m-0 my-10">
           <Image src="/images/Stephen.png" alt="" width={380} height={40} />
-          <p className="text-2xl font-semibold text-black py-1">Stephen Okosieme</p>
+          <p className="text-2xl font-semibold text-black py-1">Steven Okosieme</p>
           <div className="flex justify-between">
             <p className="text-gray-500 font-semibold text-sm">Product Manager</p>
             <div className="flex">
