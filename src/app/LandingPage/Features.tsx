@@ -2,11 +2,19 @@ import Image from "next/image";
 
 const Features = () => {
   return (
-    <div className="bg-white flex flex-col lg:flex-row justify-center lg:gap-10 gap-6 xl:py-40 py-20 lg:my-32 lg:w-full">
+    <div className="bg-[#F5F5F5] xl:flex lg:flex flex-wrap md:grid grid-cols-2 flex-col lg:flex-row justify-evenly xl:py-40 py-20 lg:my-32 w-full xl:gap-6 sm:gap-7 sm:flex">
       {/* Card 1 */}
       <div className="border-2 border-black lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8">
-        <Image src="/images/mybox.svg" width={40} height={40} alt="" className="lg:w-[40px] w-6"/>
-        <p className="font-semibold text-black lg:py-3 p-1">Transparent Marketplace</p>
+        <Image
+          src="/images/mybox.svg"
+          width={40}
+          height={40}
+          alt=""
+          className="lg:w-[40px] w-6"
+        />
+        <p className="font-semibold text-black lg:py-3 p-1">
+          Transparent Marketplace
+        </p>
         <p className="text-black lg:text-base text-[1rem] tracking-wide text-sm">
           Transparent marketplace, providing borrowers with real-time deals and
           ensuring trustworthy transactions.
@@ -15,8 +23,16 @@ const Features = () => {
 
       {/* Card 2 */}
       <div className="border-2 border-black lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8">
-        <Image src="/images/waterdrop.svg" width={40} height={40} alt="" className="lg:w-[40px] w-6"/>
-        <p className="font-semibold text-black lg:py-3 p-1">Transparent Marketplace</p>
+        <Image
+          src="/images/waterdrop.svg"
+          width={40}
+          height={40}
+          alt=""
+          className="lg:w-[40px] w-6"
+        />
+        <p className="font-semibold text-black lg:py-3 p-1">
+          Transparent Marketplace
+        </p>
         <p className="text-black lg:text-base text-[1rem] tracking-wide text-sm">
           Seamlessly navigate our user-friendly interface. Designed with
           simplicity & decentralization in mind
@@ -24,13 +40,23 @@ const Features = () => {
       </div>
 
       {/* Card 3 */}
-      <div className="border-2 border-black lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 p-8">
-        <Image src="/images/deal.svg" width={40} height={40} alt="" className="lg:w-[40px] w-6"/>
-        <p className="font-semibold text-black lg:py-3 p-1">Transparent Marketplace</p>
-        <p className="text-black lg:text-base text-[1rem] tracking-wide text-sm">
-          Experience decentralized lending with a balanced approach to interest
-          rates & yield.
-        </p>
+      <div className="md:col-span-2 justify-center">
+        <div className="border-2 border-black lg:w-[25rem] w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 p-8">
+          <Image
+            src="/images/deal.svg"
+            width={40}
+            height={40}
+            alt=""
+            className="lg:w-[40px] w-6"
+          />
+          <p className="font-semibold text-black lg:py-3 p-1">
+            Transparent Marketplace
+          </p>
+          <p className="text-black lg:text-base text-[1rem] tracking-wide text-sm">
+            Experience decentralized lending with a balanced approach to
+            interest rates & yield.
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -10,6 +10,10 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        'sm': '300px',
+        // => @media (min-width: 576px) { ... }
+      },
       colors: {
         green: {
           DEFAULT: "#11D984",

@@ -23,17 +23,17 @@ const Navbar = () => {
   }, [isDarkMode]);
   return (
     <div>
-      <nav className="flex items-center justify-between py-6 h-[15vh] bg-background text-text">
+      <nav className="sm:flex text-sm xl:text-lg font-light lg:text-md items-center justify-between py-6 xl:h-[15vh] md:h-[15vh] bg-[#F5F5F5] text-text">
         <img
           src={isDarkMode ? "/images/LogoWhite.svg" : "/images/LogoBlack.svg"}
           width={40}
           height={40}
           alt=""
-          className="lg:w-10 xl:w-14 w-6"
+          className="md:w-10 xl:w-14 w-4 sm:w-8"
         />
 
-        <div className="lg:flex gap-24 hidden items-center">
-          <div className="flex gap-10">
+        <div className="lg:flex hidden items-center gap-10 text-md">
+          <div className="flex gap-5">
             <div className="flex items-center">
               <p className="cursor-pointer">Discord</p>
               <Image
@@ -63,7 +63,7 @@ const Navbar = () => {
               />
             </div>
           </div>
-          <div className="flex gap-10 items-center">
+          <div className="flex items-center gap-5">
             <a href="#Team">
               <p className="cursor-pointer">Team</p>
             </a>
@@ -101,11 +101,11 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        <div className="lg:flex items-center gap-6">
-          <div className="flex gap-4">
+        <div className="lg:flex items-center gap-6 md:flex ">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className={`lg:border lg:block lg:border-current lg:px-6 px-2 border border-black py-2 rounded-3xl flex items-center space-x-2 ${
+              className={`md:border border-black px-1 py-1 rounded-full flex items-center space-x-2 ${
                 isDarkMode
                   ? "hover:bg-white hover:text-black"
                   : "hover:bg-black hover:text-white"
@@ -116,8 +116,8 @@ const Navbar = () => {
                   <MoonIcon className="xl:w-6 xl:h-6 h-3 w-3" />
                 </div>
               ) : (
-                <div className="xl:w-6 xl:h-6 w-3 h-3">
-                  <SunIcon className="xl:w-6 xl:h-6 h-3 w-3" />
+                <div className="md:w-6 md:h-6 w-3 h-3">
+                  <SunIcon className="md:w-6 md:h-6 h-3 w-3 sm:w-4" />
                 </div>
               )}
             </button>
@@ -207,13 +207,13 @@ const Navbar = () => {
           </div>
           <Link href="/peerapp" target="_blank">
             <button
-              className={`lg:border lg:block lg: border-current px-6 py-2 rounded-3xl hidden ${
+              className={`md:border text-md md:block md:border-current px-6 py-2 text-md rounded-3xl hidden ${
                 isDarkMode
                   ? "hover:bg-white hover:text-black"
                   : "hover:bg-black hover:text-white"
               }`}
             >
-              Launch App
+              Launch
             </button>
           </Link>
         </div>
