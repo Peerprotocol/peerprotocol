@@ -11,8 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        'sm': '300px',
-        // => @media (min-width: 576px) { ... }
+        '2xl': '1441px',
       },
       colors: {
         green: {

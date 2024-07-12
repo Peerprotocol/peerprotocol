@@ -22,11 +22,11 @@ const HeroPage = () => {
           PROT
           <div className="logo">
             <Image
-              className="xl:w-[500px] lg:w-[160px] lg:h-[180px]"
+              className="mt-[20px] xl:w-[150px] lg:w-[150px] md:w-[150px]"
               src="/images/LogoBlack.svg"
-              width={500}
-              height={500}
-              alt=" "
+              width={150}
+              height={900}
+              alt=""
             />
           </div>
           COL
@@ -45,31 +45,29 @@ const HeroPage = () => {
   @media (max-width: 900px) {
     .logo {
       width: 100px !important;
-      border: 1px solid red;
     }
   }
   @media (max-width: 500px) {
     .logo {
       width: 120px !important;
-      border: 1px solid blue;
     }
   }
 `}</style>
         </p>
         {/* all the position styles */}
-        <p className="bg-[#e7e7e7] lg:font-normal text-current px-2 xl:px-3 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute sm:border xl:top-[30%] xl:left-[20%] lg:top-[28%] origin-top-right rotate-[25deg] text-[0.3rem] font-semibold">
+        <p className="bg-[#e7e7e7] border border-black lg:font-normal text-current 2xl:left-[20%] 2xl:px-3 2xl:top-[32%] px-2 xl:px-3 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute sm:border xl:top-[28%] xl:left-[15%] lg:top-[34%] lg:left-[19%] md:top-[34%] md:left-[20%] md:text-[8px] origin-top-right rotate-[25deg] text-[0.3rem] font-semibold">
           Peer-to-Peer
         </p>
-        <p className="bg-[#e7e7e7] lg:font-normal text-current px-2 xl:px-6 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute xl:top-[25%] xl:left-[41%] lg:top-[25%] lg:left-[41%]  origin-top-right rotate-[-20deg] text-[0.3rem] font-semibold">
+        <p className="bg-[#e7e7e7] border border-black lg:font-normal text-current px-2 2xl:left-[41%] 2xl:px-3 2xl:top-[28%] xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute xl:top-[20%] xl:text-[18px] xl:left-[40%] lg:top-[30%] lg:text-[12px] lg:right-[51%] md:right-[51%] md:top-[31%] md:text-[8px] origin-top-right rotate-[-20deg] text-[0.3rem] font-semibold">
           Autonomous
         </p>
-        <p className="bg-[#e7e7e7] lg:font-normal text-current px-2 xl:px-8 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute xl:top-[30%] lg:top-[30%] right-[27%] origin-top-right rotate-[10deg] text-[0.3rem] font-semibold">
+        <p className="bg-[#e7e7e7] border border-black lg:font-normal text-current px-2 xl:px-8 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute xl:top-[30%] lg:top-[33%] lg:text-[12px] lg:px-5 lg:right-[25%] md:top-[34%] md:right-[27%] md:text-[8px] right-[27%] origin-top-right rotate-[10deg] text-[0.3rem] font-semibold">
           Trustless
         </p>
-        <p className="bg-[#e7e7e7] lg:font-normal text-current px-2 xl:px-6 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute bottom-[35%] xl:bottom-[38%] lg:bottom-[48%] xl:left-[20%] lg:left-[9%] origin-top-right rotate-[0deg] text-[0.3rem]">
+        <p className="bg-[#e7e7e7] border border-black 2xl:left-[20%] lg:font-normal text-current px-2 xl:px-6 xl:text-lg lg:text-[13px] py-1 lg:py-2 rounded-3xl absolute bottom-[35%] xl:bottom-[38%] lg:bottom-[42%] xl:left-[15%] lg:left-[12%] md:bottom-[48%] md:font-semibold md:left-[10%] md:text-[10px] origin-top-right rotate-[0deg] text-[0.3rem]">
           Decentralized
         </p>
-        <p className="bg-[#e7e7e7] lg:font-normal text-current px-2 xl:px-6 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute xl:bottom-[35%] xl:right-[16%] lg:bottom-[45%] right-[8%] origin-top-right rotate-[10deg] text-[0.3rem]">
+        <p className="bg-[#e7e7e7] lg:font-normal text-current px-2 border border-black 2xl:right-[18%] 2xl:bottom-[33%] 2xl:w-fit xl:px-6 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute xl:bottom-[30%] xl:right-[12%] md:right-[8%] md:bottom-[45%] md:text-[10px] lg:bottom-[38%] lg:right-[10%] right-[8%] origin-top-right rotate-[10deg] text-[0.3rem]">
           Interoperable
         </p>
         <p className="xl:max-w-[70%] mx-auto text-center opacity-60 md:w-[80%] md:text-sm sm:text-xs">
