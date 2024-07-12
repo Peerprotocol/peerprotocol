@@ -18,7 +18,7 @@ const Page = () => {
         <Team />
       </div>
       <Onboard />
-      <div className="xl:flex md:grid grid-cols-2 justify-between my-32 block">
+      <div className="xl:flex md:grid grid-cols-2 md:px-9  md:gap-6 my-32 block">
         {Array.from({ length: 4 }, (_, index) => (
           <BlogPost key={index} />
         ))}

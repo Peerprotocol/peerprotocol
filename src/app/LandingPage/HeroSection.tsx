@@ -5,20 +5,20 @@ const HeroPage = () => {
     <div className="">
       {/* <div className="text-current flex flex-col items-center lg:m-0 justify-center h-screen bg-background mt-[-12rem] border-2 border-green-500"> */}
 
-      <div className="flex flex-col justify-center items-center relative w-full mx-auto h-[85vh] md:h-[85vh] sm:h-[50vh]">
-        <p className="text-center sm:text-lg md:text-lg xl:block lg:text-2xl xl:mb-[-3rem]">
+      <h1 className="flex flex-col justify-center items-center relative w-full mx-auto h-[85vh] md:h-[85vh] sm:h-[50vh]">
+        <h1 className="text-center sm:text-lg md:text-lg xl:block lg:text-2xl xl:mb-[-3rem]">
           First Decentralized{" "}
           <span className="xl:font-light xl:text-6xl lg:font-light lg:text-5xl font-notoserif text-xs">
             Peer-To-Peer
           </span>
-        </p>
+        </h1>
         <p className="lg:flex flex-row lg:m-0 text-center font-bold xl:text-[13rem] lg:text-[8rem] md:text-[6rem] sm:text-[3.5rem] sm:mt-[-1rem] relative text-[2.5rem] xl:mt-[-1rem] lg:mt-[-2rem] md:mt-[-2rem]">
           LENDING
         </p>
 
         {/* Protocol */}
 
-        <p className="w-full xl:text-[13rem] sm:text-[3.5rem] font-bold flex items-center justify-center lg:mt-[-5rem] lg:text-[10rem] md:text-[8rem] md:mt-[-4rem] xl:mt-[-7rem] sm:mt-[-2rem]">
+        <h1 className="w-full xl:text-[13rem] sm:text-[3.5rem] font-bold flex items-center justify-center lg:mt-[-5rem] lg:text-[10rem] md:text-[8rem] md:mt-[-4rem] xl:mt-[-7rem] sm:mt-[-2rem]">
           PROT
           <div className=" mt-[10px] xl:w-[150px] lg:w-[120px] md:w-[100px] h-auto w-[8rem] sm:w-10">
             <Image
@@ -30,7 +30,7 @@ const HeroPage = () => {
             />
           </div>
           COL
-        </p>
+        </h1>
         {/* all the position styles */}
         <p className="bg-[#e7e7e7] border border-black lg:font-normal text-current 2xl:left-[20%] 2xl:px-3 2xl:top-[32%] px-2 xl:px-3 xl:text-lg lg:text-xs py-1 lg:py-2 rounded-3xl absolute sm:border xl:top-[28%] xl:left-[15%] lg:top-[34%] lg:left-[19%] md:top-[34%] md:left-[20%] md:text-[8px] origin-top-right rotate-[25deg] text-[0.3rem] font-semibold sm:top-[32%] sm:left-[5%] sm:px-1 sm:py-[0.2rem]">
           Peer-to-Peer
@@ -53,7 +53,7 @@ const HeroPage = () => {
           pools on our lightning-fast, cost-effective, and highly scalable
           peer-to-peer lending protocol.
         </p>
-      </div>
+      </h1>
       {/* </div> */}
       <p className="font-bold lg:text-base text-sm text-center">
           Interoperable with
