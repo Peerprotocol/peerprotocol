@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       screens: {
         '2xl': '1441px',
+        'sm' : '200px',
       },
       colors: {
         green: {

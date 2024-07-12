@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Features = () => {
   return (
-    <div className="bg-[#F5F5F5] xl:flex lg:flex flex-wrap md:grid grid-cols-2 flex-col lg:flex-row justify-evenly xl:py-40 py-20 lg:my-32 w-full xl:gap-6 sm:gap-7 sm:flex">
+    <div className="bg-[#F5F5F5] xl:flex lg:flex flex-wrap md:grid grid-cols-2 flex-col lg:flex-row justify-evenly xl:py-40 py-20 lg:my-32 w-full xl:gap-6 sm:flex sm:flex-col sm:gap-6">
       {/* Card 1 */}
       <div className="border-2 border-black lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8">
         <Image
@@ -40,8 +40,7 @@ const Features = () => {
       </div>
 
       {/* Card 3 */}
-      <div className="md:col-span-2 justify-center">
-        <div className="border-2 border-black lg:w-[25rem] w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 p-8">
+        <div className="border-2 border-black lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8">
           <Image
             src="/images/deal.svg"
             width={40}
@@ -58,7 +57,6 @@ const Features = () => {
           </p>
         </div>
       </div>
-    </div>
   );
 };
 
