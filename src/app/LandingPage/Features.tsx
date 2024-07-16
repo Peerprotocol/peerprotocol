@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Features = () => {
   return (
-    <div className="bg-[#F5F5F5] xl:flex lg:flex flex-wrap md:grid grid-cols-2 flex-col lg:flex-row justify-evenly xl:py-40 py-20 lg:my-32 w-full xl:gap-6 sm:flex sm:flex-col sm:gap-6">
+    <div className="bg-[#F5F5F5] lg:flex lg:flex-row justify-center lg:gap-20 lg:py-20 lg:my-32 md:grid md:grid-cols-2 py-20 w-full flex flex-col gap-6">
       {/* Card 1 */}
       <div className="border-2 border-black lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8">
         <Image
