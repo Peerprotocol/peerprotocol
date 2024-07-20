@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
+import { allowedCoins } from "../constants/coins";
 import { UserContext } from "./WalletConnectProvider";
-import { allowedCoins } from '../constants/coins';
 
 const CreateproposalComponent = ({
   show,
@@ -14,17 +14,12 @@ const CreateproposalComponent = ({
   const [amount, setAmount] = useState("");
   const [percentage, setPercentage] = useState("");
   const [duration, setDuration] = useState("");
-  const [coin, setCoin] : any = useState(allowedCoins[0]);
+  const [coin, setCoin] = useState(allowedCoins[0]);
 
   const createLoanProposal = async (e: any) => {
     e.preventDefault();
 
-    await pState.createLoan(
-      +duration,
-      +percentage,
-      +amount,
-      coin["mint_address"]
-    );
+    await pState.createLoan(+duration, +percentage, +amount, coin);
   };
 
   if (!show) {
@@ -59,7 +54,7 @@ const CreateproposalComponent = ({
                   onChange={(e) => setCoin(allowedCoins[e.target.selectedIndex])}
                 >
                   {allowedCoins.map((coin_, i) => (
-                    <option key={i}>{coin_["ticker"]}</option>
+                    <option key={i}>{coin_.ticker}</option>
                   ))}
                 </select>
               </div>

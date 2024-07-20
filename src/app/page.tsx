@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "./LandingPage/Navbar";
 import HeroPage from "./LandingPage/HeroSection";
@@ -7,7 +8,8 @@ import Team from "./LandingPage/TeamPage";
 import Onboard from "./LandingPage/Onboard";
 import BlogPost from "./LandingPage/Blog";
 import Footer from "./LandingPage/Footer";
-const Page = () => {
+
+function Landing() {
   return (
     <div className="bg-[#F5F5F5] w-full">
       <div className="lg:px-8 px-3">
@@ -27,6 +29,6 @@ const Page = () => {
       <Footer />
     </div>
   );
-};
+}
 
-export default Page;
+export default Landing;
