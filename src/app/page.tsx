@@ -9,7 +9,7 @@ import BlogPost from "./LandingPage/Blog";
 import Footer from "./LandingPage/Footer";
 const Page = () => {
   return (
-    <div>
+    <div className="bg-[#F5F5F5] w-full">
       <div className="lg:px-8 px-3">
         <Navbar />
         <HeroPage />
@@ -18,12 +18,12 @@ const Page = () => {
         <Team />
       </div>
       <Onboard />
-      <div className="lg:flex justify-between my-32 block">
-        <BlogPost />
-        <BlogPost />
-        <BlogPost />
-        <BlogPost />
+      <div className="xl:flex md:grid grid-cols-2 md:px-9  md:gap-6 my-32 block">
+        {Array.from({ length: 4 }, (_, index) => (
+          <BlogPost key={index} />
+        ))}
       </div>
+
       <Footer />
     </div>
   );

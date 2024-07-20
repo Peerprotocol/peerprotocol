@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <div className="bg-gradient-to-br from-black to-gray-900 rounded-2xl px-8 w-[90%] mx-auto text-white shadow-lg">
+    <div className="bg-gradient-to-br from-black to-gray-900 rounded-2xl px-8 w-full mx-auto text-white shadow-lg">
       <details className="mb-4 cursor-pointer group py-10 border-b border-gray-700">
         <summary className="lg:text-3xl font-light flex justify-between items-center text-base">
           Gradual Liquidation Process

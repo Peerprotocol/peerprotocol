@@ -1,10 +1,11 @@
+import Image from "next/image";
+
 const BlogPost = () => {
   return (
-    <div className="rounded-lg overflow-hidden shadow-lg m-12">
-      <img
+    <div className="rounded-lg overflow-hidden shadow-lg">
+      <Image src="/images/Deon.png"
+        alt="Card image" width={30} height={4}
         className="w-full"
-        src="https://via.placeholder.com/400x200"
-        alt="Card image"
       />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">Card Title</div>

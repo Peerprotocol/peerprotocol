@@ -10,6 +10,10 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        '2xl': '1441px',
+        'sm' : '200px',
+      },
       colors: {
         green: {
           DEFAULT: "#11D984",

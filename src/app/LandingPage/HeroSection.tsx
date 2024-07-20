@@ -2,89 +2,87 @@ import Image from "next/image";
 
 const HeroPage = () => {
   return (
-    <div>
-        <div className="text-current flex flex-col items-center lg:m-0 justify-center h-[85vh] bg-background mt-[-12rem]">
-        <p className="text-center xl:text-lg text-xs xl:mb-[-3rem]">
+    <div className="">
+      {/* <div className="text-current flex flex-col items-center lg:m-0 justify-center h-screen bg-background mt-[-12rem] border-2 border-green-500"> */}
+
+      <div className="flex flex-col justify-center items-center relative w-2/3 mx-auto h-[85vh] md:h-[85vh] sm:h-[50vh] ">
+        <h1 className="text-center sm:text-lg md:text-lg xl:block lg:text-2xl xl:mb-[-3rem]">
           First Decentralized{" "}
-          <span className="lg:font-light lg:text-6xl font-notoserif text-xs">
+          <span className="xl:font-light xl:text-6xl lg:font-light lg:text-5xl font-notoserif text-xs">
             Peer-To-Peer
           </span>
-        </p>
-        <p className="lg:flex flex-row lg:m-0 text-center font-bold xl:text-[13rem] relative lg:text-[4rem] text-[3.5rem] mt-[-1rem]">
+        </h1>
+        <h1 className=" relative lg:flex flex-row lg:m-0 text-center font-bold xl:text-[13rem] lg:text-[8rem] md:text-[6rem] sm:text-[3.5rem] sm:mt-[-1rem] text-[3rem] xl:mt-[-1rem] lg:mt-[-2rem] md:mt-[-2rem]">
           LENDING
+          <p className="bg-[#e7e7e7] absolute border border-black lg:font-normal text-current px-2 lg:text-xs py-1 rounded-3xl origin-top-right rotate-[25deg] text-[0.3rem] font-semibold top-[50%] left-[-5%] md:text-[0.5rem] md:left-[-3%] md:py-[0.35rem] lg:text-[1rem] lg:py-3 lg:px-4">
+          Peer-to-Peer
         </p>
-        <p className="xl:text-[13rem] font-bold flex items-center justify-center lg:mt-[-8rem] lg:text-[4rem] text-[3.5rem] mt-[-2rem]">
+        <p className="bg-[#e7e7e7] border border-black text-current px-3 rounded-3xl absolute origin-top-right rotate-[-20deg] lg:font-normal font-semibold text-[0.3rem] top-[35%] left-[31%] py-1 md:text-[0.65rem] md:left-[34%] lg:text-[1rem] lg:py-2 lg:px-4">
+          Autonomous
+        </p>
+        <p className="bg-[#e7e7e7] border border-black lg:font-normal text-current rounded-3xl absolute origin-top-right rotate-[10deg] text-[0.3rem] font-semibold px-3 py-1 right-[5%] top-[48%] md:text-[0.7rem] md:px-6 md:right-[7%] lg:text-[1rem] lg:py-[0.6rem] lg:px-10">
+          Trustless
+        </p>
+        </h1>
+
+        {/* Protocol */}
+
+        <h1 className="relative xl:text-[13rem] sm:text-[3.5rem] font-bold flex items-center justify-center lg:mt-[-5rem] lg:text-[10rem] md:text-[8rem] md:mt-[-4rem] xl:mt-[-7rem] mt-[-2rem]">
           PROT
-          <div className="logo">
+          <div className=" mt-[10px] xl:w-[150px] lg:w-[120px] md:w-[100px] h-auto w-[8rem] sm:w-10">
             <Image
               src="/images/LogoBlack.svg"
               width={500}
               height={500}
-              alt=" "
+              alt=""
+              className="w-full h-full"
             />
           </div>
           COL
-          <style>{`
-            .logo {
-              width: 50px !important;
-              height: auto;
-            }
-
-            @media (min-width: 1024px) {
-              .logo {
-                width: 160px !important;
-              }
-            }
-          `}</style>
+          <p className="bg-[#e7e7e7] border border-black l text-current px-2 rounded-3xl absolute font-normal origin-top-right rotate-[0deg] text-[0.3rem] py-1 left-[4%] bottom-[45%] md:text-[0.7rem] md:left-[4%] md:bottom-[48%] lg:text-[1rem] lg:px-5 lg:py-2">
+          Decentralized
         </p>
-        <p className="xl:text-left text-center text-[0.35rem] xl:text-base xl:w-[53%] opacity-60 lg:mt-[-3rem] w-[100%]">
+        <p className="bg-[#e7e7e7] text-current px-2 border border-black rounded-3xl absolute origin-top-right rotate-[10deg] text-[0.3rem] py-1 right-[1%] bottom-[30%] md:text-[0.7rem] md:bottom-[35%] md:right-[3%] md:font-normal lg:text-[1rem] lg:px-5 lg:py-[0.6rem]">
+          Interoperable
+        </p>
+        </h1>
+        {/* all the position styles */}
+        
+        
+        <p className="xl:max-w-[70%] mx-auto text-center opacity-60 md:w-[80%] md:text-sm sm:text-xs">
           Experience the power of decentralized finance, earn interest and
           unlock borrowing possibilities across a diverse range of assets and
           pools on our lightning-fast, cost-effective, and highly scalable
           peer-to-peer lending protocol.
         </p>
-
-        {/* all the position styles */}
-        <p className="bg-secondary lg:font-normal text-current px-2 lg:px-3 py-1 lg:py-2 rounded-3xl absolute sm:border xl:top-[25rem] lg:top-[6rem] lg:left-[22rem] top-[11.2rem] left-[2.5rem] origin-top-right rotate-[25deg] text-[0.3rem] font-semibold lg:text-base">
-          Peer-to-Peer
-        </p>
-        <p className="bg-secondary lg:font-normal text-current px-2 lg:px-6 py-1 lg:py-2 rounded-3xl absolute xl:top-[22rem] lg:right-[53rem] right-[11rem] lg:top-[13rem] top-[10.2rem] origin-top-right rotate-[-20deg] text-[0.3rem] font-semibold lg:text-base">
-          Autonomous
-        </p>
-          <p className="bg-secondary lg:font-normal text-current px-2 lg:px-6 py-1 lg:py-2 rounded-3xl absolute lg:bottom-[31rem] xl:bottom-[18rem] bottom-[29.7rem] left-[2rem] lg:left-[20rem] origin-top-right rotate-[0deg] text-[0.3rem] lg:text-base">
-            Decentralized
-          </p>
-        <p className="bg-secondary lg:font-normal text-current px-2 lg:px-6 py-1 lg:py-2 rounded-3xl absolute top-[14.5rem] lg:top-[18rem] xl:top-[36rem] right-[2rem] lg:right-[18rem] origin-top-right rotate-[10deg] text-[0.3rem] lg:text-base">
-          Interoperable
-        </p>
-        <p className="bg-secondary lg:font-normal text-current px-2 lg:px-8 py-1 lg:py-2 rounded-3xl absolute lg:top-[14rem] xl:top-[25rem] top-[11rem] right-[5rem] lg:right-[29rem] origin-top-right rotate-[10deg] text-[0.3rem] font-semibold lg:text-base">
-          Trustless
-        </p>
       </div>
+      {/* </div> */}
+      <p className="font-bold lg:text-base text-sm text-center">
+        Interoperable with
+      </p>
 
-      <div className="py-30 lg:m-0 xl:m-0 mx-auto bg-background text-text xl:mt-[1rem] mt-[-10rem] xl:w-full w-[70%]">
-        <p className="font-bold lg:text-base text-sm text-center">Interoperable with</p>
-        <div className="flex gap-8 lg:gap-32 mb-8 mt-8 justify-center">
+      <div className="py-30 lg:m-0 xl:m-0 mx-auto bg-[#F5F5F5] text-text xl:mt-[1rem] mt-[-10rem] xl:w-full w-full px-32 md:mt-0 sm:m-0 sm:pb-10">
+        <div className="flex gap-8 lg:gap-32 mt-8 justify-center xl:px-32 xl:py-12 lg:py-12 md:py-12 sm:pb-9">
           <Image
             src="/images/solanalogo.svg"
-            width={160}
+            width={200}
             height={0}
             alt=""
-            className="w-16 lg:w-40"
+            className="w-16 lg:w-64 md:w-32"
           />
           <Image
             src="/images/xionlogo.svg"
-            width={160}
+            width={200}
             height={0}
             alt=""
-            className="w-16 lg:w-40"
+            className="w-16 lg:w-64 md:w-32"
           />
           <Image
             src="/images/starknetlogo.svg"
-            width={160}
+            width={200}
             height={0}
             alt=""
-            className="w-16 lg:w-40"
+            className="w-16 lg:w-64 md:w-32"
           />
           <Image
             src="/images/ethereumlogo.svg"
@@ -97,24 +95,24 @@ const HeroPage = () => {
         <div className="flex gap-8 lg:gap-20 justify-center">
           <Image
             src="/images/zksynclogo.svg"
-            width={160}
+            width={200}
             height={0}
             alt=""
-            className="w-16 lg:w-40"
+            className="w-16 lg:w-64 md:w-32"
           />
           <Image
             src="/images/layerzerologo.svg"
-            width={160}
+            width={200}
             height={0}
             alt=""
-            className="w-16 lg:w-40"
+            className="w-16 lg:w-64 md:w-32"
           />
           <Image
             src="/images/binancelogo.svg"
-            width={160}
+            width={200}
             height={0}
             alt=""
-            className="w-16 lg:w-40"
+            className="w-16 lg:w-64 md:w-32"
           />
         </div>
       </div>
