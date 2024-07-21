@@ -64,7 +64,7 @@ const HeroPage = () => {
       {/* </div> */}
       <div
         className={`${
-          isDarkMode ? "text-[#0d101711] bg-[#0d101711] border" : "bg-white"
+          isDarkMode ? "text-[#0d101711] bg-[#0d101711]" : "bg-white"
         }`}
       >
 
@@ -73,7 +73,7 @@ const HeroPage = () => {
             !isDarkMode ? "bg-[#0d101711]" : "bg-current"
           } py-30 lg:m-0 xl:m-0 mx-auto bg-[#F5F5F5] text-text xl:mt-[1rem] mt-[-10rem] xl:w-full w-full px-32 md:mt-0 sm:m-0 sm:pb-10`}
         >
-          <p className={`${isDarkMode ? "text-white" : "text-gray-600"} font-semibold text-white py-2 lg:text-base text-sm text-center`}>
+          <p className={`${isDarkMode ? "text-white" : "text-gray-600"} font-semibold text-white py-2 lg:text-base text-sm text-center pt-8`}>
             Interoperable with
           </p>
           <div className="flex gap-8 lg:gap-32 justify-center xl:px-32 xl:py-12 lg:py-12 md:py-12 sm:pb-9">
