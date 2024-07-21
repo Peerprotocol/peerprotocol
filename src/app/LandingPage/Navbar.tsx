@@ -2,37 +2,31 @@
 import Link from "next/link";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
+import { DarkModeContext } from "./DarkMode";
 
 const Navbar = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const { isDarkMode, toggleDark } = useContext(DarkModeContext);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDarkMode]);
   return (
-    <div>
-      <nav className="sm:flex text-sm xl:text-lg font-light lg:text-md items-center justify-between py-6 xl:h-[15vh] md:h-[15vh] bg-[#F5F5F5] text-text">
+    <>
+      <nav className="sm:flex text-sm xl:text-lg font-light lg:text-md items-center justify-between py-6 xl:h-[15vh] md:h-[15vh]">
         <img
-          src={isDarkMode ? "/images/LogoWhite.svg" : "/images/LogoBlack.svg"}
+          src={isDarkMode ? `/images/LogoWhite.svg` : `/images/LogoBlack.svg`}
           width={40}
           height={40}
           alt=""
           className="md:w-10 xl:w-14 w-4 sm:w-8"
         />
 
-        <div className="lg:flex hidden items-center gap-10 text-md">
+        <div className="lg:flex text-current hidden items-center gap-10 text-md">
           <div className="flex gap-5">
             <div className="flex items-center">
               <p className="cursor-pointer">Discord</p>
@@ -43,6 +37,14 @@ const Navbar = () => {
                 alt="Picture of the author"
               />
             </div>
+
+            {/* <div
+              className={`border ${
+                isDarkMode ? "border-red-700" : "border-blue-700"
+              } p-4`}
+            >
+              This border color changes based on the dark mode state.
+            </div> */}
 
             <div className="flex items-center">
               <p className="cursor-pointer">Twitter</p>
@@ -103,7 +105,7 @@ const Navbar = () => {
         </div>
         <div className="lg:flex items-center gap-6 md:flex ">
           <div className="flex items-center gap-4">
-            <button
+            {/* <button
               onClick={() => setIsDarkMode(!isDarkMode)}
               className={`md:border border-black px-1 py-1 rounded-full flex items-center space-x-2 ${
                 isDarkMode
@@ -120,7 +122,7 @@ const Navbar = () => {
                   <SunIcon className="md:w-6 md:h-6 h-3 w-3 sm:w-4" />
                 </div>
               )}
-            </button>
+            </button> */}
             <div className="relative z-10">
               <button
                 onClick={toggleMenu}
@@ -206,6 +208,10 @@ const Navbar = () => {
             </div>
           </div>
           <Link href="/peerapp" target="_blank">
+            {/* <button className="md:border text-md md:block md:border-current px-6 py-2 text-md rounded-3xl hidden">
+              Launch
+            </button> */}
+
             <button
               className={`md:border text-md md:block md:border-current px-6 py-2 text-md rounded-3xl hidden ${
                 isDarkMode
@@ -216,9 +222,27 @@ const Navbar = () => {
               Launch
             </button>
           </Link>
+          <button
+            onClick={() => toggleDark()}
+            className={`md:border border-black px-1 py-1 rounded-full flex items-center space-x-2 ${
+              isDarkMode
+                ? "hover:bg-white hover:text-black bg-black text-white"
+                : "hover:bg-black hover:text-white bg-white text-black"
+            }`}
+          >
+            {isDarkMode ? (
+              <div className="xl:w-6 xl:h-6 w-3 h-3">
+                <MoonIcon className="xl:w-6 xl:h-6 h-3 w-3" />
+              </div>
+            ) : (
+              <div className="md:w-6 md:h-6 w-3 h-3">
+                <SunIcon className="md:w-6 md:h-6 h-3 w-3 sm:w-4" />
+              </div>
+            )}
+          </button>
         </div>
       </nav>
-    </div>
+    </>
   );
 };
 
