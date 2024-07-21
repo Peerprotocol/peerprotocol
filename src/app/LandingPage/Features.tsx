@@ -12,7 +12,7 @@ const Features = () => {
       className={`${
         isDarkMode
           ? "bg-[#0d101711] px-0"
-          : "bg-[#f5f5f5]"
+          : "bg-[#fff]"
       } lg:flex lg:flex-row text-current justify-center lg:gap-20 lg:py-20 lg:my-32 md:grid md:grid-cols-2 py-20 w-full flex flex-col gap-6`}
     >
       {/* Card 1 */}
