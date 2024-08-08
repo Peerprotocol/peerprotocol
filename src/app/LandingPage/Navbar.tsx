@@ -38,13 +38,7 @@ const Navbar = () => {
               />
             </div>
 
-            {/* <div
-              className={`border ${
-                isDarkMode ? "border-red-700" : "border-blue-700"
-              } p-4`}
-            >
-              This border color changes based on the dark mode state.
-            </div> */}
+
 
             <div className="flex items-center">
               <p className="cursor-pointer">Twitter</p>

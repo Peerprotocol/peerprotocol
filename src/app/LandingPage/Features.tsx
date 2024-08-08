@@ -16,7 +16,7 @@ const Features = () => {
       } lg:flex lg:flex-row text-current justify-center lg:gap-20 lg:py-20 lg:my-32 md:grid md:grid-cols-2 py-20 w-full flex flex-col gap-6`}
     >
       {/* Card 1 */}
-      <div className="border-2 border-current lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8">
+      <div className="border-2 border-current lg:w-[25rem] lg:py-16 lg:px-10 rounded-2xl lg:shadow-custom shadow-custom2 mb-2 lg:mb-0 p-8 shadow-top-right-bottom">
         <Image
           src="/images/mybox.svg"
           width={40}

@@ -19,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <DarkModeProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          {children}
+          
+          </body>
       </DarkModeProvider>
     </html>
   );
