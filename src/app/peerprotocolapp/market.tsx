@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import { marketData } from "./mainMarket";
 
 const Market = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,89 +13,6 @@ const Market = () => {
     setIsOpen(false);
   };
 
-  const data = [
-    {
-      image: "./images/sol.svg",
-      asset: "SOL",
-      price: "$177.08",
-      maxTVL: "$1,000,000",
-      deposits: "$500,000",
-      supplyAPY: "5%",
-      borrowAPY: "3%",
-    },
-    {
-      image: "./images/nyan.svg",
-      asset: "NYAN",
-      price: "$0.0632",
-      maxTVL: "$800,000",
-      deposits: "$400,000",
-      supplyAPY: "4%",
-      borrowAPY: "2.5%",
-    },
-    {
-      image: "./images/tensor.svg",
-      asset: "TNSR",
-      price: "$0.43",
-      maxTVL: "$600,000",
-      deposits: "$300,000",
-      supplyAPY: "6%",
-      borrowAPY: "4%",
-    },
-    {
-      image: "./images/kamino.svg",
-      asset: "KMN",
-      price: "$0.22",
-      maxTVL: "$1,200,000",
-      deposits: "$700,000",
-      supplyAPY: "3%",
-      borrowAPY: "2%",
-    },
-    {
-      image: "./images/orca.svg",
-      asset: "ORCA",
-      price: "$2.05",
-      maxTVL: "$1,200,000",
-      deposits: "$700,000",
-      supplyAPY: "3%",
-      borrowAPY: "2%",
-    },
-    {
-      image: "./images/zeta.svg",
-      asset: "ZETA",
-      price: "$0.06",
-      maxTVL: "$1,200,000",
-      deposits: "$700,000",
-      supplyAPY: "3%",
-      borrowAPY: "2%",
-    },
-    {
-      image: "./images/wormhole.svg",
-      asset: "W",
-      price: "$0.33",
-      maxTVL: "$1,200,000",
-      deposits: "$700,000",
-      supplyAPY: "3%",
-      borrowAPY: "2%",
-    },
-    {
-      image: "./images/zeus.svg",
-      asset: "ZEUS",
-      price: "$0.0004",
-      maxTVL: "$1,200,000",
-      deposits: "$700,000",
-      supplyAPY: "3%",
-      borrowAPY: "2%",
-    },
-    {
-      image: "./images/drift.svg",
-      asset: "DRIFT",
-      price: "$0.20",
-      maxTVL: "$1,200,000",
-      deposits: "$700,000",
-      supplyAPY: "3%",
-      borrowAPY: "2%",
-    },
-  ];
 
   return (
     <div className="p-8">
@@ -150,23 +68,24 @@ const Market = () => {
       </div>
 
       <div className="overflow-x-auto text-black border">
-        <div className="grid grid-cols-6 pt-6 rounded-t-xl bg-smoke-white py-4">
+        <div className="grid grid-cols-7 pt-6 rounded-t-xl bg-smoke-white py-4">
           <div className="text-center font-semibold">Asset</div>
           <div className="text-center font-semibold">Price</div>
-          <div className="text-center font-semibold">Max TVL</div>
+          <div className="text-center font-semibold">TVL</div>
+          <div className="text-center font-semibold">Cap Limit</div>
           <div className="text-center font-semibold">Deposits</div>
           <div className="text-center font-semibold">Supply APY</div>
           <div className="text-center font-semibold">Borrow APY</div>
         </div>
-        <div className="w-full grid grid-cols-6 rounded-b-xl text-gray-800">
-          {data.map((row, index) => (
+        <div className="w-full grid grid-cols-7 rounded-b-xl text-gray-800">
+          {marketData.map((row, index) => (
             <>
               <div>
                 <div
                   key={`${index}-asset`}
-                  className="text-center px-4 py-6 border-t border-gray-300"
+                  className="text-left px-4 py-6 border-t border-gray-300"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center mx-10 gap-3">
                   <Image src={row.image} height={30} width={30} alt="images"/>
                   {row.asset}
                   </div>
@@ -176,34 +95,44 @@ const Market = () => {
                 key={`${index}-price`}
                 className="text-center px-4 py-6 border-t border-gray-300"
               >
-                {row.price}
+                <p className="font-semibold">{row.price}</p>
               </div>
               <div
                 key={`${index}-maxTVL`}
                 className="text-center px-4 py-6 border-t border-gray-300"
               >
-                {row.maxTVL}
+                <p className="font-medium">{row.maxTVL}</p>
+                <small className="text-gray-400">{row.cap}</small>
+              </div>
+              <div
+                key={`${index}-cap`}
+                className="text-center px-4 py-6 border-t border-gray-300"
+              >
+                
+                <p className="font-medium">{row.cap}</p>
               </div>
               <div
                 key={`${index}-deposits`}
-                className="text-center px-4 py-6 border-t border-gray-300"
+                className="text-center flex items-start justify-center gap-1 px-4 py-6 border-t border-gray-300"
               >
-                {row.deposits}
+                <p className="font-medium">{row.deposits}</p>
+                <Image src={row.alert} height={25} width={25} alt="images"/>
               </div>
               <div
                 key={`${index}-supplyAPY`}
                 className="text-center px-4 py-6 border-t border-gray-300"
               >
-                <button className="px-6 py-2 rounded-3xl bg-[rgba(0,0,0,0.8)] text-white mr-2">Lend</button>
+                <button className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] mx-5 text-white w-20 h-8 mr-2 my-auto">Lend</button>
                 {row.supplyAPY}
               </div>
               <div
                 key={`${index}-borrowAPY`}
                 className="text-center px-4 py-6 border-t border-gray-300"
               >
-                <button className="px-6 py-2 rounded-3xl bg-[rgba(0,0,0,0.8)] text-white mr-2">Borrow</button>
+                <button className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] mx-5 text-white w-20 h-8 mr-2 my-auto">Borrow</button>
                 {row.borrowAPY}
               </div>
+              
             </>
           ))}
         </div>

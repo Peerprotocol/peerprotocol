@@ -54,14 +54,14 @@ const Sidebar = () => {
         </div>
 
         {/* Settings */}
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 items-center">
           <Image
             src="/images/setting.svg"
-            width={30}
+            width={20}
             height={10}
             alt="Settings"
           />
-          <p>Settings</p>
+          <p className="text-xs">Version: Beta 0.0.0.1</p>
         </div>
       </div>
     </div>
