@@ -65,7 +65,7 @@ const BorrowersMarket = () => {
                   <div className="text-center px-4 py-6 border-t border-gray-300">
                     <p className="font-medium">{row.amountNeeded}</p>
                   </div>
-                  <div className="text-center px-4 py-6 border-t border-gray-300">
+                  <div className="text-left mx-[4.5rem] px-4 py-6 border-t border-gray-300">
                     <p className="font-medium">{row.quantity}</p>
                   </div>
                   <div className="text-center px-4 py-6 border-t border-gray-300">

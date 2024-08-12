@@ -33,3 +33,13 @@ body {
     text-wrap: balance;
   }
 }
+
+
+input[type="number"] {
+  appearance: none;
+}
+
+input[type="number"]:focus,
+input[type="number"]:hover {
+  appearance: none;
+}
