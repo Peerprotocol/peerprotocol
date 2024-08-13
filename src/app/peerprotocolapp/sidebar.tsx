@@ -2,11 +2,17 @@ import Image from "next/image";
 
 const Sidebar = () => {
   return (
-    <div className="bg-black w-[15%] h-screen rounded-r-[5rem] py-8 flex flex-col sticky">
-      <Image className="mx-[30%]" src="/images/LogoWhite.svg" width={50} height={20} alt="Logo" />
+    <div className="bg-black w-[15%] h-screen rounded-r-[3rem] py-8 flex flex-col sticky">
+      <Image
+        className="mx-[30%]"
+        src="/images/LogoWhite.svg"
+        width={50}
+        height={20}
+        alt="Logo"
+      />
       <div className="mt-14 px-10 flex-1 flex flex-col">
         <div className="flex flex-col gap-14 flex-grow-[8]">
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center cursor-pointer">
             <Image
               src="/images/LogoWhite.svg"
               width={30}
@@ -15,7 +21,7 @@ const Sidebar = () => {
             />
             <p>Market</p>
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center cursor-pointer">
             <Image
               src="/images/liquid.svg"
               width={30}
@@ -24,25 +30,15 @@ const Sidebar = () => {
             />
             <p>Liquidity</p>
           </div>
-          <div className="flex gap-3 items-center">
-            <Image
-              src="/images/swap.svg"
-              width={30}
-              height={10}
-              alt="Swap"
-            />
+          <div className="flex gap-3 items-center cursor-pointer">
+            <Image src="/images/swap.svg" width={30} height={10} alt="Swap" />
             <p>Swap</p>
           </div>
-          <div className="flex gap-3 items-center">
-            <Image
-              src="/images/swap.svg"
-              width={30}
-              height={10}
-              alt="Swap"
-            />
+          <div className="flex gap-3 items-center cursor-pointer">
+            <Image src="/images/swap.svg" width={30} height={10} alt="Swap" />
             <p>Bridge</p>
           </div>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center cursor-pointer">
             <Image
               src="/images/portfolio.svg"
               width={30}
@@ -50,18 +46,7 @@ const Sidebar = () => {
               alt="Market"
             />
             <p>Portfolio</p>
-          </div>  
-        </div>
-
-        {/* Settings */}
-        <div className="flex gap-2 items-center">
-          <Image
-            src="/images/setting.svg"
-            width={20}
-            height={10}
-            alt="Settings"
-          />
-          <p className="text-xs">Version: Beta 0.0.0.1</p>
+          </div>
         </div>
       </div>
     </div>

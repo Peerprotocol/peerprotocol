@@ -81,7 +81,13 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
         {/* <br /> */}
         <div className="flex items-center gap-2 absolute bottom-3">
           <small className="text-gray-500">Powered By Peer Protocol</small>
-          <Image src={PeerProtocol} height={20} width={20} alt="jupiter-logo" className="opacity-50"/>
+          <Image
+            src={PeerProtocol}
+            height={20}
+            width={20}
+            alt="jupiter-logo"
+            className="opacity-50"
+          />
         </div>
       </div>
     </div>
@@ -128,7 +134,7 @@ const Market = () => {
 
           <button
             type="button"
-            className="inline-flex justify-between items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex justify-between items-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
           >
             {selectedOption}
@@ -168,7 +174,7 @@ const Market = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto text-black border">
+      <div className="overflow-x-auto text-black border ">
         <div className="grid grid-cols-5 pt-6 rounded-t-xl bg-smoke-white py-4">
           <div className="text-center font-semibold">Asset</div>
           <div className="text-center font-semibold">Supply</div>
@@ -176,7 +182,7 @@ const Market = () => {
           <div className="text-center font-semibold">Supply APY</div>
           <div className="text-center font-semibold">Borrow APY</div>
         </div>
-        <div className="w-full grid grid-cols-5 rounded-b-xl text-gray-800">
+        <div className="w-full grid grid-cols-5 rounded-b-xl text-gray-800 cursor-pointer">
           {marketData.map((row, index) => (
             <>
               <div className="flex flex-col">
@@ -200,28 +206,31 @@ const Market = () => {
                 key={`${index}-maxTVL`}
                 className="text-center px-4 py-6 border-t border-gray-300"
               >
-                <div className="flex items-center gap-2 text-left justify-center">
-                  <div className="">
+                <div
+                  className={`flex items-center gap-2 text-left justify-center ${
+                    row.cap >= 70 ? "ml-8" : ""
+                  }`}
+                >
+                  <div>
                     <p className="font-medium">{row.deposits}</p>
                     <small className="text-gray-400">{row.maxTVL}</small>
                   </div>
                   <div>
                     {row.cap >= 90 ? (
                       <Image
-                        src={row.alert} // Display alert image
+                        src={row.alert}
                         height={20}
                         width={20}
                         alt="alert image"
                       />
                     ) : row.cap >= 70 ? (
                       <Image
-                        src={row.caution} // Display caution image
+                        src={row.caution}
                         height={20}
                         width={25}
                         alt="caution image"
                       />
-                    ) : null}{" "}
-                    {/* No image */}
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -258,7 +267,7 @@ const Market = () => {
               >
                 <button
                   className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] mx-5 text-white w-20 h-8 mr-2 my-auto"
-                  // onClick={() => openModal("Withdraw")}
+                  onClick={() => openModal("Withdraw")}
                 >
                   Borrow
                 </button>
