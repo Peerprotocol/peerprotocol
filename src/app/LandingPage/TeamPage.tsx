@@ -5,8 +5,8 @@ const Team = () => {
     <div id="Team" className="py-32">
       {/* start here */}
       <div className="w-fit gap-16 mx-auto md:grid-cols-2">
-        <div className="">
-          <h1 className="text-current text-4xl font-bold font-raleway">
+        <div className="mb-8">
+          <h1 className="text-black text-4xl font-bold font-raleway">
             OUR TEAM
           </h1>
         </div>
@@ -16,7 +16,7 @@ const Team = () => {
           <Image src="/images/Deon.png" alt="" width={380} height={40} />
 
           <div>
-            <p className="text-2xl font-semibold text-current py-1">
+            <p className="text-2xl font-semibold text-black py-1">
               Emmanuel Daniel
             </p>
             <div className="flex justify-between">
@@ -50,7 +50,7 @@ const Team = () => {
         {/* Kev face card */}
         <div className="cursor-pointer lg:m-0 my-10">
           <Image src="/images/Kev.png" alt="" width={380} height={40} />
-          <p className="text-2xl font-semibold text-current py-1">Kelvin Duche</p>
+          <p className="text-2xl font-semibold text-black py-1">Kelvin Duche</p>
           <div className="flex justify-between">
             <p className="text-gray-500 font-semibold text-sm">
               Co-founder & Product Designer
@@ -81,7 +81,7 @@ const Team = () => {
         {/* David face card */}
         <div className="cursor-pointer lg:m-0 my-10">
           <Image src="/images/Davy.png" alt="" width={380} height={40} />
-          <p className="text-2xl font-semibold text-current py-1">
+          <p className="text-2xl font-semibold text-black py-1">
             Akachukwu David
           </p>
           <div className="flex justify-between">
@@ -114,7 +114,7 @@ const Team = () => {
         {/* Izzy face card */}
         <div className="cursor-pointer lg:m-0 my-10">
           <Image src="/images/Izzy.png" alt="" width={380} height={40} />
-          <p className="text-2xl font-semibold text-current py-1">
+          <p className="text-2xl font-semibold text-black py-1">
             Isaac Onyemachi
           </p>
           <div className="flex justify-between">
@@ -147,7 +147,7 @@ const Team = () => {
         {/* Stephen face card */}
         <div className="cursor-pointer lg:m-0 my-10">
           <Image src="/images/Stephen.png" alt="" width={380} height={40} />
-          <p className="text-2xl font-semibold text-current py-1">
+          <p className="text-2xl font-semibold text-black py-1">
             Steven Okosieme
           </p>
           <div className="flex justify-between">
