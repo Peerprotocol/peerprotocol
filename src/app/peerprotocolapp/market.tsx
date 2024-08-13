@@ -98,7 +98,7 @@ const Market = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Main Market");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<"Deposit" | "Withdraw">("Deposit");
+  const [modalType, setModalType] = useState<"Deposit" | "Borrow">("Deposit");
 
   const options = ["Main Market", "Meme Market"];
 
@@ -107,7 +107,7 @@ const Market = () => {
     setIsOpen(false);
   };
 
-  const openModal = (type: "Deposit" | "Withdraw") => {
+  const openModal = (type: "Deposit" | "Borrow") => {
     setModalType(type);
     setIsModalOpen(true);
   };
@@ -220,14 +220,14 @@ const Market = () => {
                       <Image
                         src={row.alert}
                         height={20}
-                        width={20}
+                        width={15}
                         alt="alert image"
                       />
                     ) : row.cap >= 70 ? (
                       <Image
                         src={row.caution}
                         height={20}
-                        width={25}
+                        width={20}
                         alt="caution image"
                       />
                     ) : null}
@@ -251,7 +251,7 @@ const Market = () => {
               </div> */}
               <div
                 key={`${index}-supplyAPY`}
-                className="text-center px-4 py-6 border-t border-gray-300"
+                className="text-center text-xs font-semibold text-gray-500 px-4 py-6 border-t border-gray-300"
               >
                 <button
                   className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] mx-5 text-white w-20 h-8 mr-2 my-auto"
@@ -263,11 +263,11 @@ const Market = () => {
               </div>
               <div
                 key={`${index}-borrowAPY`}
-                className="text-center px-4 py-6 border-t border-gray-300"
+                className="text-center px-4 text-xs font-semibold text-gray-500 py-6 border-t border-gray-300"
               >
                 <button
                   className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] mx-5 text-white w-20 h-8 mr-2 my-auto"
-                  onClick={() => openModal("Withdraw")}
+                  onClick={() => openModal("Borrow")}
                 >
                   Borrow
                 </button>
