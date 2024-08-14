@@ -8,11 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      boxShadow: {
+        'button': '6px -6px 15px rgba(0, 0, 0, 0.3), 6px 6px 15px rgba(0, 0, 0, 0.3)',
+      },
       screens: {
         '2xl': '1441px',
         'sm' : '200px',
       },
       colors: {
+        'smoke-white': 'rgba(0, 0, 0, 0.03)',
         green: {
           DEFAULT: "#11D984",
         },

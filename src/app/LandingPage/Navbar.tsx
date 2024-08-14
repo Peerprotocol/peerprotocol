@@ -38,14 +38,6 @@ const Navbar = () => {
               />
             </div>
 
-            {/* <div
-              className={`border ${
-                isDarkMode ? "border-red-700" : "border-blue-700"
-              } p-4`}
-            >
-              This border color changes based on the dark mode state.
-            </div> */}
-
             <div className="flex items-center">
               <p className="cursor-pointer">Twitter</p>
               <Image
@@ -207,7 +199,7 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <Link href="/peerapp" target="_blank">
+          <Link href="/peerprotocolapp" target="_blank">
             {/* <button className="md:border text-md md:block md:border-current px-6 py-2 text-md rounded-3xl hidden">
               Launch
             </button> */}
