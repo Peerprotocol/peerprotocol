@@ -38,7 +38,7 @@ const BorrowersMarket = () => {
               className="cursor-pointer"
             />
             <div className="flex gap-2 pb-2">
-              <p className="text-black text-4xl">Borrower's Market</p>
+              <p className="text-black text-4xl">Borrower&apos;s Market</p>
             </div>
           </div>
 
