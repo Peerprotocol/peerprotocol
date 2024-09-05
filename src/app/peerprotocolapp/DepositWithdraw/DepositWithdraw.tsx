@@ -2,13 +2,14 @@ import React from "react";
 import Image from "next/image";
 
 interface DepositWithdrawProps {
-  type: "Deposit" | "Withdraw";
-  availableBalance: string;
+  type: "Deposit" | "Withdraw" | "Borrow"; // Add "Borrow" as a valid option
+  availableBalance: number;
   currencyIcon: string;
   currencyName: string;
   onClose: () => void;
   onSubmit: (amount: string) => void;
 }
+
 
 const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
   type,
@@ -30,8 +31,8 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className="relative flex flex-col items-center bg-white p-6 rounded-xl shadow-md max-w-md mx-auto">
-        <button className="absolute top-2 right-2 text-xl" onClick={onClose}>
+      <div className="relative flex flex-col items-center bg-white px-14 py-28 rounded-xl shadow-md w-full max-w-xl mx-auto border border-red-600">
+        <button className="absolute top-2 right-2 text-xl bg-black px-[0.38rem] rounded-full" onClick={onClose}>
           &#x2715;
         </button>
         <div className="flex items-center justify-between w-full mb-4">
@@ -47,10 +48,16 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
           <p className="text-gray-500">Available: {availableBalance}</p>
         </div>
         <div className="flex items-center border border-gray-400 rounded-3xl px-8 py-3 w-full mb-2">
-          <input
-            type="number"
+        <input
+            type="text"
             value={amount}
-            onChange={handleAmountChange}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Use regex to only allow numeric input
+              if (/^\d*\.?\d*$/.test(value)) {
+                handleAmountChange(e);
+              }
+            }}
             placeholder="Enter Amount"
             className="flex-1 outline-none text-xl appearance-none"
             style={{
@@ -65,7 +72,13 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
         >
           {type}
         </button>
+
+        <div className="flex gap-3 absolute bottom-6">
+          <p className="text-sm text-gray-600">Powered by Peer Protocol</p>
+          <Image src="images/LogoBlack.svg" width={20} height={40} alt="peerlogo" />
+        </div>
       </div>
+
     </div>
   );
 };
