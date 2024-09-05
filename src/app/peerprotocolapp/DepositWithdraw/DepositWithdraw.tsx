@@ -31,7 +31,7 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className="relative flex flex-col items-center bg-white px-14 py-28 rounded-xl shadow-md w-full max-w-xl mx-auto border border-red-600">
+      <div className="relative flex flex-col items-center bg-white px-14 py-28 rounded-xl shadow-md w-full max-w-xl mx-auto">
         <button className="absolute top-2 right-2 text-xl bg-black px-[0.38rem] rounded-full" onClick={onClose}>
           &#x2715;
         </button>
@@ -43,7 +43,7 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
               width={24}
               height={24}
             />
-            <p className="ml-2 text-xl">{currencyName}</p>
+            <p className="ml-2 text-sm text-black">{currencyName}</p>
           </div>
           <p className="text-gray-500">Available: {availableBalance}</p>
         </div>
@@ -59,7 +59,7 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
               }
             }}
             placeholder="Enter Amount"
-            className="flex-1 outline-none text-xl appearance-none"
+            className="flex-1 outline-none text-xl appearance-none text-black"
             style={{
               MozAppearance: "textfield",
               WebkitAppearance: "none",
