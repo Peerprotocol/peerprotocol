@@ -1,13 +1,13 @@
 import { useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import { marketData } from "./mainMarket";
+import { MainMarketProps, marketData } from "./mainMarket";
 import SolIcon from "./../../../public/images/sol.svg";
 import PeerProtocol from "./../../../public/images/LogoBlack.svg";
 
 interface DepositWithdrawProps {
   type: string;
-  availableBalance: string;
-  currencyIcon: StaticImageData;
+  availableBalance: number;
+  currencyIcon: string;
   currencyName: string;
   onClose: () => void;
   onSubmit: (amount: string) => void;
@@ -94,11 +94,22 @@ const DepositWithdraw: React.FC<DepositWithdrawProps> = ({
   );
 };
 
+interface SelectedCoinProps {
+  asset: string;
+  image: string;
+  balance: number;
+}
+
 const Market = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("Main Market");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"Deposit" | "Borrow">("Deposit");
+  const [selectedCoin, setSelectedCoin] = useState<SelectedCoinProps>({
+    asset: "",
+    image: "",
+    balance: 0
+  });
 
   const options = ["Main Market", "Meme Market"];
 
@@ -107,8 +118,17 @@ const Market = () => {
     setIsOpen(false);
   };
 
-  const openModal = (type: "Deposit" | "Borrow") => {
+  const openModal = (type: "Deposit" | "Borrow", data:Partial<MainMarketProps>) => {
     setModalType(type);
+     // Assert that `data` has the expected properties
+  const dataAsMainMarketProps = data as MainMarketProps;
+
+  setSelectedCoin(prevState => ({
+    ...prevState,
+    balance: dataAsMainMarketProps.balance ?? prevState.balance,
+    asset: dataAsMainMarketProps.asset ?? prevState.asset,
+    image: dataAsMainMarketProps.image ?? prevState.image,
+  }));
     setIsModalOpen(true);
   };
 
@@ -255,7 +275,7 @@ const Market = () => {
               >
                 <button
                   className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] mx-5 text-white w-20 h-8 mr-2 my-auto"
-                  onClick={() => openModal("Deposit")}
+                  onClick={() => openModal("Deposit", row)}
                 >
                   Lend
                 </button>
@@ -267,7 +287,7 @@ const Market = () => {
               >
                 <button
                   className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] mx-5 text-white w-20 h-8 mr-2 my-auto"
-                  onClick={() => openModal("Borrow")}
+                  onClick={() => openModal("Borrow", row)}
                 >
                   Borrow
                 </button>
@@ -281,9 +301,9 @@ const Market = () => {
       {isModalOpen && (
         <DepositWithdraw
           type={modalType}
-          availableBalance="1000"
-          currencyIcon={SolIcon}
-          currencyName="SOL"
+          availableBalance={selectedCoin.balance}
+          currencyIcon={selectedCoin.image}
+          currencyName={selectedCoin.asset}
           onClose={closeModal}
           onSubmit={handleSubmit}
         />

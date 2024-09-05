@@ -10,6 +10,7 @@ export const marketData = [
     supplyAPY: "5%",
     borrowAPY: "3%",
     cap: 20,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -22,6 +23,7 @@ export const marketData = [
     supplyAPY: "4%",
     borrowAPY: "2.5%",
     cap: 68,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -34,6 +36,7 @@ export const marketData = [
     supplyAPY: "6%",
     borrowAPY: "4%",
     cap: 25,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -46,6 +49,7 @@ export const marketData = [
     supplyAPY: "3%",
     borrowAPY: "2%",
     cap: 85,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -58,6 +62,7 @@ export const marketData = [
     supplyAPY: "3%",
     borrowAPY: "2%",
     cap: 72,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -70,6 +75,7 @@ export const marketData = [
     supplyAPY: "3%",
     borrowAPY: "2%",
     cap: 85,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -82,6 +88,7 @@ export const marketData = [
     supplyAPY: "3%",
     borrowAPY: "2%",
     cap: 45,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -94,6 +101,7 @@ export const marketData = [
     supplyAPY: "3%",
     borrowAPY: "2%",
     cap: 80,
+    balance: 2000
   },
   {
     caution: "./images/caution.svg",
@@ -106,5 +114,20 @@ export const marketData = [
     supplyAPY: "3%",
     borrowAPY: "2%",
     cap: 90,
+    balance: 2000
   },
 ];
+
+export interface MainMarketProps  {
+    caution: string;
+    alert: string;
+    image: string;
+    asset: string;
+    price: string;
+    maxTVL: string;
+    deposits: string;
+    supplyAPY: string;
+    borrowAPY: string;
+    cap: number;
+    balance: number;
+}
