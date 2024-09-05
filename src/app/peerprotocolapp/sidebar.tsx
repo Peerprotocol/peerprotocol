@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Sidebar = () => {
   return (
-    <div className="bg-black w-[15%] h-screen rounded-r-[3rem] py-8 flex flex-col sticky">
+    <div className="bg-black w-[15%] h-screen rounded-r-[2.5rem] py-8 flex flex-col sticky">
       <Image
         className="mx-[30%]"
         src="/images/LogoWhite.svg"
