@@ -58,7 +58,7 @@ const UserProfile = () => {
         <div className="flex-1 flex flex-col">
           <Nav />
           <div className="p-6">
-            <h1 className="text-xl font-semibold mb-4">Crypto Coin Graph</h1>
+            <h1 className="text-xl font-semibold mb-4 text-black">Crypto Coin Graph</h1>
             <div className="mb-4">
               <button 
                 className={`mr-2 p-2 rounded ${selectedData === 'lend' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`} 

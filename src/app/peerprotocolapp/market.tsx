@@ -61,7 +61,7 @@ const Market = () => {
         <p className="text-black text-3xl">Main Market</p>
 
         <div className="flex items-center gap-8">
-          <div className="flex gap-3 bg-gray-200 rounded-xl">
+          <div className="flex gap-3 bg-gray-200 rounded-xl ">
             <div
               className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${Protocol === "Protocol" ? "text-white bg-black" : ""}`}
               onClick={() => setProtocol("Protocol")}
@@ -114,7 +114,7 @@ const Market = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto text-black border">
+      <div className="overflow-x-auto text-black border rounded-t-xl">
         <div className="grid grid-cols-5 pt-6 rounded-t-xl bg-smoke-white py-4">
           <div className="text-center font-semibold">Asset</div>
           <div className="text-center font-semibold">Supply</div>
