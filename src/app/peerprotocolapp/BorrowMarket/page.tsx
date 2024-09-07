@@ -107,7 +107,7 @@ const BorrowersMarket = () => {
               src={PlusMath}
               height={40}
               width={20}
-              alt=""
+              alt="plus"
             />
           </button>
 
