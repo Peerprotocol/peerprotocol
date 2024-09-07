@@ -10,10 +10,31 @@ import BlogPost from "./LandingPage/Blog";
 import Footer from "./LandingPage/Footer";
 import { DarkModeContext } from "./LandingPage/DarkMode";
 
+// Sample blog data
+const blogPosts = [
+  {
+    title: "Building Trustless Lending: The Future of Peer Protocol",
+    summary: "Peer Protocol is redefining lending by offering a trustless, decentralized system. Explore how it paves the way for a new era of decentralized finance.",
+  },
+  {
+    title: "How Peer Protocol Revolutionizes DeFi Lending",
+    summary: "By enabling peer-to-peer lending, Peer Protocol connects lenders and borrowers directly, offering greater financial freedom with competitive rates.",
+  },
+  {
+    title: "Empowering Users through Peer-to-Peer Lending",
+    summary: "Peer Protocol puts the power in the hands of users, offering customizable loan agreements with decentralized governance and smart contract automation.",
+  },
+  {
+    title: "Decentralized Lending: The Core of Peer Protocol",
+    summary: "Explore how Peer Protocol leverages blockchain for secure, transparent transactions, creating a trustless environment for decentralized lending.",
+  },
+];
+
 function Landing() {
   const { isDarkMode } = useContext(DarkModeContext);
 
   useEffect(() => {}, [isDarkMode]);
+  
   return (
     <div className={`${isDarkMode ? "bg-[#0d101711]" : "bg-[#F5F5F5]"} w-full`}>
       <section
@@ -33,13 +54,12 @@ function Landing() {
       <div
         className={`${
           isDarkMode ? "bg-[#0d101711]" : "bg-[#F5F5F5]"
-        } xl:flex md:grid grid-cols-2 md:px-9 md:gap-6 my-32 block`}
+        } xl:flex md:grid grid-cols-2 md:px-9 md:gap-6 my-32`}
       >
-        {Array.from({ length: 4 }, (_, index) => (
-          <BlogPost key={index} />
+        {blogPosts.map((post, index) => (
+          <BlogPost key={index} title={post.title} summary={post.summary} />
         ))}
       </div>
-
       <Footer />
     </div>
   );

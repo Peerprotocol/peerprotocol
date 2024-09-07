@@ -18,10 +18,10 @@ const Onboard = () => {
         <div className="lg:w-[50%] bg-white mx-auto relative rounded-full md:w-[80%] sm:w-[90%]">
           <input
             placeholder="Enter your email address"
-            className="lg:text-lg sm:text-xs text-sm text-black lg:h-16 rounded-full w-[80%] pl-8 sm:pl-3 focus:outline-none h-12"
+            className="lg:text-lg sm:text-xs text-black lg:h-16 rounded-full w-[80%] pl-8 sm:pl-3 focus:outline-none h-12"
             type="email"
           />
-          <button className="border lg:text-base text-xs border-black px-3 py-2 rounded-3xl text-black absolute right-4 lg:top-3 top-2">
+          <button className="border lg:text-base text-[0.5rem] border-black px-2 py-2 rounded-3xl text-black absolute right-2 lg:top-3 top-2">
             Join Waitlist
           </button>
         </div>

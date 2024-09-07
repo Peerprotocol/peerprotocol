@@ -2,6 +2,7 @@
 import Nav from "../Nav";
 import Sidebar from "../sidebar";
 import Image from "next/image";
+import PlusMath from "../../../../public/images/PlusMath.svg"
 import BackButton from "../../../../public/images/back-button.svg";
 import Phantom from "../../../../public/images/phantom-icon.svg";
 import { BorrowerData } from "../BorrowerData";
@@ -87,6 +88,7 @@ const BorrowersMarket = () => {
 
           <button className="px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white">
             Create a Proposal
+            {/* <Image src={PlusMath} height={40} width={20} alt=""/> */}
           </button>
 
           <div className="flex justify-end p-4">

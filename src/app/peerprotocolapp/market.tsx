@@ -61,7 +61,7 @@ const Market = () => {
         <p className="text-black text-3xl">Main Market</p>
 
         <div className="flex items-center gap-8">
-          <div className="flex gap-3 bg-gray-200 rounded-xl ">
+          <div className="flex gap-1 bg-gray-200 rounded-xl px-1 py-1">
             <div
               className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${Protocol === "Protocol" ? "text-white bg-black" : ""}`}
               onClick={() => setProtocol("Protocol")}

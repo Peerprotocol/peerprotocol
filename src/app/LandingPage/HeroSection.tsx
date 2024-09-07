@@ -54,7 +54,7 @@ const HeroPage = () => {
         </h1>
         {/* all the position styles */}
 
-        <p className="xl:max-w-[70%] mx-auto text-center opacity-60 md:w-[80%] md:text-sm sm:text-xs">
+        <p className="xl:max-w-[70%] mx-auto text-center opacity-60 md:w-[80%] md:text-sm text-[0.4rem]">
           Experience the power of decentralized finance, earn interest and
           unlock borrowing possibilities across a diverse range of assets and
           pools on our lightning-fast, cost-effective, and highly scalable
@@ -63,20 +63,17 @@ const HeroPage = () => {
       </div>
       {/* </div> */}
       <div
-        className={`${
-          isDarkMode ? "text-[#0d101711] bg-[#0d101711]" : "bg-white"
-        }`}
+        className={`${isDarkMode ? "text-[#0d101711] bg-[#0d101711]" : "bg-white"
+          }`}
       >
-
+        <p className={`${isDarkMode ? "text-white" : "text-black"} font-semibold text-black lg:text-base text-center w-full`}>
+          Interoperable with
+        </p>
         <div
-          className={`${
-            !isDarkMode ? "bg-[#0d101711]" : "bg-current"
-          } py-30 lg:m-0 xl:m-0 mx-auto bg-[#fff] text-text xl:mt-[1rem] mt-[-10rem] xl:w-full w-full px-32 md:mt-0 sm:m-0 sm:pb-10`}
+          className={`${!isDarkMode ? "bg-[#0d101711]" : "bg-current"
+            } py-30 lg:m-0 xl:m-0 bg-[#fff] text-text xl:mt-[1rem] mt-[-10rem] xl:w-full w-full px-32 md:mt-0 sm:m-0 sm:pb-10`}
         >
-          <p className={`${isDarkMode ? "text-white" : "text-black"} font-semibold text-black py-2 lg:text-base text-sm text-center pt-8`}>
-            Interoperable with
-          </p>
-          <div className="flex gap-8 lg:gap-32 justify-center xl:px-32 xl:py-12 lg:py-12 md:py-12 sm:pb-9">
+          <div className="flex gap-8 lg:gap-32 justify-center sm:pb-9">
             <Image
               src="/images/solanalogo.svg"
               width={200}

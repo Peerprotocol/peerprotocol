@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import { DarkModeContext } from "./DarkMode";
 
@@ -34,17 +34,16 @@ const Navbar = () => {
                 src="/images/RightArrow.svg"
                 width={25}
                 height={25}
-                alt="Picture of the author"
+                alt="Arrow"
               />
             </div>
-
             <div className="flex items-center">
               <p className="cursor-pointer">Twitter</p>
               <Image
                 src="/images/RightArrow.svg"
                 width={25}
                 height={25}
-                alt="Picture of the author"
+                alt="Arrow"
               />
             </div>
             <div className="flex items-center">
@@ -53,7 +52,7 @@ const Navbar = () => {
                 src="/images/RightArrow.svg"
                 width={25}
                 height={25}
-                alt="Picture of the author"
+                alt="Arrow"
               />
             </div>
           </div>
@@ -71,7 +70,7 @@ const Navbar = () => {
                   src="/images/RightArrow.svg"
                   width={25}
                   height={25}
-                  alt="Picture of the author"
+                  alt="Arrow"
                 />
               </div>
             </Link>
@@ -81,7 +80,7 @@ const Navbar = () => {
                 src="/images/RightArrow.svg"
                 width={25}
                 height={25}
-                alt="Picture of the author"
+                alt="Arrow"
               />
             </div>
             <div className="flex items-center">
@@ -90,120 +89,125 @@ const Navbar = () => {
                 src="/images/RightArrow.svg"
                 width={25}
                 height={25}
-                alt="Picture of the author"
+                alt="Arrow"
               />
             </div>
           </div>
         </div>
-        <div className="lg:flex items-center gap-6 md:flex ">
-          <div className="flex items-center gap-4">
-            {/* <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className={`md:border border-black px-1 py-1 rounded-full flex items-center space-x-2 ${
-                isDarkMode
-                  ? "hover:bg-white hover:text-black"
-                  : "hover:bg-black hover:text-white"
-              }`}
+
+        <div className="lg:flex items-center md:gap-6 md:flex flex gap-1">
+          <div className="relative">
+            <button
+              onClick={toggleMenu}
+              className="block lg:hidden text-gray-700"
             >
-              {isDarkMode ? (
-                <div className="xl:w-6 xl:h-6 w-3 h-3">
-                  <MoonIcon className="xl:w-6 xl:h-6 h-3 w-3" />
-                </div>
+              {menuOpen ? (
+                <XIcon className="h-6 w-6" />
               ) : (
-                <div className="md:w-6 md:h-6 w-3 h-3">
-                  <SunIcon className="md:w-6 md:h-6 h-3 w-3 sm:w-4" />
-                </div>
+                <MenuIcon className="h-8 w-8" />
               )}
-            </button> */}
-            <div className="relative z-10">
+            </button>
+
+            <div
+              className={`fixed top-0 right-0 h-full w-full shadow-lg z-50 transform transition-transform duration-300 ${
+                menuOpen ? "translate-x-0" : "translate-x-full"
+              } ${isDarkMode ? "bg-[#0F0F0F]" : "bg-white"}`}
+            >
               <button
                 onClick={toggleMenu}
-                className="block lg:hidden text-gray-700"
+                className="absolute top-4 right-4 text-gray-700"
               >
-                {menuOpen ? (
-                  <XIcon className="h-6 w-6" />
-                ) : (
-                  <MenuIcon className="h-6 w-6" />
-                )}
+                <XIcon className="h-6 w-6" />
               </button>
 
-              <div
-                className={`fixed top-0 right-0 h-full w-full bg-white shadow-lg transform transition-transform duration-300 ${
-                  menuOpen ? "translate-x-0" : "translate-x-full"
+              <ul
+                className={`p-4 my-16 text-center leading-[4rem] text-2xl ${
+                  isDarkMode ? "text-white bg-[#0F0F0F]" : "text-black"
                 }`}
               >
-                <button
-                  onClick={toggleMenu}
-                  className="absolute top-4 right-4 text-gray-700"
-                >
-                  <XIcon className="h-6 w-6" />
-                </button>
-
-                <ul className="p-4 my-16 text-center leading-[4rem] text-2xl">
-                  <div className="flex items-center justify-center">
-                    <p className="cursor-pointer">Discord</p>
-                    <Image
-                      src="/images/RightArrow.svg"
-                      width={25}
-                      height={25}
-                      alt="Picture of the author"
-                    />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="cursor-pointer">Twitter</p>
-                    <Image
-                      src="/images/RightArrow.svg"
-                      width={25}
-                      height={25}
-                      alt="Picture of the author"
-                    />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="cursor-pointer">Blog</p>
-                    <Image
-                      src="/images/RightArrow.svg"
-                      width={25}
-                      height={25}
-                      alt="Picture of the author"
-                    />
-                  </div>
-                  <p className="cursor-pointer">Team</p>
-                  <div className="flex items-center justify-center">
-                    <p className="cursor-pointer">Documentation</p>
-                    <Image
-                      src="/images/RightArrow.svg"
-                      width={25}
-                      height={25}
-                      alt="Picture of the author"
-                    />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="cursor-pointer">Careers</p>
-                    <Image
-                      src="/images/RightArrow.svg"
-                      width={25}
-                      height={25}
-                      alt="Picture of the author"
-                    />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <p className="cursor-pointer">Reach out</p>
-                    <Image
-                      src="/images/RightArrow.svg"
-                      width={25}
-                      height={25}
-                      alt="Picture of the author"
-                    />
-                  </div>
-                </ul>
-              </div>
+                <li className="flex items-center justify-center">
+                  <p className="cursor-pointer">Discord</p>
+                  <Image
+                    src={
+                      isDarkMode
+                        ? "/images/DarkModeArrow.svg"
+                        : "/images/RightArrow.svg"
+                    }
+                    width={25}
+                    height={25}
+                    alt="Arrow"
+                  />
+                </li>
+                <li className="flex items-center justify-center">
+                  <p className="cursor-pointer">Twitter</p>
+                  <Image
+                    src={
+                      isDarkMode
+                        ? "/images/DarkModeArrow.svg"
+                        : "/images/RightArrow.svg"
+                    }
+                    width={25}
+                    height={25}
+                    alt="Arrow"
+                  />
+                </li>
+                <li className="flex items-center justify-center">
+                  <p className="cursor-pointer">Blog</p>
+                  <Image
+                    src={
+                      isDarkMode
+                        ? "/images/DarkModeArrow.svg"
+                        : "/images/RightArrow.svg"
+                    }
+                    width={25}
+                    height={25}
+                    alt="Arrow"
+                  />
+                </li>
+                <li className="cursor-pointer">Team</li>
+                <li className="flex items-center justify-center">
+                  <p className="cursor-pointer">Documentation</p>
+                  <Image
+                    src={
+                      isDarkMode
+                        ? "/images/DarkModeArrow.svg"
+                        : "/images/RightArrow.svg"
+                    }
+                    width={25}
+                    height={25}
+                    alt="Arrow"
+                  />
+                </li>
+                <li className="flex items-center justify-center">
+                  <p className="cursor-pointer">Careers</p>
+                  <Image
+                    src={
+                      isDarkMode
+                        ? "/images/DarkModeArrow.svg"
+                        : "/images/RightArrow.svg"
+                    }
+                    width={25}
+                    height={25}
+                    alt="Arrow"
+                  />
+                </li>
+                <li className="flex items-center justify-center">
+                  <p className="cursor-pointer">Reach Out</p>
+                  <Image
+                    src={
+                      isDarkMode
+                        ? "/images/DarkModeArrow.svg"
+                        : "/images/RightArrow.svg"
+                    }
+                    width={25}
+                    height={25}
+                    alt="Arrow"
+                  />
+                </li>
+              </ul>
             </div>
           </div>
           <Link href="/peerprotocolapp" target="_blank">
-            {/* <button className="md:border text-md md:block md:border-current px-6 py-2 text-md rounded-3xl hidden">
-              Launch
-            </button> */}
-
             <button
               className={`md:border text-md md:block md:border-current px-6 py-2 text-md rounded-3xl hidden ${
                 isDarkMode
@@ -215,7 +219,7 @@ const Navbar = () => {
             </button>
           </Link>
           <button
-            onClick={() => toggleDark()}
+            onClick={toggleDark}
             className={`md:border border-black px-1 py-1 rounded-full flex items-center space-x-2 ${
               isDarkMode
                 ? "hover:bg-white hover:text-black bg-black text-white"
@@ -223,13 +227,9 @@ const Navbar = () => {
             }`}
           >
             {isDarkMode ? (
-              <div className="xl:w-6 xl:h-6 w-3 h-3">
-                <MoonIcon className="xl:w-6 xl:h-6 h-3 w-3" />
-              </div>
+              <MoonIcon className="w-8 h-8" />
             ) : (
-              <div className="md:w-6 md:h-6 w-3 h-3">
-                <SunIcon className="md:w-6 md:h-6 h-3 w-3 sm:w-4" />
-              </div>
+              <SunIcon className="w-8 h-8" />
             )}
           </button>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 import Nav from "../Nav";
 import Sidebar from "../sidebar";
+import PlusMath from "../../../../public/images/PlusMath.svg"
 import Image from "next/image";
 import BackButton from "../../../../public/images/back-button.svg";
 import Phantom from "../../../../public/images/phantom-icon.svg";
@@ -99,10 +100,17 @@ const BorrowersMarket = () => {
 
           <button
             onClick={openModal}
-            className="px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
+            className="flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
           >
-            Create a Proposal
+            <p>Create a Proposal</p>
+            <Image
+              src={PlusMath}
+              height={40}
+              width={20}
+              alt=""
+            />
           </button>
+
 
 
           <div className="flex justify-end p-4">
@@ -110,11 +118,10 @@ const BorrowersMarket = () => {
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index}
-                  className={`px-4 py-2 ${
-                    currentPage === index + 1
+                  className={`px-4 py-2 ${currentPage === index + 1
                       ? "bg-[rgba(0,0,0,0.8)] text-white"
                       : "bg-[#F5F5F5] text-black border-black border"
-                  } rounded-lg`}
+                    } rounded-lg`}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}
