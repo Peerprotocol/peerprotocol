@@ -79,14 +79,6 @@ const CreateproposalComponent = ({
               placeholder="Interest Rate %"
               className="h-[10vh] flex w-[50%] rounded-2xl px-4 text-[1.2rem] bg-[#ffffff2c] border-none outline-none"
             />
-            {/* <input
-                            type="range"
-                            value={percentage}
-                            min={0}
-                            max={100}
-                            onChange={(e) => setPercentage(e.target.value)}
-                            className=" cursor-pointer"
-                        /> */}
 
             <p>Duration in Days</p>
             <input
