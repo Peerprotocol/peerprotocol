@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Sidebar = () => {
   return (
-    <div className="bg-black w-[15%] h-screen rounded-r-[2.5rem] py-8 flex flex-col sticky">
+    <div className="bg-black w-[15%] h-screen rounded-r-[2.5rem] py-8 flex flex-col sticky top-0">
       <Image
         className="mx-[30%]"
         src="/images/LogoWhite.svg"
@@ -11,7 +11,7 @@ const Sidebar = () => {
         alt="Logo"
       />
       <div className="mt-14 px-10 flex-1 flex flex-col">
-        <div className="flex flex-col gap-14 flex-grow-[8]">
+        <div className="flex flex-col gap-14 flex-grow">
           <div className="flex gap-3 items-center cursor-pointer">
             <Image
               src="/images/LogoWhite.svg"
@@ -43,7 +43,7 @@ const Sidebar = () => {
               src="/images/portfolio.svg"
               width={30}
               height={10}
-              alt="Market"
+              alt="Portfolio"
             />
             <p>Portfolio</p>
           </div>

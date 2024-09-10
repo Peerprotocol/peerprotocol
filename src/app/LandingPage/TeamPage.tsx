@@ -55,7 +55,7 @@ const Team = () => {
 
         {/* Kev face card */}
         <div className="cursor-pointer lg:m-0 my-10">
-          <Image src="/images/Kev.png" alt="" width={380} height={40} />
+          <Image src="/images/kev.svg" alt="" width={380} height={40} />
           <p className={`text-2xl font-semibold text-black py-1 ${isDarkMode ? "text-white" : "text-black"}`}>Kelvin Duche</p>
           <div className="flex justify-between">
             <p className="text-gray-500 font-semibold text-sm">
