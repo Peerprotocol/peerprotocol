@@ -8,8 +8,8 @@ pub struct UserProfile {
     pub loan_count: u64,
     pub can_borrow: bool,
     pub can_deposit: bool,
-    pub coins_deposited: Vec<AcceptedColleterial>,
-    pub coins_lent: Vec<AcceptedColleterial>,
+    pub coins_deposited: Vec<DepositedColleterial>,
+    pub coins_lent: Vec<DepositedColleterial>,
 }
 
 #[account]
@@ -19,7 +19,7 @@ pub struct Loan {
     pub idx: u64,
     pub duration: u64,
     pub interest_rate: f64,
-    pub collateral: AcceptedColleterial,
+    pub collateral: DepositedColleterial,
     pub borrower: Pubkey,
     pub amount: u64,
     pub status: LoanStatus,
@@ -54,6 +54,20 @@ pub struct AcceptedColleterial {
     pub admin_ata_pda: Pubkey,
     pub authority: Pubkey,
     pub decimals: u8,
+}
+
+#[account]
+#[derive(Debug, Default)]
+pub struct DepositedColleterial {
+    pub ticker: String,
+    pub mint_address: String,
+    pub pool_address: String,
+    pub image: String,
+    pub admin_ata: Pubkey,
+    pub admin_ata_pda: Pubkey,
+    pub authority: Pubkey,
+    pub decimals: u8,
+    pub amount: u64,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Copy, Clone, PartialEq, Eq)]
