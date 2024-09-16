@@ -70,7 +70,7 @@ const AnalyticsChart = () => {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md mx-8 text-black relative py-8 px-4">
+        <div className="bg-white rounded-lg shadow-md mx-4 md:mx-8 text-black relative py-8 px-2 md:px-4">
             {/* Header with title and dropdown */}
             <div className="px-8 flex justify-between items-center">
                 <h2 className="text-lg font-semibold mb-4">Activity Overview</h2>
@@ -107,7 +107,7 @@ const AnalyticsChart = () => {
                 </ResponsiveContainer>
             </div>
             {/* Checkboxes to toggle data visibility */}
-            <div className="px-8 mb-4 flex gap-32 justify-center">
+            <div className="md:px-8 px-2 mb-4 flex flex-wrap md:flex-row gap-4 md:gap-32 justify-center">
                 <label className="flex items-center">
                     <input
                         type="checkbox"

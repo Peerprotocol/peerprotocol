@@ -24,7 +24,7 @@ const DepositWithdrawPeer = () => {
     };
 
     return (
-        <div className='border border-[#0000001A] bg-white p-6 rounded-[1rem] flex-grow relative text-black'>
+        <div className='border border-[#0000001A] bg-white p-6 rounded-[1rem] md:flex-grow flex-col relative text-black w-full md:h-[fit-content]'>
             <div className='pb-4 flex justify-end'>
                 <div className='flex items-center border py-2 px-4 rounded-3xl border-black cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
                     {selectedOption}
@@ -33,7 +33,7 @@ const DepositWithdrawPeer = () => {
                     </svg>
                 </div>
                 {isOpen && (
-                    <div className="absolute mt-10 w-[8.5rem] rounded-md shadow-lg bg-white">
+                    <div className="absolute mt-10 w-[7rem] md:w-[8.5rem] rounded-md shadow-lg bg-white">
                         <div className="py-1">
                             {marketOptions.map((option) => (
                                 <button key={option} onClick={() => handleSelectChange(option)} className={`block w-full text-left px-4 py-2 text-sm ${option === selectedOption ? "bg-gray-100" : ""}`}>
@@ -56,7 +56,7 @@ const DepositWithdrawPeer = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex gap-4'>
+                <div className='flex gap-4 w-full'>
                     <div className='flex items-center justify-center bg-[#0000000D] py-2 px-4 rounded-xl'>
                         <div className="flex gap-3 items-center">
                         <Image src={USDC} width={25} height={25} alt="USDC-Image"/>
@@ -72,7 +72,7 @@ const DepositWithdrawPeer = () => {
                         value={amount}
                         onChange={handleAmountChange}
                         placeholder="0"
-                        className="text-right text-[1.4rem] font-bold bg-transparent outline-none"
+                        className="text-right text-[1.4rem] font-bold bg-transparent outline-none w-[60%] md:w-auto"
                     />
                 </div>
                 <p className='text-xs'>Available:</p>

@@ -49,8 +49,8 @@ const Table: React.FC = () => {
     return (
         <div className="p-6">
             {/* Buttons: Assets, Position Overview, Transaction History, Filter */}
-            <div className="mb-6 flex justify-between mt-3">
-                <div className="flex space-x-4">
+            <div className="mb-6 flex justify-between mt-3 gap-4">
+                <div className="flex flex-wrap md:flex-row space-x-2 md:space-x-4">
                     <button
                         className={`px-4 py-2 rounded-md ${activeTab === "Assets" ? "bg-black text-white" : "bg-transparent text-black"}`}
                         onClick={() => {
