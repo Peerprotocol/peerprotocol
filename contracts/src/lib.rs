@@ -1,8 +1,8 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer as SplTransfer};
 pub mod constants;
+pub mod helper;
 pub mod states;
-use pyth_sdk_solana::load_price_feed_from_account_info;
 use solana_program::pubkey;
 use std::str::FromStr;
 
@@ -11,13 +11,10 @@ declare_id!("6kyAE2eHjdiupYVp9Qs6pjbq8Frk7G5deLAaW8tEtEBu");
 use crate::{constants::*, states::*};
 const ADMIN_PUBKEY: Pubkey = pubkey!("7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk");
 
-const BTC_USDC_FEED: &str = "HovQMDrbAgAYPCmHVSrezcSmkMtXSSUsLDFANExrZh2J";
-// const PYTH_USDC_FEED: &str = "EdVCmQ9FSPcVe5YySXDPCRmc8aDQLKJ9xvYBMZPie1Vw";
-const STALENESS_THRESHOLD: u64 = 60; // staleness threshold in seconds
-
 #[program]
 pub mod peer_protocol_contracts {
     use super::*;
+    use crate::helper::fetch_collaterial_price;
 
     pub fn initialize(ctx: Context<InitializeUser>) -> Result<()> {
         // Initialize user profile with default data
@@ -31,9 +28,9 @@ pub mod peer_protocol_contracts {
         user_profile.coins_deposited = vec![];
         Ok(())
     }
-    pub fn close_account(_ctx: Context<DeleteUser>) -> Result<()> {
-        Ok(())
-    }
+    // pub fn close_account(_ctx: Context<DeleteUser>) -> Result<()> {
+    //     Ok(())
+    // }
 
     pub fn initialize_admin(ctx: Context<InitializeAdmin>) -> Result<()> {
         // Initialize admin profile with default data
@@ -66,12 +63,17 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
+    // pub fn total_deposit() -> f64 {
+
+    // }
+
     pub fn deposit_collaterial(ctx: Context<TransferSpl>, amount: u64) -> Result<()> {
         let destination = &ctx.accounts.to_ata;
         let source = &ctx.accounts.from_ata;
         let token_program = &ctx.accounts.token_program;
         let authority = &ctx.accounts.authority;
         let user_profile = &mut ctx.accounts.user_profile;
+        let accepted_collaterial = &mut ctx.accounts.accepted_collaterial;
 
         require!(user_profile.can_deposit, ProgramError::UserCannotDeposit);
 
@@ -83,11 +85,39 @@ pub mod peer_protocol_contracts {
         };
         let cpi_program = token_program.to_account_info();
 
+        let collateral = DepositedColleterial {
+            ticker: accepted_collaterial.ticker.clone(),
+            mint_address: accepted_collaterial.mint_address.clone(),
+            pool_address: accepted_collaterial.pool_address.clone(),
+            image: accepted_collaterial.image.clone(),
+            admin_ata: accepted_collaterial.admin_ata.clone(),
+            admin_ata_pda: accepted_collaterial.admin_ata_pda.clone(),
+            authority: accepted_collaterial.authority.clone(),
+            decimals: accepted_collaterial.decimals.clone(),
+            amount: amount,
+        };
+
+        // TODO: this way is not secure as the user can enter any mint address and claim to have deposited it.
+
+        match user_profile
+            .coins_deposited
+            .iter_mut()
+            .find(|c| c.mint_address == collateral.mint_address)
+        {
+            Some(existing_collateral) => {
+                existing_collateral.amount += amount; // Update the amount
+            }
+            None => {
+                // If the token doesn't exist in the list, add it as new collateral
+                user_profile.coins_deposited.push(collateral);
+            }
+        }
+
         token::transfer(CpiContext::new(cpi_program, cpi_accounts), amount)?;
 
         // user_profile.can_deposit = false;
-        // fetch_collaterial_price();
-        user_profile.total_deposit = user_profile.total_deposit.checked_add(amount).unwrap();
+        // let currentPriceInUsd: f64 = fetch_collaterial_price(price_feed).unwrap();
+        // update user balance for that coin
 
         Ok(())
     }
@@ -95,6 +125,8 @@ pub mod peer_protocol_contracts {
     pub fn withdraw_collaterial(ctx: Context<WithdrawSpl>, amount: u64) -> Result<()> {
         let creatorKey = Pubkey::from_str("7iT5H86QPoNFjGt1X2cMEJot4mr5Ns4uzhLN3GJKQ5kk")
             .expect("Failed to parse public key string");
+        let accepted_collaterial = &mut ctx.accounts.accepted_collaterial;
+
         let user_profile = &mut ctx.accounts.user_profile;
 
         let auth_bump: u8 = 254;
@@ -106,7 +138,19 @@ pub mod peer_protocol_contracts {
         ];
         let signer = &[&seeds[..]];
 
+        match user_profile
+            .coins_deposited
+            .iter_mut()
+            .find(|c| c.mint_address == accepted_collaterial.mint_address)
+        {
+            Some(existing_collateral) => {
+                existing_collateral.amount -= amount; // Update the amount
+            }
+            None => {}
+        }
+
         // Transfer tokens from taker to initializer
+        // TODO: ctx.accounts.to_ata -> derive it from user pubkey
         token::transfer(
             CpiContext::new_with_signer(
                 ctx.accounts.token_program.to_account_info(),
@@ -122,7 +166,7 @@ pub mod peer_protocol_contracts {
 
         // user_profile.can_deposit = false;
         // fetch_collaterial_price();
-        user_profile.total_deposit = user_profile.total_deposit.checked_sub(amount).unwrap();
+        // update user balance for that coin
 
         Ok(())
     }
@@ -151,14 +195,14 @@ pub mod peer_protocol_contracts {
         loan_account.duration = duration;
         loan_account.authority = ctx.accounts.authority.key();
         loan_account.idx = user_profile.last_loan;
-        user_profile.total_deposit = user_profile
-            .total_deposit
-            .checked_sub(loan_account.amount)
-            .unwrap();
-        user_profile.total_lent = user_profile
-            .total_lent
-            .checked_add(loan_account.amount)
-            .unwrap();
+        // user_profile.total_deposit = user_profile
+        //     .total_deposit
+        //     .checked_sub(loan_account.amount)
+        //     .unwrap();
+        // user_profile.total_lent = user_profile
+        //     .total_lent
+        //     .checked_add(loan_account.amount)
+        // .unwrap();
 
         // // Increase todo idx for ata_pda_authority
         user_profile.loan_count = user_profile.loan_count.checked_add(1).unwrap();
@@ -215,30 +259,6 @@ pub mod peer_protocol_contracts {
         Ok(())
     }
 
-    pub fn fetch_collaterial_price(ctx: Context<FetchCollaterialPrice>) -> Result<f64> {
-        // 1-Fetch latest price
-        let price_account_info = &ctx.accounts.price_feed;
-        msg!("getting price feed");
-        let price_feed = load_price_feed_from_account_info(&price_account_info).unwrap();
-        let current_timestamp = Clock::get()?.unix_timestamp;
-        msg!("gotten price feed");
-        let current_price = price_feed
-            .get_price_no_older_than(current_timestamp, STALENESS_THRESHOLD)
-            .unwrap();
-        msg!("{}", current_price.price);
-        msg!("{:?}", current_price);
-        // 2-Format display values rounded to nearest dollar
-        let display_price = (u64::try_from(current_price.price).unwrap() as f64)
-            / (10u64.pow(u32::try_from(-current_price.expo).unwrap()) as f64);
-
-        let display_confidence = u64::try_from(current_price.conf).unwrap()
-            / 10u64.pow(u32::try_from(-current_price.expo).unwrap());
-
-        // // 3-Log result
-        msg!("/USD price: ({} +- {})", display_price, display_confidence);
-        Ok(display_price)
-    }
-
     pub fn remove_loan(ctx: Context<RemoveLoan>, collaterial_idx: u8) -> Result<()> {
         let user_profile = &mut ctx.accounts.user_profile;
         let loan_account = &mut ctx.accounts.loan_account;
@@ -246,14 +266,14 @@ pub mod peer_protocol_contracts {
             loan_account.status == LoanStatus::Open,
             ProgramError::LoanAcceptedByNow
         );
-        user_profile.total_deposit = user_profile
-            .total_deposit
-            .checked_add(loan_account.amount)
-            .unwrap();
-        user_profile.total_lent = user_profile
-            .total_lent
-            .checked_sub(loan_account.amount)
-            .unwrap();
+        // user_profile.total_deposit = user_profile
+        //     .total_deposit
+        //     .checked_add(loan_account.amount)
+        //     .unwrap();
+        // user_profile.total_lent = user_profile
+        //     .total_lent
+        //     .checked_sub(loan_account.amount)
+        //     .unwrap();
 
         // // Increase todo idx for ata_pda_authority
         user_profile.loan_count = user_profile.loan_count.checked_sub(1).unwrap();
@@ -393,9 +413,10 @@ pub struct TransferSpl<'info> {
     pub authority: Signer<'info>,
     #[account(mut)]
     pub from_ata: Box<Account<'info, TokenAccount>>,
-    #[account(mut)]
+    #[account(mut)] //TODO: add restriction here on account it can send to
     pub to_ata: Box<Account<'info, TokenAccount>>,
     pub token_program: Program<'info, Token>,
+    pub price_feed: AccountInfo<'info>,
     #[account(
         mut,
         seeds = [USER_TAG,authority.key().as_ref()],
@@ -403,6 +424,8 @@ pub struct TransferSpl<'info> {
         has_one = authority
     )]
     pub user_profile: Box<Account<'info, UserProfile>>,
+    #[account(mut,has_one = authority,)]
+    pub accepted_collaterial: Box<Account<'info, DepositedColleterial>>,
 }
 
 #[derive(Accounts)]
@@ -422,14 +445,8 @@ pub struct WithdrawSpl<'info> {
     pub user_profile: Box<Account<'info, UserProfile>>,
     #[account(mut)]
     pub ata_pda_authority: AccountInfo<'info>,
-}
-
-#[derive(Accounts)]
-pub struct FetchCollaterialPrice<'info> {
-    #[account(mut)]
-    pub signer: Signer<'info>,
-    #[account(mut)]
-    pub price_feed: AccountInfo<'info>,
+    #[account(mut,has_one = authority,)]
+    pub accepted_collaterial: Box<Account<'info, DepositedColleterial>>,
 }
 
 #[error_code]

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import MarketContent from "./marketContent";
 import { MainMarketProps, marketData } from "./mainMarket";
 import { peerMarketData } from "./peerMarketData";
@@ -26,7 +26,10 @@ const Market = () => {
     setIsOpen(false);
   };
 
-  const openModal = (type: "Deposit" | "Borrow", data: Partial<MainMarketProps>) => {
+  const openModal = (
+    type: "Deposit" | "Borrow",
+    data: Partial<MainMarketProps>
+  ) => {
     setModalType(type);
     setSelectedCoin({
       asset: data.asset || "",
@@ -40,36 +43,42 @@ const Market = () => {
     setIsModalOpen(false);
   };
 
-  const handleAction = (action: "Lend" | "Borrow", data: Partial<MainMarketProps>) => {
+  const handleAction = (
+    action: "Lend" | "Borrow",
+    data: Partial<MainMarketProps>
+  ) => {
     if (Protocol === "P2P") {
       // Navigate to different pages based on action
       if (action === "Lend") {
-        router.push(`peerprotocolapp/LendMarket`);
+        router.push(`app/LendMarket`);
       } else if (action === "Borrow") {
-        router.push(`peerprotocolapp/BorrowMarket`);
+        router.push(`app/BorrowMarket`);
       }
     } else {
       // Handle other actions
       openModal(action as "Deposit" | "Borrow", data);
     }
   };
-  
 
   return (
-    <div className="p-8">
-      <div className="relative text-left flex justify-between pt-20 pb-8">
+    <div className="p-2 md:p-8">
+      <div className="relative text-left flex flex-col md:flex-row justify-evenly md:justify-between pt-20 pb-8">
         <p className="text-black text-3xl">Main Market</p>
 
         <div className="flex items-center gap-8">
           <div className="flex gap-1 bg-gray-200 rounded-xl px-1 py-1">
             <div
-              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${Protocol === "Protocol" ? "text-white bg-black" : ""}`}
+              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${
+                Protocol === "Protocol" ? "text-white bg-black" : ""
+              }`}
               onClick={() => setProtocol("Protocol")}
             >
               <p>Protocol</p>
             </div>
             <div
-              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${Protocol === "P2P" ? "text-white bg-black" : ""}`}
+              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${
+                Protocol === "P2P" ? "text-white bg-black" : ""
+              }`}
               onClick={() => setProtocol("P2P")}
             >
               <p>P2P</p>
@@ -103,7 +112,11 @@ const Market = () => {
                   <button
                     key={option}
                     onClick={() => handleSelectChange(option)}
-                    className={`flex items-center w-full px-4 py-2 text-sm ${option === selectedOption ? "bg-gray-100 text-gray-900" : "text-gray-700"}`}
+                    className={`flex items-center w-full px-4 py-2 text-sm ${
+                      option === selectedOption
+                        ? "bg-gray-100 text-gray-900"
+                        : "text-gray-700"
+                    }`}
                   >
                     {option}
                   </button>
@@ -114,13 +127,13 @@ const Market = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto text-black border rounded-t-xl">
-        <div className="grid grid-cols-5 pt-6 rounded-t-xl bg-smoke-white py-4">
-          <div className="text-center font-semibold">Asset</div>
-          <div className="text-center font-semibold">Supply</div>
-          <div className="text-center font-semibold">Borrow</div>
-          <div className="text-center font-semibold">Supply APY</div>
-          <div className="text-center font-semibold">Borrow APY</div>
+      <div className="text-black border rounded-t-xl w-full overflow-x-auto">
+        <div className="flex gap-12 justify-between pt-6 rounded-t-xl bg-smoke-white py-4 w-full px-4 overflow-auto">
+          <p className="text-center font-semibold w-auto md:w-1/5">Asset</p>
+          <p className="text-center font-semibold w-auto md:w-1/5">Supply</p>
+          <p className="text-center font-semibold w-auto md:w-1/5">Borrow</p>
+          <p className="text-center font-semibold w-auto md:w-1/5">Supply APY</p>
+          <p className="text-center font-semibold w-auto md:w-1/5">Borrow APY</p>
         </div>
 
         {/* Render MarketContent with action handler */}

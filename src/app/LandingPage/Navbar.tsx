@@ -207,7 +207,7 @@ const Navbar = () => {
               </ul>
             </div>
           </div>
-          <Link href="/peerprotocolapp" target="_blank">
+          <Link href="/app" target="_blank">
             <button
               className={`md:border text-md md:block md:border-current px-6 py-2 text-md rounded-3xl hidden ${
                 isDarkMode
