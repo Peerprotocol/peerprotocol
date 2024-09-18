@@ -1,5 +1,4 @@
 import Lender from "./lendersMarket";
-import Image from "next/image";
 
 const Page = () => {
     return (

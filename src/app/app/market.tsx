@@ -48,14 +48,12 @@ const Market = () => {
     data: Partial<MainMarketProps>
   ) => {
     if (Protocol === "P2P") {
-      // Navigate to different pages based on action
       if (action === "Lend") {
         router.push(`app/LendMarket`);
       } else if (action === "Borrow") {
         router.push(`app/BorrowMarket`);
       }
     } else {
-      // Handle other actions
       openModal(action as "Deposit" | "Borrow", data);
     }
   };
@@ -68,17 +66,15 @@ const Market = () => {
         <div className="flex items-center gap-8">
           <div className="flex gap-1 bg-gray-200 rounded-xl px-1 py-1">
             <div
-              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${
-                Protocol === "Protocol" ? "text-white bg-black" : ""
-              }`}
+              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${Protocol === "Protocol" ? "text-white bg-black" : ""
+                }`}
               onClick={() => setProtocol("Protocol")}
             >
               <p>Protocol</p>
             </div>
             <div
-              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${
-                Protocol === "P2P" ? "text-white bg-black" : ""
-              }`}
+              className={`rounded-xl text-black flex gap-3 py-2 px-4 border cursor-pointer ${Protocol === "P2P" ? "text-white bg-black" : ""
+                }`}
               onClick={() => setProtocol("P2P")}
             >
               <p>P2P</p>
@@ -100,7 +96,7 @@ const Market = () => {
             >
               <path
                 fillRule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                 clipRule="evenodd"
               />
             </svg>
@@ -112,11 +108,10 @@ const Market = () => {
                   <button
                     key={option}
                     onClick={() => handleSelectChange(option)}
-                    className={`flex items-center w-full px-4 py-2 text-sm ${
-                      option === selectedOption
+                    className={`flex items-center w-full px-4 py-2 text-sm ${option === selectedOption
                         ? "bg-gray-100 text-gray-900"
                         : "text-gray-700"
-                    }`}
+                      }`}
                   >
                     {option}
                   </button>
@@ -136,14 +131,12 @@ const Market = () => {
           <p className="text-center font-semibold w-auto md:w-1/5">Borrow APY</p>
         </div>
 
-        {/* Render MarketContent with action handler */}
         <MarketContent
           marketData={Protocol === "Protocol" ? marketData : peerMarketData}
           onAction={handleAction}
         />
       </div>
 
-      {/* Modal for Protocol mode */}
       {isModalOpen && (
         <DepositWithdraw
           type={modalType}

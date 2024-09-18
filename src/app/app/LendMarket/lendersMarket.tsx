@@ -4,16 +4,20 @@ import Sidebar from "../sidebar";
 import Image from "next/image";
 import BackButton from "../../../../public/images/back-button.svg";
 import Phantom from "../../../../public/images/phantom-icon.svg";
+import PlusMath from "../../../../public/images/PlusMath.svg"
+import PlusMathHover from "../../../../public/images/MathPlusHover.png";
 import Solana from "../../../../public/images/sol.svg";
 import { LenderData } from "../LenderData";
 import { useState } from "react";
-import PeerProtocol from "./../../../../public/images/LogoBlack.svg"; 
+import PeerProtocol from "./../../../../public/images/LogoBlack.svg";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 7;
 
 const Lender = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const totalPages = Math.ceil(LenderData.length / ITEMS_PER_PAGE);
 
@@ -36,14 +40,18 @@ const Lender = () => {
         <div className="flex-1 flex flex-col h-full max-h-screen overflow-auto">
           <Nav />
           <div className="flex p-4">
-            <div className="flex gap-3 items-center">
-              <Image
-                src={BackButton}
-                height={40}
-                width={40}
-                alt="back-button"
-                className="cursor-pointer"
-              />
+            <div className="flex gap-3">
+              <div>
+                <Link href='/app'>
+                  <Image
+                    src={BackButton}
+                    height={40}
+                    width={40}
+                    alt="back-button"
+                    className="cursor-pointer"
+                  />
+                </Link>
+              </div>
               <div className="flex gap-2 pb-2">
                 <p className="text-black text-4xl">Lend Market</p>
                 <div className="flex gap-2 border rounded-3xl text-black border-gray-500 w-24 items-center justify-center">
@@ -104,9 +112,18 @@ const Lender = () => {
 
           <button
             onClick={openModal}
-            className="px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
+            className="relative flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            Create a Proposal
+            <p>Create a Proposal</p>
+            <Image
+              src={isHovered ? PlusMathHover : PlusMath}
+              height={40}
+              width={20}
+              alt="plus"
+              className="transition-opacity duration-300 ease-in-out"
+            />
           </button>
 
           <div className="flex justify-end p-4">
@@ -114,11 +131,10 @@ const Lender = () => {
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index}
-                  className={`px-4 py-2 ${
-                    currentPage === index + 1
-                      ? "bg-[rgba(0,0,0,0.8)] text-white"
-                      : "bg-[#F5F5F5] text-black border-black border"
-                  } rounded-lg`}
+                  className={`px-4 py-2 ${currentPage === index + 1
+                    ? "bg-[rgba(0,0,0,0.8)] text-white"
+                    : "bg-[#F5F5F5] text-black border-black border"
+                    } rounded-lg`}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}

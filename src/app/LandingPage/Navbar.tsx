@@ -98,7 +98,7 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4 ml-auto">
           {/* Desktop: Show as button */}
-          <Link href="/peerprotocolapp" target="_blank">
+          <Link href="/app" target="_blank">
             <button
               className={`border border-black px-6 py-2 rounded-3xl ${isDarkMode ? "hover:bg-white hover:text-black bg-black text-white" : "hover:bg-black hover:text-white bg-white text-black"}`}
               style={{ zIndex: 100, position: 'relative' }}
@@ -219,7 +219,7 @@ const Navbar = () => {
           <li className="relative">
             {/* Mobile: Show as text */}
             <div className="lg:hidden flex items-center justify-center">
-              <Link href="/peerprotocolapp" target="_blank" className="flex items-center">
+              <Link href="/app" target="_blank" className="flex items-center">
                 <p className="cursor-pointer text-black">Launch</p>
                 <Image
                   src={isDarkMode ? "/images/DarkModeArrow.svg" : "/images/RightArrow.svg"}
@@ -233,7 +233,7 @@ const Navbar = () => {
 
             {/* Desktop */}
             <div className="hidden lg:flex items-center justify-center">
-              <Link href="/peerprotocolapp" target="_blank">
+              <Link href="/app" target="_blank">
                 <button
                   className={`border px-6 py-2 rounded-3xl ${isDarkMode ? "hover:bg-white hover:text-black bg-black text-white" : "hover:bg-black hover:text-white bg-white text-black"}`}
                   style={{ zIndex: 100, position: 'relative' }}
