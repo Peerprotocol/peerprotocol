@@ -11,6 +11,9 @@ const config: Config = {
       boxShadow: {
         'button': '6px -6px 15px rgba(0, 0, 0, 0.3), 6px 6px 15px rgba(0, 0, 0, 0.3)',
       },
+      fontFamily: {
+        redhat: ['Red Hat Display', 'sans-serif'],
+      },
       screens: {
         '2xl': '1441px',
         'sm' : '200px',
