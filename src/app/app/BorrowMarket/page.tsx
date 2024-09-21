@@ -3,18 +3,21 @@ import Nav from "../Nav";
 import Sidebar from "../sidebar";
 import PlusMath from "../../../../public/images/PlusMath.svg"
 import Image from "next/image";
+import PlusMathHover from "../../../../public/images/MathPlusHover.png";
 import BackButton from "../../../../public/images/back-button.svg";
 import Phantom from "../../../../public/images/phantom-icon.svg";
 import { BorrowerData } from "../BorrowerData";
 import { useState } from "react";
 import Solana from "../../../../public/images/sol.svg";
 import PeerProtocol from "./../../../../public/images/LogoBlack.svg";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 7;
 
 const BorrowersMarket = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const totalPages = Math.ceil(BorrowerData.length / ITEMS_PER_PAGE);
 
@@ -36,14 +39,18 @@ const BorrowersMarket = () => {
         <Sidebar />
         <div className="flex-1 flex flex-col h-full max-h-screen overflow-auto">
           <Nav />
-          <div className="flex gap-3 items-center p-4">
-            <Image
-              src={BackButton}
-              height={40}
-              width={40}
-              alt="back-button"
-              className="cursor-pointer"
-            />
+          <div className="flex gap-3 p-4">
+            <div>
+              <Link href='/app'>
+                <Image
+                  src={BackButton}
+                  height={40}
+                  width={40}
+                  alt="back-button"
+                  className="cursor-pointer"
+                />
+              </Link>
+            </div>
             <div className="flex gap-2 pb-2">
               <p className="text-black text-4xl">Borrow Market</p>
               <div className="flex gap-2 border rounded-3xl text-black border-gray-500 w-24 items-center justify-center">
@@ -53,7 +60,7 @@ const BorrowersMarket = () => {
             </div>
           </div>
 
-          <div className="overflow-x-auto text-black border mx-4 mb-4">
+          <div className="overflow-x-auto text-black border mx-4 mb-4 rounded-xl">
             <div className="grid grid-cols-7 pt-6 rounded-t-xl bg-smoke-white py-4">
               <div className="text-center font-semibold">Merchant</div>
               <div className="text-center font-semibold">Quantity</div>
@@ -90,9 +97,12 @@ const BorrowersMarket = () => {
                   <div className="text-center px-4 py-6 border-t border-gray-300">
                     <p className="font-medium">{row.quantity}</p>
                   </div>
-                  <button className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] my-5 mx-auto text-white w-20 h-8">
-                    Borrow
-                  </button>
+                  <div className="border-t flex border-gray-300">
+                    <button className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] my-5 mx-auto text-white w-20 h-8">
+                      Borrow
+                    </button>
+                  </div>
+
                 </div>
               ))}
             </div>
@@ -100,14 +110,17 @@ const BorrowersMarket = () => {
 
           <button
             onClick={openModal}
-            className="flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
+            className="relative flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
             <p>Create a Proposal</p>
             <Image
-              src={PlusMath}
+              src={isHovered ? PlusMathHover : PlusMath}
               height={40}
               width={20}
               alt="plus"
+              className="transition-opacity duration-300 ease-in-out"
             />
           </button>
 
@@ -119,8 +132,8 @@ const BorrowersMarket = () => {
                 <button
                   key={index}
                   className={`px-4 py-2 ${currentPage === index + 1
-                      ? "bg-[rgba(0,0,0,0.8)] text-white"
-                      : "bg-[#F5F5F5] text-black border-black border"
+                    ? "bg-[rgba(0,0,0,0.8)] text-white"
+                    : "bg-[#F5F5F5] text-black border-black border"
                     } rounded-lg`}
                   onClick={() => handlePageChange(index + 1)}
                 >

@@ -14,7 +14,7 @@ const Dashboard = () => {
             className="border border-gray-200 p-6 rounded-xl mt-4 bg-smoke-white relative flex flex-col justify-center w-full lg:w-[calc(51%-1rem)]" // Set 33% width for lg screens
           >
             <p className="text-sm text-gray-400">{item.label}</p>
-            <p className="text-[2.5rem] font-medium text-gray-700">
+            <p className="text-[2.2rem] font-semibold text-black">
               {item.value}
             </p>
 

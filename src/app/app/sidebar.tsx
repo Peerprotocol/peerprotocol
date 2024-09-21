@@ -24,12 +24,21 @@ const Sidebar = () => {
           </Link>
           <Link href='/app/profile' className="flex gap-3 items-center cursor-pointer">
             <Image
-              src="/images/liquid.svg"
+              src="/images/portfolio.svg"
               width={30}
               height={10}
               alt="Liquidity"
             />
-            <p>Profile</p>
+            <p>Portfolio</p>
+          </Link>
+          <Link href='' type="disabled" className="flex gap-3 items-center cursor-pointer">
+            <Image
+              src="/images/institution.svg"
+              width={30}
+              height={10}
+              alt="Business"
+            />
+            <p>B2B</p>
           </Link>
         </div>
       </div>

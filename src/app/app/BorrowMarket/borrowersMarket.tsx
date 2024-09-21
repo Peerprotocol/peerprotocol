@@ -2,22 +2,28 @@
 import Nav from "../Nav";
 import Sidebar from "../sidebar";
 import Image from "next/image";
-import PlusMath from "../../../../public/images/PlusMath.svg"
+import PlusMath from "../../../../public/images/PlusMath.svg";
 import BackButton from "../../../../public/images/back-button.svg";
 import Phantom from "../../../../public/images/phantom-icon.svg";
 import { BorrowerData } from "../BorrowerData";
 import { useState } from "react";
+import PlusMathHover from "../../../../public/images/MathPlusHover.png";
 
 const ITEMS_PER_PAGE = 7;
 
 const BorrowersMarket = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const totalPages = Math.ceil(BorrowerData.length / ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const currentData = BorrowerData.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -42,7 +48,6 @@ const BorrowersMarket = () => {
               <p className="text-black text-4xl">Borrower&apos;s Market</p>
             </div>
           </div>
-
           <div className="overflow-x-auto text-black border mx-4 mb-4">
             <div className="grid grid-cols-5 pt-6 rounded-t-xl bg-smoke-white py-4">
               <div className="text-center font-semibold">Borrower</div>
@@ -86,21 +91,32 @@ const BorrowersMarket = () => {
             </div>
           </div>
 
-          <button className="px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white">
-            Create a Proposal
-            {/* <Image src={PlusMath} height={40} width={20} alt=""/> */}
+          <button
+            onClick={openModal}
+            className={`relative flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white`}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <p>Create a Proposal</p>
+            <Image
+              src={isHovered ? PlusMathHover : PlusMath}
+              height={40}
+              width={20}
+              alt="plus"
+              className="transition-opacity duration-300 ease-in-out"
+            />
           </button>
+
 
           <div className="flex justify-end p-4">
             <div className="flex gap-2">
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index}
-                  className={`px-4 py-2 ${
-                    currentPage === index + 1
-                      ? "bg-[rgba(0,0,0,0.8)] text-white"
-                      : "bg-[#F5F5F5] text-black border-black border-2"
-                  } rounded-lg`}
+                  className={`px-4 py-2 ${currentPage === index + 1
+                    ? "bg-[rgba(0,0,0,0.8)] text-white"
+                    : "bg-[#F5F5F5] text-black border-black border-2"
+                    } rounded-lg`}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}
