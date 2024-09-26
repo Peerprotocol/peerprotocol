@@ -31,16 +31,20 @@ const MarketContent: React.FC<MarketContentProps> = ({ marketData, onAction }) =
 
           {/* Supply Section */}
           <div className="flex flex-col items-center md:w-1/5 text-center px-4">
-            <p className="font-medium">{row.deposits}</p>
-            <small className="text-gray-400">{row.maxTVL}</small>
-            {row.cap >= 70 && (
-              <Image
-                src={row.cap >= 90 ? row.alert : row.caution}
-                height={20}
-                width={20}
-                alt={row.cap >= 90 ? "alert" : "caution"}
-              />
-            )}
+            <div className="flex">
+              <div>
+                <p className="font-medium">{row.deposits}</p>
+                <small className="text-gray-400">{row.maxTVL}</small>
+              </div>
+              {row.cap >= 70 && (
+                <Image
+                  src={row.cap >= 90 ? row.alert : row.caution}
+                  height={20}
+                  width={20}
+                  alt={row.cap >= 90 ? "alert" : "caution"}
+                />
+              )}
+            </div>
           </div>
 
           {/* Borrow Section */}
