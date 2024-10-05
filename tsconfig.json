@@ -37,6 +37,7 @@
     "src/components/WalletConnectProvider.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "solana-contracts"
   ]
 }

@@ -36,3 +36,8 @@ yarn-error.log*
 next-env.d.ts
 id.json
 target/
+
+peer-protocol-contracts/target
+
+!peer-protocol-contracts/target/idl
+!peer-protocol-contracts/target/types
