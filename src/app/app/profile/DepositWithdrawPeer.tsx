@@ -1,9 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Settings from "../../../../public/images/Set.svg";
-import Drop from "../../../../public/images/drop.svg";
 import Logo from "../../../../public/images/LogoBlack.svg";
-import USDC from "../../../../public/images/usdc.png";
 import { useProgram } from "@/context/program.context";
 import { BN } from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
@@ -11,7 +9,7 @@ import { Token, whitelistedTokens } from "@/lib/utils/tokens.data";
 import { useQuery } from "@tanstack/react-query";
 import { getAccount, getMint } from "@solana/spl-token";
 import { useConnection } from "@solana/wallet-adapter-react";
-import { getAta } from "@/lib/program/getAta";
+import { getAta } from "@/lib/utils/getAta";
 
 type MarketOptions = "deposit" | "withdraw";
 const marketOptions: MarketOptions[] = ["deposit", "withdraw"];

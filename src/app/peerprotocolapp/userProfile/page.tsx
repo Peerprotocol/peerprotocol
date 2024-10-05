@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import Nav from "../Nav";
-import Sidebar from "../sidebar";
 import CryptoChart from "../../peerprotocolapp/userProfile/cryptoChart";
 import { ChartData, ChartOptions } from "chart.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useGetBalance } from "@/lib/hooks/useGetBalance";
+import Sidebar from "@/app/app/sidebar";
+import Nav from "@/app/app/Nav";
 
 type DataType = "lend" | "borrow";
 
@@ -14,7 +14,6 @@ const UserProfile = () => {
   const { wallet } = useWallet();
   const { balance } = useGetBalance(wallet?.adapter.publicKey);
 
-  console.log("balance", balance);
 
   const dataSets: Record<
     DataType,

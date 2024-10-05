@@ -1,11 +1,5 @@
 "use client";
 
-import {} from "@";
-import {
-  getPeerProtocolProgram,
-  getPeerProtocolProgramId,
-  getReadOnlyPeerProtocolProgram,
-} from "../../peer-protocol-contracts/src";
 import { Cluster, PublicKey } from "@solana/web3.js";
 import {
   useMutation,
@@ -21,6 +15,7 @@ import { getPda, PdaTag } from "@/lib/utils/get-pda";
 import { txToast } from "@/lib/utils/toast";
 import { BN } from "@coral-xyz/anchor";
 import { getAta } from "@/lib/utils/getAta";
+import { getPeerProtocolProgram, getPeerProtocolProgramId, getReadOnlyPeerProtocolProgram } from "../../solana-contracts/peer-protocol/src/peer-protocol-exports";
 
 // READONLY PROGRAM
 const readOnlyPeerProtocolProgram = getReadOnlyPeerProtocolProgram();
