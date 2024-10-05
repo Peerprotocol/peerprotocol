@@ -1,6 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { PeerProtocol } from "../target/types/peer_protocol";
+import { describe } from "mocha";
 
 describe("peer-protocol", () => {
   // Configure the client to use the local cluster.

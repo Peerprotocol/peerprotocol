@@ -1,6 +1,6 @@
 "use client";
 import CreateproposalComponent from "@/components/CreateproposalComponent";
-import { WalletConnectProvider } from "@/components/WalletConnectProvider";
+// import { WalletConnectProvider } from "@/components/WalletConnectProvider";
 import BorrowComponent from "@/components/borrowComponent";
 import Navbar from "@/components/nav";
 import Link from "next/link";
@@ -18,7 +18,7 @@ const Borrow = () => {
   };
 
   return (
-    <WalletConnectProvider>
+    // <WalletConnectProvider>
       <div className="flex flex-col bg-black">
         <Navbar />
 
@@ -71,7 +71,7 @@ const Borrow = () => {
 
         <CreateproposalComponent show={showModal} onClose={handleCloseModal} />
       </div>
-    </WalletConnectProvider>
+    // </WalletConnectProvider>
   );
 };
 

@@ -10,7 +10,7 @@ import {
 import { createContext, useContext, useMemo } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useCluster } from "@/hooks/use-cluster";
-import { useAnchorProvider } from "@/hooks/use-anchor-proivder";
+import { useAnchorProvider } from "@/hooks/use-anchor-provider";
 import { getPda, PdaTag } from "@/lib/utils/get-pda";
 import { txToast } from "@/lib/utils/toast";
 import { BN } from "@coral-xyz/anchor";
