@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Settings from "../../../../public/images/Set.svg";
 import Logo from "../../../../public/images/LogoBlack.svg";
 import { useProgram } from "@/context/program.context";
-import { BN } from "@coral-xyz/anchor";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Token, whitelistedTokens } from "@/lib/utils/tokens.data";
 import { useQuery } from "@tanstack/react-query";
@@ -181,20 +180,20 @@ const DepositWithdrawPeer = () => {
             case "deposit":
               selectedToken.isNative
                 ? depositSol.mutate({
-                    amount: new BN(+amount * LAMPORTS_PER_SOL),
+                    amount: +amount * LAMPORTS_PER_SOL,
                   })
                 : depositSpl.mutate({
-                    amount: new BN(+amount * LAMPORTS_PER_SOL),
+                    amount: +amount * LAMPORTS_PER_SOL,
                     mint: selectedToken.mintAddress,
                   });
               break;
             case "withdraw":
               selectedToken.isNative
                 ? withdrawSol.mutate({
-                    amount: new BN(+amount * LAMPORTS_PER_SOL),
+                    amount: +amount * LAMPORTS_PER_SOL,
                   })
                 : withdrawSpl.mutate({
-                    amount: new BN(+amount * LAMPORTS_PER_SOL),
+                    amount: +amount * LAMPORTS_PER_SOL,
                     mint: selectedToken.mintAddress,
                   });
               break;

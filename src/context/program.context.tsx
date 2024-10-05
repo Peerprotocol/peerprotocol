@@ -15,7 +15,11 @@ import { getPda, PdaTag } from "@/lib/utils/get-pda";
 import { txToast } from "@/lib/utils/toast";
 import { BN } from "@coral-xyz/anchor";
 import { getAta } from "@/lib/utils/getAta";
-import { getPeerProtocolProgram, getPeerProtocolProgramId, getReadOnlyPeerProtocolProgram } from "../../solana-contracts/peer-protocol/src/peer-protocol-exports";
+import {
+  getPeerProtocolProgram,
+  getPeerProtocolProgramId,
+  getReadOnlyPeerProtocolProgram,
+} from "../../solana-contracts/peer-protocol/src/peer-protocol-exports";
 
 // READONLY PROGRAM
 const readOnlyPeerProtocolProgram = getReadOnlyPeerProtocolProgram();
@@ -111,7 +115,7 @@ export const ProgramContextProvider: React.FC<{
       return await program.methods
         .initUser()
         .accounts({
-          userProfile: userProfilePda,
+          // userProfile: userProfilePda,
           authority: userPubKey,
           protocol: protocolData.publicKey,
         })
@@ -138,7 +142,7 @@ export const ProgramContextProvider: React.FC<{
         .accounts({
           authority: userPubKey,
           protocol: protocolData.publicKey,
-          userProfile: userProfilePda,
+          // userProfile: userProfilePda,
         })
         .rpc();
     },
@@ -161,7 +165,7 @@ export const ProgramContextProvider: React.FC<{
         .accounts({
           authority: userPubKey,
           protocol: protocolData.publicKey,
-          userProfile: userProfilePda,
+          // userProfile: userProfilePda,
         })
         .rpc();
     },
@@ -190,9 +194,9 @@ export const ProgramContextProvider: React.FC<{
         .accounts({
           authority: userPubKey,
           protocol: protocolData.publicKey,
-          userProfile: userProfilePda,
+          // userProfile: userProfilePda,
           mint,
-          userProfileAta: getAta(userProfilePda, mint),
+          // userProfileAta: getAta(userProfilePda, mint),
           userAta: getAta(userPubKey, mint),
         })
         .rpc();
@@ -228,7 +232,7 @@ export const ProgramContextProvider: React.FC<{
         .accounts({
           authority: userPubKey,
           protocol: protocolData.publicKey,
-          userProfile: userProfilePda,
+          // userProfile: userProfilePda,
           mint,
           userProfileAta,
           userAta,
