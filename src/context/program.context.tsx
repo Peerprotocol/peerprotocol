@@ -1,22 +1,26 @@
 "use client";
 
-import { useAnchorProvider } from "@/hooks/use-anchor-proivder";
-import { useCluster } from "@/hooks/use-cluster";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { createContext, useContext, useMemo } from "react";
+import {} from "@";
 import {
   getPeerProtocolProgram,
   getPeerProtocolProgramId,
   getReadOnlyPeerProtocolProgram,
-} from "../../solana-contracts/peer-protocol/src/peer-protocol-exports";
+} from "../../peer-protocol-contracts/src";
 import { Cluster, PublicKey } from "@solana/web3.js";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { UseMutationResult } from "@tanstack/react-query";
-import { getPda, PdaTag } from "@/lib/program/get-pda";
-import { BN } from "@project-serum/anchor";
-import { getAta } from "@/lib/program/getAta";
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { createContext, useContext, useMemo } from "react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useCluster } from "@/hooks/use-cluster";
+import { useAnchorProvider } from "@/hooks/use-anchor-proivder";
+import { getPda, PdaTag } from "@/lib/utils/get-pda";
 import { txToast } from "@/lib/utils/toast";
-import { getAccount, getMint } from "@solana/spl-token";
+import { BN } from "@coral-xyz/anchor";
+import { getAta } from "@/lib/utils/getAta";
 
 // READONLY PROGRAM
 const readOnlyPeerProtocolProgram = getReadOnlyPeerProtocolProgram();
@@ -199,7 +203,9 @@ export const ProgramContextProvider: React.FC<{
         .rpc();
     },
     onSuccess: (signature) => {
-      queryClient.invalidateQueries({ queryKey: ["peer-protocol", "token-balance"] });
+      queryClient.invalidateQueries({
+        queryKey: ["peer-protocol", "token-balance"],
+      });
       txToast.success("deposit successful!");
     },
     onError: (error) => {
@@ -235,7 +241,9 @@ export const ProgramContextProvider: React.FC<{
         .rpc();
     },
     onSuccess: (signature) => {
-      queryClient.invalidateQueries({ queryKey: ["peer-protocol", "token-balance"] });
+      queryClient.invalidateQueries({
+        queryKey: ["peer-protocol", "token-balance"],
+      });
       txToast.success("withdraw successful!");
     },
     onError: (error) => {
