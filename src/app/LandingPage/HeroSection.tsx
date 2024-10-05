@@ -11,7 +11,7 @@ const HeroPage = () => {
 
       <div className="flex flex-col justify-center items-center relative w-2/3 mx-auto h-[85vh] md:h-[85vh] sm:h-[50vh]">
         <h1 className="text-center sm:text-lg md:text-lg xl:block lg:text-2xl xl:mb-[-3rem]">
-          First Decentralized{" "}
+          Decentralized{" "}
           <span className="xl:font-light xl:text-6xl lg:font-light lg:text-5xl font-notoserif text-xs">
             Peer-To-Peer
           </span>
@@ -90,36 +90,6 @@ const HeroPage = () => {
             />
             <Image
               src="/images/starknetlogo.svg"
-              width={200}
-              height={0}
-              alt=""
-              className="w-16 lg:w-64 md:w-32"
-            />
-            <Image
-              src="/images/ethereumlogo.svg"
-              width={100}
-              height={0}
-              alt=""
-              className="w-16 lg:w-24"
-            />
-          </div>
-          <div className="flex gap-8 lg:gap-20 justify-center">
-            <Image
-              src="/images/zksynclogo.svg"
-              width={200}
-              height={0}
-              alt=""
-              className="w-16 lg:w-64 md:w-32"
-            />
-            <Image
-              src="/images/layerzerologo.svg"
-              width={200}
-              height={0}
-              alt=""
-              className="w-16 lg:w-64 md:w-32"
-            />
-            <Image
-              src="/images/binancelogo.svg"
               width={200}
               height={0}
               alt=""

@@ -39,10 +39,12 @@ const Nav = () => {
 
       {/* Dropdown and WalletConnectButton */}
       <div className="flex items-center gap-3">
-        <Dropdown
-          setSelectedOption={setSelectedOption}
-          selectedOption={selectedOption}
-        />
+        <div className="hidden">
+          <Dropdown
+            setSelectedOption={setSelectedOption}
+            selectedOption={selectedOption}
+          />
+        </div>
         <WalletConnectButton network={selectedOption} />
       </div>
 
