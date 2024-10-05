@@ -1,245 +1,234 @@
 {
-  "version": "0.1.0",
-  "name": "peer_protocol",
+  "address": "8QFWWNuEjCuj7TYmitr5LNoFVrxbwrcCGzjSCoQcDG4h",
+  "metadata": {
+    "name": "peer_protocol",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
   "instructions": [
     {
-      "name": "initProtocol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "protocol",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+      "name": "borrow_sol",
+      "discriminator": [
+        227,
+        20,
+        66,
+        162,
+        185,
+        109,
+        252,
+        108
       ],
-      "args": []
-    },
-    {
-      "name": "initUser",
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "depositSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "depositSpl",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfileAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "withdrawSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "withdrawSpl",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfileAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "createLoanSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          "writable": true,
+          "signer": true
         },
         {
           "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  111,
+                  97,
+                  110,
+                  95,
+                  111,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "loan.lender",
+                "account": "LoanSol"
+              },
+              {
+                "kind": "arg",
+                "path": "loan_idx"
+              }
+            ]
+          }
         },
         {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "ltvRatio",
+          "name": "loan_idx",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "borrow_spl",
+      "discriminator": [
+        94,
+        248,
+        1,
+        49,
+        120,
+        97,
+        228,
+        122
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true
+        },
+        {
+          "name": "loan",
+          "writable": true
+        },
+        {
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "loan_ata"
+        },
+        {
+          "name": "user_profile_ata"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "loan_idx",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create_loan_sol",
+      "discriminator": [
+        232,
+        255,
+        92,
+        36,
+        35,
+        155,
+        169,
+        154
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "loan",
+          "writable": true
+        },
+        {
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "ltv_ratio",
           "type": "u16"
         },
         {
@@ -247,57 +236,83 @@
           "type": "i64"
         },
         {
-          "name": "loanAmount",
+          "name": "loan_amount",
           "type": "u64"
         },
         {
-          "name": "interestRate",
+          "name": "interest_rate",
           "type": "u16"
         }
       ]
     },
     {
-      "name": "createLoanSpl",
+      "name": "create_loan_spl",
+      "discriminator": [
+        213,
+        243,
+        25,
+        38,
+        153,
+        143,
+        156,
+        55
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": false
+          "writable": true
         },
         {
           "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "writable": true
         },
         {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
-          "name": "loanAta",
-          "isMut": false,
-          "isSigner": false
+          "name": "loan_ata"
         },
         {
-          "name": "userProfileAta",
-          "isMut": false,
-          "isSigner": false
+          "name": "user_profile_ata"
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "ltvRatio",
+          "name": "ltv_ratio",
           "type": "u16"
         },
         {
@@ -306,91 +321,465 @@
         },
         {
           "name": "mint",
-          "type": "publicKey"
+          "type": "pubkey"
         },
         {
-          "name": "loanAmount",
+          "name": "loan_amount",
           "type": "u64"
         },
         {
-          "name": "interestRate",
+          "name": "interest_rate",
           "type": "u16"
         }
       ]
     },
     {
-      "name": "borrowSol",
+      "name": "deposit_sol",
+      "discriminator": [
+        108,
+        81,
+        78,
+        117,
+        125,
+        155,
+        56,
+        200
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          "writable": true,
+          "signer": true
         },
         {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "name": "protocol"
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "loanIdx",
+          "name": "amount",
           "type": "u64"
         }
       ]
     },
     {
-      "name": "borrowSpl",
+      "name": "deposit_spl",
+      "discriminator": [
+        224,
+        0,
+        198,
+        175,
+        198,
+        47,
+        105,
+        204
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "signer": true
         },
         {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "name": "user_ata",
+          "writable": true
         },
         {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
-          "name": "loanAta",
-          "isMut": false,
-          "isSigner": false
+          "name": "user_profile_ata",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "user_profile"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
         },
         {
-          "name": "userProfileAta",
-          "isMut": false,
-          "isSigner": false
+          "name": "mint"
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          "name": "protocol"
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "loanIdx",
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "init_protocol",
+      "discriminator": [
+        3,
+        188,
+        141,
+        237,
+        225,
+        226,
+        232,
+        210
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "init_user",
+      "discriminator": [
+        14,
+        51,
+        68,
+        159,
+        237,
+        78,
+        158,
+        102
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "protocol"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdraw_sol",
+      "discriminator": [
+        145,
+        131,
+        74,
+        136,
+        65,
+        137,
+        42,
+        38
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "protocol"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_spl",
+      "discriminator": [
+        181,
+        154,
+        94,
+        86,
+        62,
+        115,
+        6,
+        186
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_ata",
+          "writable": true
+        },
+        {
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user_profile_ata",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "protocol"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
           "type": "u64"
         }
       ]
@@ -399,245 +788,55 @@
   "accounts": [
     {
       "name": "LoanSol",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "lender",
-            "type": "publicKey"
-          },
-          {
-            "name": "ltvRatio",
-            "type": "u16"
-          },
-          {
-            "name": "duration",
-            "type": "i64"
-          },
-          {
-            "name": "loanAmount",
-            "type": "u64"
-          },
-          {
-            "name": "interestRate",
-            "type": "u16"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "borrower",
-            "type": {
-              "option": "publicKey"
-            }
-          },
-          {
-            "name": "isAccepted",
-            "type": "bool"
-          },
-          {
-            "name": "isFulfilled",
-            "type": "bool"
-          },
-          {
-            "name": "isLiquidated",
-            "type": "bool"
-          }
-        ]
-      }
+      "discriminator": [
+        144,
+        236,
+        102,
+        29,
+        184,
+        194,
+        121,
+        121
+      ]
     },
     {
       "name": "LoanSpl",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "lender",
-            "type": "publicKey"
-          },
-          {
-            "name": "ltvRatio",
-            "type": "u16"
-          },
-          {
-            "name": "duration",
-            "type": "i64"
-          },
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "loanAmount",
-            "type": "u64"
-          },
-          {
-            "name": "interestRate",
-            "type": "u16"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "borrower",
-            "type": {
-              "option": "publicKey"
-            }
-          },
-          {
-            "name": "isAccepted",
-            "type": "bool"
-          },
-          {
-            "name": "isFulfilled",
-            "type": "bool"
-          },
-          {
-            "name": "isLiquidated",
-            "type": "bool"
-          }
-        ]
-      }
-    },
-    {
-      "name": "LoanContract",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "borrower",
-            "type": "publicKey"
-          },
-          {
-            "name": "lender",
-            "type": "publicKey"
-          },
-          {
-            "name": "collateralMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "collateralAmount",
-            "type": "u64"
-          },
-          {
-            "name": "loanAmount",
-            "type": "u64"
-          },
-          {
-            "name": "loanTokenMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "interestRate",
-            "type": "u16"
-          },
-          {
-            "name": "duration",
-            "type": "i64"
-          },
-          {
-            "name": "ltvRatio",
-            "type": "u16"
-          },
-          {
-            "name": "offerCreatedAt",
-            "type": "i64"
-          },
-          {
-            "name": "offerExpiresAt",
-            "type": "i64"
-          },
-          {
-            "name": "isFulfilled",
-            "type": "bool"
-          },
-          {
-            "name": "isLiquidated",
-            "type": "bool"
-          },
-          {
-            "name": "collateralReturned",
-            "type": "bool"
-          }
-        ]
-      }
+      "discriminator": [
+        140,
+        145,
+        241,
+        233,
+        231,
+        234,
+        248,
+        32
+      ]
     },
     {
       "name": "Protocol",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "whitelistedMints",
-            "type": {
-              "vec": {
-                "defined": "MintDetails"
-              }
-            }
-          }
-        ]
-      }
+      "discriminator": [
+        45,
+        39,
+        101,
+        43,
+        115,
+        72,
+        131,
+        40
+      ]
     },
     {
       "name": "UserProfile",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "authority",
-            "type": "publicKey"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "lendingCount",
-            "type": "u64"
-          },
-          {
-            "name": "borrowingCount",
-            "type": "u64"
-          }
-        ]
-      }
-    }
-  ],
-  "types": [
-    {
-      "name": "MintDetails",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "decimals",
-            "type": "u8"
-          }
-        ]
-      }
+      "discriminator": [
+        32,
+        37,
+        119,
+        205,
+        179,
+        180,
+        13,
+        194
+      ]
     }
   ],
   "errors": [
@@ -687,7 +886,184 @@
       "msg": "Offer fulfilled"
     }
   ],
-  "metadata": {
-    "address": "8QFWWNuEjCuj7TYmitr5LNoFVrxbwrcCGzjSCoQcDG4h"
-  }
+  "types": [
+    {
+      "name": "LoanSol",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_init",
+            "type": "bool"
+          },
+          {
+            "name": "lender",
+            "type": "pubkey"
+          },
+          {
+            "name": "ltv_ratio",
+            "type": "u16"
+          },
+          {
+            "name": "duration",
+            "type": "i64"
+          },
+          {
+            "name": "loan_amount",
+            "type": "u64"
+          },
+          {
+            "name": "interest_rate",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "borrower",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "is_accepted",
+            "type": "bool"
+          },
+          {
+            "name": "is_fulfilled",
+            "type": "bool"
+          },
+          {
+            "name": "is_liquidated",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LoanSpl",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_init",
+            "type": "bool"
+          },
+          {
+            "name": "lender",
+            "type": "pubkey"
+          },
+          {
+            "name": "ltv_ratio",
+            "type": "u16"
+          },
+          {
+            "name": "duration",
+            "type": "i64"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "loan_amount",
+            "type": "u64"
+          },
+          {
+            "name": "interest_rate",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "borrower",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "is_accepted",
+            "type": "bool"
+          },
+          {
+            "name": "is_fulfilled",
+            "type": "bool"
+          },
+          {
+            "name": "is_liquidated",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MintDetails",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "decimals",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Protocol",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_init",
+            "type": "bool"
+          },
+          {
+            "name": "whitelisted_mints",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "MintDetails"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserProfile",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "is_init",
+            "type": "bool"
+          },
+          {
+            "name": "lending_count",
+            "type": "u64"
+          },
+          {
+            "name": "borrowing_count",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
 }

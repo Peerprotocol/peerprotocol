@@ -1,240 +1,235 @@
+/**
+ * Program IDL in camelCase format in order to be used in JS/TS.
+ *
+ * Note that this is only a type helper and is not the actual IDL. The original
+ * IDL can be found at `target/idl/peer_protocol.json`.
+ */
 export type PeerProtocol = {
-  "version": "0.1.0",
-  "name": "peer_protocol",
+  "address": "8QFWWNuEjCuj7TYmitr5LNoFVrxbwrcCGzjSCoQcDG4h",
+  "metadata": {
+    "name": "peerProtocol",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
   "instructions": [
     {
-      "name": "initProtocol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "protocol",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+      "name": "borrowSol",
+      "discriminator": [
+        227,
+        20,
+        66,
+        162,
+        185,
+        109,
+        252,
+        108
       ],
-      "args": []
-    },
-    {
-      "name": "initUser",
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "loan",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  111,
+                  97,
+                  110,
+                  95,
+                  111,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "loan.lender",
+                "account": "loanSol"
+              },
+              {
+                "kind": "arg",
+                "path": "loanIdx"
+              }
+            ]
+          }
         },
         {
           "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "depositSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "amount",
+          "name": "loanIdx",
           "type": "u64"
         }
       ]
     },
     {
-      "name": "depositSpl",
+      "name": "borrowSpl",
+      "discriminator": [
+        94,
+        248,
+        1,
+        49,
+        120,
+        97,
+        228,
+        122
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          "writable": true
         },
         {
-          "name": "userAta",
-          "isMut": true,
-          "isSigner": false
+          "name": "loan",
+          "writable": true
         },
         {
           "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
-          "name": "userProfileAta",
-          "isMut": true,
-          "isSigner": false
+          "name": "loanAta"
         },
         {
-          "name": "mint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
+          "name": "userProfileAta"
         },
         {
           "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         },
         {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "withdrawSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "withdrawSpl",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfileAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
+          "name": "loanIdx",
           "type": "u64"
         }
       ]
     },
     {
       "name": "createLoanSol",
+      "discriminator": [
+        232,
+        255,
+        92,
+        36,
+        35,
+        155,
+        169,
+        154
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          "writable": true,
+          "signer": true
         },
         {
           "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "writable": true
         },
         {
           "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
@@ -258,41 +253,67 @@ export type PeerProtocol = {
     },
     {
       "name": "createLoanSpl",
+      "discriminator": [
+        213,
+        243,
+        25,
+        38,
+        153,
+        143,
+        156,
+        55
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": false
+          "writable": true
         },
         {
           "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "writable": true
         },
         {
           "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
-          "name": "loanAta",
-          "isMut": false,
-          "isSigner": false
+          "name": "loanAta"
         },
         {
-          "name": "userProfileAta",
-          "isMut": false,
-          "isSigner": false
+          "name": "userProfileAta"
         },
         {
           "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         },
         {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
@@ -306,7 +327,7 @@ export type PeerProtocol = {
         },
         {
           "name": "mint",
-          "type": "publicKey"
+          "type": "pubkey"
         },
         {
           "name": "loanAmount",
@@ -319,84 +340,559 @@ export type PeerProtocol = {
       ]
     },
     {
-      "name": "borrowSol",
+      "name": "depositSol",
+      "discriminator": [
+        108,
+        81,
+        78,
+        117,
+        125,
+        155,
+        56,
+        200
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "signer": true
         },
         {
           "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "protocol"
         },
         {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "loanIdx",
+          "name": "amount",
           "type": "u64"
         }
       ]
     },
     {
-      "name": "borrowSpl",
+      "name": "depositSpl",
+      "discriminator": [
+        224,
+        0,
+        198,
+        175,
+        198,
+        47,
+        105,
+        204
+      ],
       "accounts": [
         {
           "name": "authority",
-          "isMut": true,
-          "isSigner": false
+          "writable": true,
+          "signer": true
         },
         {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
+          "name": "userAta",
+          "writable": true
         },
         {
           "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loanAta",
-          "isMut": false,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
         },
         {
           "name": "userProfileAta",
-          "isMut": false,
-          "isSigner": false
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "userProfile"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "protocol"
         },
         {
           "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associatedTokenProgram",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "loanIdx",
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initProtocol",
+      "discriminator": [
+        3,
+        188,
+        141,
+        237,
+        225,
+        226,
+        232,
+        210
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initUser",
+      "discriminator": [
+        14,
+        51,
+        68,
+        159,
+        237,
+        78,
+        158,
+        102
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "userProfile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "protocol"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "withdrawSol",
+      "discriminator": [
+        145,
+        131,
+        74,
+        136,
+        65,
+        137,
+        42,
+        38
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "userProfile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "protocol"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawSpl",
+      "discriminator": [
+        181,
+        154,
+        94,
+        86,
+        62,
+        115,
+        6,
+        186
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "userAta",
+          "writable": true
+        },
+        {
+          "name": "userProfile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "userProfileAta",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "protocol"
+        },
+        {
+          "name": "tokenProgram",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
           "type": "u64"
         }
       ]
     }
   ],
   "accounts": [
+    {
+      "name": "loanSol",
+      "discriminator": [
+        144,
+        236,
+        102,
+        29,
+        184,
+        194,
+        121,
+        121
+      ]
+    },
+    {
+      "name": "loanSpl",
+      "discriminator": [
+        140,
+        145,
+        241,
+        233,
+        231,
+        234,
+        248,
+        32
+      ]
+    },
+    {
+      "name": "protocol",
+      "discriminator": [
+        45,
+        39,
+        101,
+        43,
+        115,
+        72,
+        131,
+        40
+      ]
+    },
+    {
+      "name": "userProfile",
+      "discriminator": [
+        32,
+        37,
+        119,
+        205,
+        179,
+        180,
+        13,
+        194
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "accountInitialized",
+      "msg": "Account is already initialized"
+    },
+    {
+      "code": 6001,
+      "name": "accountNotInitialized",
+      "msg": "Account not initialized"
+    },
+    {
+      "code": 6002,
+      "name": "userProfileNotInitialized",
+      "msg": "User profile is not initialized"
+    },
+    {
+      "code": 6003,
+      "name": "protocolNotInitialized",
+      "msg": "Protocol is not initialized"
+    },
+    {
+      "code": 6004,
+      "name": "insufficientFunds",
+      "msg": "Insufficient funds in the account."
+    },
+    {
+      "code": 6005,
+      "name": "notAuthorized",
+      "msg": "Not authorized"
+    },
+    {
+      "code": 6006,
+      "name": "offerAlreadyAccepted",
+      "msg": "Offer already accepted"
+    },
+    {
+      "code": 6007,
+      "name": "loanAlreadyAccepted",
+      "msg": "Offer already expired"
+    },
+    {
+      "code": 6008,
+      "name": "loanAlreadyFulfilled",
+      "msg": "Offer fulfilled"
+    }
+  ],
+  "types": [
     {
       "name": "loanSol",
       "type": {
@@ -408,7 +904,7 @@ export type PeerProtocol = {
           },
           {
             "name": "lender",
-            "type": "publicKey"
+            "type": "pubkey"
           },
           {
             "name": "ltvRatio",
@@ -433,7 +929,7 @@ export type PeerProtocol = {
           {
             "name": "borrower",
             "type": {
-              "option": "publicKey"
+              "option": "pubkey"
             }
           },
           {
@@ -462,7 +958,7 @@ export type PeerProtocol = {
           },
           {
             "name": "lender",
-            "type": "publicKey"
+            "type": "pubkey"
           },
           {
             "name": "ltvRatio",
@@ -474,7 +970,7 @@ export type PeerProtocol = {
           },
           {
             "name": "mint",
-            "type": "publicKey"
+            "type": "pubkey"
           },
           {
             "name": "loanAmount",
@@ -491,7 +987,7 @@ export type PeerProtocol = {
           {
             "name": "borrower",
             "type": {
-              "option": "publicKey"
+              "option": "pubkey"
             }
           },
           {
@@ -510,65 +1006,17 @@ export type PeerProtocol = {
       }
     },
     {
-      "name": "loanContract",
+      "name": "mintDetails",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "borrower",
-            "type": "publicKey"
+            "name": "mint",
+            "type": "pubkey"
           },
           {
-            "name": "lender",
-            "type": "publicKey"
-          },
-          {
-            "name": "collateralMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "collateralAmount",
-            "type": "u64"
-          },
-          {
-            "name": "loanAmount",
-            "type": "u64"
-          },
-          {
-            "name": "loanTokenMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "interestRate",
-            "type": "u16"
-          },
-          {
-            "name": "duration",
-            "type": "i64"
-          },
-          {
-            "name": "ltvRatio",
-            "type": "u16"
-          },
-          {
-            "name": "offerCreatedAt",
-            "type": "i64"
-          },
-          {
-            "name": "offerExpiresAt",
-            "type": "i64"
-          },
-          {
-            "name": "isFulfilled",
-            "type": "bool"
-          },
-          {
-            "name": "isLiquidated",
-            "type": "bool"
-          },
-          {
-            "name": "collateralReturned",
-            "type": "bool"
+            "name": "decimals",
+            "type": "u8"
           }
         ]
       }
@@ -586,7 +1034,9 @@ export type PeerProtocol = {
             "name": "whitelistedMints",
             "type": {
               "vec": {
-                "defined": "MintDetails"
+                "defined": {
+                  "name": "mintDetails"
+                }
               }
             }
           }
@@ -600,7 +1050,7 @@ export type PeerProtocol = {
         "fields": [
           {
             "name": "authority",
-            "type": "publicKey"
+            "type": "pubkey"
           },
           {
             "name": "bump",
@@ -620,762 +1070,6 @@ export type PeerProtocol = {
           }
         ]
       }
-    }
-  ],
-  "types": [
-    {
-      "name": "MintDetails",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "decimals",
-            "type": "u8"
-          }
-        ]
-      }
-    }
-  ],
-  "errors": [
-    {
-      "code": 6000,
-      "name": "AccountInitialized",
-      "msg": "Account is already initialized"
-    },
-    {
-      "code": 6001,
-      "name": "AccountNotInitialized",
-      "msg": "Account not initialized"
-    },
-    {
-      "code": 6002,
-      "name": "UserProfileNotInitialized",
-      "msg": "User profile is not initialized"
-    },
-    {
-      "code": 6003,
-      "name": "ProtocolNotInitialized",
-      "msg": "Protocol is not initialized"
-    },
-    {
-      "code": 6004,
-      "name": "InsufficientFunds",
-      "msg": "Insufficient funds in the account."
-    },
-    {
-      "code": 6005,
-      "name": "NotAuthorized",
-      "msg": "Not authorized"
-    },
-    {
-      "code": 6006,
-      "name": "OfferAlreadyAccepted",
-      "msg": "Offer already accepted"
-    },
-    {
-      "code": 6007,
-      "name": "LoanAlreadyAccepted",
-      "msg": "Offer already expired"
-    },
-    {
-      "code": 6008,
-      "name": "LoanAlreadyFulfilled",
-      "msg": "Offer fulfilled"
-    }
-  ]
-};
-
-export const IDL: PeerProtocol = {
-  "version": "0.1.0",
-  "name": "peer_protocol",
-  "instructions": [
-    {
-      "name": "initProtocol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "protocol",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initUser",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "depositSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "depositSpl",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfileAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "withdrawSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "withdrawSpl",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "userAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfileAta",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "protocol",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "createLoanSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "ltvRatio",
-          "type": "u16"
-        },
-        {
-          "name": "duration",
-          "type": "i64"
-        },
-        {
-          "name": "loanAmount",
-          "type": "u64"
-        },
-        {
-          "name": "interestRate",
-          "type": "u16"
-        }
-      ]
-    },
-    {
-      "name": "createLoanSpl",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loanAta",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "userProfileAta",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "ltvRatio",
-          "type": "u16"
-        },
-        {
-          "name": "duration",
-          "type": "i64"
-        },
-        {
-          "name": "mint",
-          "type": "publicKey"
-        },
-        {
-          "name": "loanAmount",
-          "type": "u64"
-        },
-        {
-          "name": "interestRate",
-          "type": "u16"
-        }
-      ]
-    },
-    {
-      "name": "borrowSol",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "loanIdx",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "borrowSpl",
-      "accounts": [
-        {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "userProfile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loanAta",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "userProfileAta",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "loanIdx",
-          "type": "u64"
-        }
-      ]
-    }
-  ],
-  "accounts": [
-    {
-      "name": "loanSol",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "lender",
-            "type": "publicKey"
-          },
-          {
-            "name": "ltvRatio",
-            "type": "u16"
-          },
-          {
-            "name": "duration",
-            "type": "i64"
-          },
-          {
-            "name": "loanAmount",
-            "type": "u64"
-          },
-          {
-            "name": "interestRate",
-            "type": "u16"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "borrower",
-            "type": {
-              "option": "publicKey"
-            }
-          },
-          {
-            "name": "isAccepted",
-            "type": "bool"
-          },
-          {
-            "name": "isFulfilled",
-            "type": "bool"
-          },
-          {
-            "name": "isLiquidated",
-            "type": "bool"
-          }
-        ]
-      }
-    },
-    {
-      "name": "loanSpl",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "lender",
-            "type": "publicKey"
-          },
-          {
-            "name": "ltvRatio",
-            "type": "u16"
-          },
-          {
-            "name": "duration",
-            "type": "i64"
-          },
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "loanAmount",
-            "type": "u64"
-          },
-          {
-            "name": "interestRate",
-            "type": "u16"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "borrower",
-            "type": {
-              "option": "publicKey"
-            }
-          },
-          {
-            "name": "isAccepted",
-            "type": "bool"
-          },
-          {
-            "name": "isFulfilled",
-            "type": "bool"
-          },
-          {
-            "name": "isLiquidated",
-            "type": "bool"
-          }
-        ]
-      }
-    },
-    {
-      "name": "loanContract",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "borrower",
-            "type": "publicKey"
-          },
-          {
-            "name": "lender",
-            "type": "publicKey"
-          },
-          {
-            "name": "collateralMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "collateralAmount",
-            "type": "u64"
-          },
-          {
-            "name": "loanAmount",
-            "type": "u64"
-          },
-          {
-            "name": "loanTokenMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "interestRate",
-            "type": "u16"
-          },
-          {
-            "name": "duration",
-            "type": "i64"
-          },
-          {
-            "name": "ltvRatio",
-            "type": "u16"
-          },
-          {
-            "name": "offerCreatedAt",
-            "type": "i64"
-          },
-          {
-            "name": "offerExpiresAt",
-            "type": "i64"
-          },
-          {
-            "name": "isFulfilled",
-            "type": "bool"
-          },
-          {
-            "name": "isLiquidated",
-            "type": "bool"
-          },
-          {
-            "name": "collateralReturned",
-            "type": "bool"
-          }
-        ]
-      }
-    },
-    {
-      "name": "protocol",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "whitelistedMints",
-            "type": {
-              "vec": {
-                "defined": "MintDetails"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "userProfile",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "authority",
-            "type": "publicKey"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          },
-          {
-            "name": "isInit",
-            "type": "bool"
-          },
-          {
-            "name": "lendingCount",
-            "type": "u64"
-          },
-          {
-            "name": "borrowingCount",
-            "type": "u64"
-          }
-        ]
-      }
-    }
-  ],
-  "types": [
-    {
-      "name": "MintDetails",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "decimals",
-            "type": "u8"
-          }
-        ]
-      }
-    }
-  ],
-  "errors": [
-    {
-      "code": 6000,
-      "name": "AccountInitialized",
-      "msg": "Account is already initialized"
-    },
-    {
-      "code": 6001,
-      "name": "AccountNotInitialized",
-      "msg": "Account not initialized"
-    },
-    {
-      "code": 6002,
-      "name": "UserProfileNotInitialized",
-      "msg": "User profile is not initialized"
-    },
-    {
-      "code": 6003,
-      "name": "ProtocolNotInitialized",
-      "msg": "Protocol is not initialized"
-    },
-    {
-      "code": 6004,
-      "name": "InsufficientFunds",
-      "msg": "Insufficient funds in the account."
-    },
-    {
-      "code": 6005,
-      "name": "NotAuthorized",
-      "msg": "Not authorized"
-    },
-    {
-      "code": 6006,
-      "name": "OfferAlreadyAccepted",
-      "msg": "Offer already accepted"
-    },
-    {
-      "code": 6007,
-      "name": "LoanAlreadyAccepted",
-      "msg": "Offer already expired"
-    },
-    {
-      "code": 6008,
-      "name": "LoanAlreadyFulfilled",
-      "msg": "Offer fulfilled"
     }
   ]
 };

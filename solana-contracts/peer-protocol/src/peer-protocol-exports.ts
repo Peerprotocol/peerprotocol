@@ -1,5 +1,5 @@
 // Here we export some useful types and functions for interacting with the Anchor program.
-import { AnchorProvider, Program, Provider } from "@coral-xyz/anchor";
+import { AnchorProvider, Idl, Program, Provider } from "@coral-xyz/anchor";
 import { Cluster, clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
 import PeerProtocolIDL from "../target/idl/peer_protocol.json";
 import type { PeerProtocol } from "../target/types/peer_protocol";
@@ -8,25 +8,17 @@ import type { PeerProtocol } from "../target/types/peer_protocol";
 export { PeerProtocol, PeerProtocolIDL };
 
 // The programId is imported from the program IDL.
-export const PEER_PROTOCOL_ID = new PublicKey(PeerProtocolIDL.metadata.address);
+export const PEER_PROTOCOL_ID = new PublicKey(PeerProtocolIDL.address);
 
 // This is a helper function to get the Counter Anchor program.
 export function getPeerProtocolProgram(provider: AnchorProvider) {
-  return new Program(
-    PeerProtocolIDL as unknown as PeerProtocol,
-    PEER_PROTOCOL_ID,
-    provider
-  );
+  return new Program(PeerProtocolIDL as PeerProtocol, provider);
 }
 
 export function getReadOnlyPeerProtocolProgram() {
   const connection = new Connection(clusterApiUrl("devnet"));
   const provider: Provider = { connection };
-  return new Program(
-    PeerProtocolIDL as unknown as PeerProtocol,
-    PEER_PROTOCOL_ID,
-    provider
-  );
+  return new Program(PeerProtocolIDL as PeerProtocol, provider);
 }
 
 // This is a helper function to get the program ID for the Counter program depending on the cluster.
