@@ -132,7 +132,7 @@ const DepositWithdrawPeer = () => {
           <div className="flex items-center justify-center bg-[#0000000D] py-2 px-4 rounded-xl">
             <select
               className="bg-transparent text-black outline-none"
-              value={selectedToken.name}
+              value={selectedToken.symbol}
               onChange={handleTokenChange}
             >
               <option value="USDC">USDC</option>
