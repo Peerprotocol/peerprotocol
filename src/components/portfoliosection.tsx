@@ -1,27 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
 import InfoCard from "./infocard";
-import { UserContext } from "./WalletConnectProvider";
+// import { UserContext } from "./WalletConnectProvider";
 import { parse } from "path";
 
 const IndexPage = () => {
-  const pState = useContext(UserContext);
+  // const pState = useContext(UserContext);
 
   const [health, setHealth] = useState(0);
 
-  useEffect(() => {
-    if (+pState.userDebt / 10 ** 6 > 0) {
-      const newdebt = +pState.userDebt / 10 ** 6;
-      const result = (newdebt / parseInt(pState.deposit)) * 100;
-      const newhealth = 100 - result;
-      setHealth(parseFloat(newhealth.toPrecision(2)));
-    } else {
-      setHealth(100);
-    }
-  }, [pState.deposit, pState.lent, pState.userDebt]);
+  // useEffect(() => {
+  //   if (+pState.userDebt / 10 ** 6 > 0) {
+  //     const newdebt = +pState.userDebt / 10 ** 6;
+  //     const result = (newdebt / parseInt(pState.deposit)) * 100;
+  //     const newhealth = 100 - result;
+  //     setHealth(parseFloat(newhealth.toPrecision(2)));
+  //   } else {
+  //     setHealth(100);
+  //   }
+  // }, [pState.deposit, pState.lent, pState.userDebt]);
 
-  const displayDeposit = pState.initialized ? pState.deposit : "-";
-  const displayLent = pState.initialized ? pState.lent : "-";
-  const displayDebt = pState.initialized ? pState.userDebt : "-";
+  // const displayDeposit = pState.initialized ? pState.deposit : "-";
+  // const displayLent = pState.initialized ? pState.lent : "-";
+  // const displayDebt = pState.initialized ? pState.userDebt : "-";
 
   function getHealthColor(health: number) {
     let color;
@@ -41,7 +41,7 @@ const IndexPage = () => {
     <div className="flex justify-between gap-4 items-center">
       <div className="flex w-5/6 h-72 flex-row items-center justify-center my-8 bg-[#ffffff0e] border border-neutral-700 rounded-3xl">
         <div className="grid h-[fit-content] grid-cols-3 gap-28 place-items-start">
-          <div className="flex h-full leading-10 tracking-widest">
+          {/* <div className="flex h-full leading-10 tracking-widest">
             <InfoCard title={"Total Deposited"} value={`$${displayDeposit}`} />
           </div>
           <div className="flex h-full leading-10 tracking-widest">
@@ -49,7 +49,7 @@ const IndexPage = () => {
           </div>
           <div className="flex h-full leading-10 tracking-widest">
             <InfoCard title={"Total Borrowed"} value={`$${displayDebt}`} />
-          </div>
+          </div> */}
         </div>
       </div>
       <div

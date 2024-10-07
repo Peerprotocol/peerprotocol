@@ -7,7 +7,7 @@ const Dashboard = () => {
   return (
     <div className="border border-gray-200 rounded-[1rem] flex flex-col gap-6 md:p-6 p-2 bg-white w-full">
       {/* Dashboard Items Container */}
-      <div className="flex flex-col lg:flex-row lg:flex-wrap gap-4 w-full">
+      <div className="flex flex-wrap gap-4 w-full">
         {dashboardItems.map((item, index) => (
           <div
             key={index}

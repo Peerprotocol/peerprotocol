@@ -4,13 +4,13 @@ import Dashboard from "./dashboard";
 import Market from "./market";
 import Footer from "./footer";
 
-import { WalletConnectProvider } from "../../components/WalletConnectProvider";
+// import { WalletConnectProvider } from "../../components/WalletConnectProvider";
 import Nav from "./Nav";
 
 export default function Home() {
   return (
     <main className="bg-[#F5F5F5]">
-      <WalletConnectProvider>
+      {/* <WalletConnectProvider> */}
         <div className="flex h-screen">
           <Sidebar />
           <div className="flex-1 flex flex-col h-full max-h-screen overflow-auto">
@@ -22,7 +22,7 @@ export default function Home() {
             </main>
           </div>
         </div>
-      </WalletConnectProvider>
+      {/* </WalletConnectProvider> */}
     </main>
   );
 }

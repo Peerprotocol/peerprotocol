@@ -7,10 +7,10 @@ import Pagination from "./Pagination";
 import usePagination from "@/lib/hooks/usePagination";
 import { infoDataType } from "@/lib/types";
 import { PAGE_SIZE } from "@/lib/constants";
-import { UserContext } from "./WalletConnectProvider";
+// import { UserContext } from "./WalletConnectProvider";
 
 const LendComponent = () => {
-  const pState = useContext(UserContext);
+  // const pState = useContext(UserContext);
 
   const {
     paginatedItems: paginatedTableData,
@@ -21,7 +21,7 @@ const LendComponent = () => {
   return (
     <div className="w-full">
       <div className="bg-[#FFFFFF0D] p-4 rounded-xl mb-3 pb-6">
-        <LendInfoTable tableItems={pState.availableLoans} />
+        {/* <LendInfoTable tableItems={pState.availableLoans} /> */}
       </div>
       <div className="flex justify-end">
         <Pagination
