@@ -81,20 +81,6 @@ const HeroPage = () => {
               alt=""
               className="w-16 lg:w-64 md:w-32"
             />
-            <Image
-              src="/images/xionlogo.svg"
-              width={200}
-              height={0}
-              alt=""
-              className="w-16 lg:w-64 md:w-32"
-            />
-            <Image
-              src="/images/starknetlogo.svg"
-              width={200}
-              height={0}
-              alt=""
-              className="w-16 lg:w-64 md:w-32"
-            />
           </div>
         </div>
       </div>
