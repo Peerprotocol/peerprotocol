@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { allowedCoins } from "../constants/coins";
 import { set } from "@project-serum/anchor/dist/cjs/utils/features";
-import { UserContext } from "./WalletConnectProvider";
+// import { UserContext } from "./WalletConnectProvider";
 import { formatNumber } from "@/data/format_number";
 
 const SelectSwitch = () => {
@@ -15,64 +15,64 @@ const SelectSwitch = () => {
   const [coin, setCoin] = useState(allowedCoins[0]);
   const [client, setClient] = useState(false);
 
-  const pState = useContext(UserContext);
+  // const pState = useContext(UserContext);
 
   const handleMaxClick = async () => {
-    const balance = await pState.getTokenBalance(coin);
+    // const balance = await pState.getTokenBalance(coin);
 
     if (pathname === "/deposit") {
-      setAmount(`${balance}`);
+      // setAmount(`${balance}`);
     } else {
-      setAmount(pState.deposit);
+      // setAmount(pState.deposit);
     }
   };
 
-  const depositFunds = async (e: any) => {
-    e.preventDefault();
-    const realAmount = parseFloat(amount);
+  // const depositFunds = async (e: any) => {
+  //   e.preventDefault();
+  //   const realAmount = parseFloat(amount);
 
-    try {
-      let transactionMessage = "";
+  //   try {
+  //     let transactionMessage = "";
 
-      if (pathname === "/deposit") {
-        await pState.depositCollaterial(realAmount, coin);
-        transactionMessage = `Successfully deposited ${realAmount} tokens.`;
-      } else {
-        await pState.withdrawCollaterial(realAmount, coin);
-        transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
-      }
+  //     if (pathname === "/deposit") {
+  //       await pState.depositCollaterial(realAmount, coin);
+  //       transactionMessage = `Successfully deposited ${realAmount} tokens.`;
+  //     } else {
+  //       await pState.withdrawCollaterial(realAmount, coin);
+  //       transactionMessage = `Successfully withdrew ${realAmount} tokens.`;
+  //     }
 
-      toast.success(transactionMessage);
-    } catch (error: any) {
-      console.error("Transaction failed:", error);
-      toast.error(`Transaction failed: ${error.message}`);
-    }
-  };
+  //     toast.success(transactionMessage);
+  //   } catch (error: any) {
+  //     console.error("Transaction failed:", error);
+  //     toast.error(`Transaction failed: ${error.message}`);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (!pState.program) return;
-    if (!pState.publicKey) return;
-    if (!pState.initialized) return;
-    console.log("loans", pState.availableLoans);
-    const getAmount = async () => {
-      // deposit
-      const balance = await pState.getTokenBalance(coin);
+  // useEffect(() => {
+  //   if (!pState.program) return;
+  //   if (!pState.publicKey) return;
+  //   if (!pState.initialized) return;
+  //   console.log("loans", pState.availableLoans);
+  //   const getAmount = async () => {
+  //     // deposit
+  //     const balance = await pState.getTokenBalance(coin);
 
-      if (pathname === "/deposit") {
-        setMaxAmount(`${balance}`);
-      } else {
-        setMaxAmount(pState.deposit.toString());
-      }
-    };
-    setClient(true);
-    getAmount();
-  }, [
-    pState.program,
-    pState.publicKey,
-    pState.initialized,
-    pState.Trxpend,
-    coin,
-  ]);
+  //     if (pathname === "/deposit") {
+  //       setMaxAmount(`${balance}`);
+  //     } else {
+  //       setMaxAmount(pState.deposit.toString());
+  //     }
+  //   };
+  //   setClient(true);
+  //   getAmount();
+  // }, [
+  //   pState.program,
+  //   pState.publicKey,
+  //   pState.initialized,
+  //   pState.Trxpend,
+  //   coin,
+  // ]);
   const selectCoin = (e: any) => {
     setCoin(allowedCoins[e.target.selectedIndex]);
   };
@@ -138,12 +138,12 @@ const SelectSwitch = () => {
         </div>
       </form>
 
-      <button
+      {/* <button
         className="px-8 py-4 rounded-2xl bg-green-700 text-white w-full mt-9 h-fit"
         onClick={(e: any) => depositFunds(e)}
       >
         {pState.Trxpend ? "Processing" : actionText}
-      </button>
+      </button> */}
     </div>
   );
 };
