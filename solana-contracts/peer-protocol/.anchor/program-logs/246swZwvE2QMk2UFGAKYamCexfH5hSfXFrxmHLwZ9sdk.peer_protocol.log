@@ -1,0 +1,11 @@
+Streaming transaction logs mentioning 246swZwvE2QMk2UFGAKYamCexfH5hSfXFrxmHLwZ9sdk. Confirmed commitment
+Transaction executed in slot 3:
+  Signature: 5s2Hwd2TKEXLTkb27G2ZJ76mhWBUomRcy5gsMzr7P87AHN8Ad1XLPtCnLDydchN1RugHtYwyGHVdP1PWpyGzHYjt
+  Status: Ok
+  Log Messages:
+    Program 246swZwvE2QMk2UFGAKYamCexfH5hSfXFrxmHLwZ9sdk invoke [1]
+    Program log: Instruction: InitProtocol
+    Program 11111111111111111111111111111111 invoke [2]
+    Program 11111111111111111111111111111111 success
+    Program 246swZwvE2QMk2UFGAKYamCexfH5hSfXFrxmHLwZ9sdk consumed 5248 of 200000 compute units
+    Program 246swZwvE2QMk2UFGAKYamCexfH5hSfXFrxmHLwZ9sdk success
