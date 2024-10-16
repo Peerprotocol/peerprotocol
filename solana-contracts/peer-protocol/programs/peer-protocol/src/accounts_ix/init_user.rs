@@ -17,7 +17,12 @@ pub struct InitUser<'info> {
         space = 8 + UserProfile::INIT_SPACE
     )]
     pub user_profile: Account<'info, UserProfile>,
-    #[account(constraint = protocol.is_init == true @ PeerProtocolError::ProtocolNotInitialized)]
+
+    #[account(
+        constraint = protocol.is_init
+        @ PeerProtocolError::ProtocolNotInitialized
+    )]
     pub protocol: Account<'info, Protocol>,
+    
     pub system_program: Program<'info, System>,
 }

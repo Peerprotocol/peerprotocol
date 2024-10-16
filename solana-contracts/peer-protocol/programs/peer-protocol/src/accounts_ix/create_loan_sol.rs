@@ -1,14 +1,15 @@
 use crate::{
     constants::{LOAN_OFFER_TAG, USER_PROFILE_TAG},
     errors::PeerProtocolError,
-    state::{loan_sol::LoanSol, user_profile::UserProfile},
+    state::{loan_sol::LoanSol, protocol::Protocol, user_profile::UserProfile},
 };
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
 pub struct CreateLoanSol<'info> {
     #[account(mut)]
-    pub authority: Signer<'info>, // The lender's authority
+    pub authority: Signer<'info>,
+
     #[account(init,
         payer = authority,
         space = 8 + LoanSol::INIT_SPACE,
@@ -20,12 +21,21 @@ pub struct CreateLoanSol<'info> {
         bump
     )]
     pub loan: Account<'info, LoanSol>,
+
     #[account(
-        constraint = user_profile.is_init == true @ PeerProtocolError::UserProfileNotInitialized,
+        constraint = user_profile.is_init
+        @ PeerProtocolError::UserProfileNotInitialized,
         mut,
         seeds = [USER_PROFILE_TAG, authority.key().as_ref()],
         bump
     )]
     pub user_profile: Account<'info, UserProfile>,
-    pub system_program: Program<'info, System>, // System program for SOL transfers
+
+    #[account(
+        constraint = protocol.is_init
+        @ PeerProtocolError::ProtocolNotInitialized
+    )]
+    pub protocol: Account<'info, Protocol>,
+
+    pub system_program: Program<'info, System>,
 }

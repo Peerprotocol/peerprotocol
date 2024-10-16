@@ -5,9 +5,9 @@ use anchor_spl::{
 };
 
 use crate::{
-    constants::USER_PROFILE_TAG,
+    constants::{ASSET_TAG, USER_PROFILE_TAG},
     errors::PeerProtocolError,
-    state::{protocol::Protocol, user_profile::UserProfile},
+    state::{asset::Asset, protocol::Protocol, user_profile::UserProfile},
 };
 
 #[derive(Accounts)]
@@ -19,23 +19,35 @@ pub struct DepositSpl<'info> {
     pub user_ata: Account<'info, TokenAccount>,
 
     #[account(
-        constraint = user_profile.is_init == true @ PeerProtocolError::UserProfileNotInitialized,
+        constraint = user_profile.is_init
+        @ PeerProtocolError::UserProfileNotInitialized,
         mut,
         seeds = [USER_PROFILE_TAG, authority.key().as_ref()],
         bump
     )]
     pub user_profile: Account<'info, UserProfile>,
 
-    #[account(init_if_needed,
+    #[account(
+        init_if_needed,
         payer = authority,
         associated_token::mint = mint,
         associated_token::authority = user_profile
     )]
     pub user_profile_ata: Account<'info, TokenAccount>,
 
+    #[account(
+        constraint = asset.is_initialized,
+        constraint = asset.is_active,
+        seeds = [ASSET_TAG, mint.key().as_ref()], bump
+    )]
+    pub asset: Account<'info, Asset>,
+
     pub mint: Account<'info, Mint>,
 
-    #[account(constraint = protocol.is_init == true @ PeerProtocolError::ProtocolNotInitialized)]
+    #[account(
+        constraint = protocol.is_init
+        @ PeerProtocolError::ProtocolNotInitialized
+    )]
     pub protocol: Account<'info, Protocol>,
 
     pub token_program: Program<'info, Token>,

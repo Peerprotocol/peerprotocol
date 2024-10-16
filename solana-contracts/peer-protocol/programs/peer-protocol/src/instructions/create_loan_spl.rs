@@ -6,25 +6,24 @@ use anchor_lang::prelude::*;
 
 pub fn create_loan_spl(
     ctx: Context<CreateLoanSpl>,
-    ltv_ratio: u16,
+    ltv_ratio: u8,
     duration: i64,
-    mint: Pubkey,
     loan_amount: u64,
-    interest_rate: u16,
+    interest_rate: u8,
 ) -> Result<()> {
     let user_profile = &mut ctx.accounts.user_profile;
     let user_profile_ata = &mut ctx.accounts.user_profile_ata;
-    let loan = &mut ctx.accounts.loan;
     let authority = &ctx.accounts.authority;
-    let loan_ata = &ctx.accounts.loan_ata;
-    let token_program = &ctx.accounts.token_program;
-    let bump = ctx.bumps.loan;
-    let user_profile_bal = user_profile_ata.amount;
+    let mint = &ctx.accounts.mint;
+
+    msg!("Creating spl loan");
 
     require!(
-        user_profile_bal >= loan_amount,
+        user_profile_ata.amount >= loan_amount,
         PeerProtocolError::InsufficientFunds
     );
+
+    msg!("Passed amount check");
 
     let authority_key = authority.key();
     let seeds = &[
@@ -34,26 +33,35 @@ pub fn create_loan_spl(
     ];
     let signer_seeds = &[&seeds[..]];
 
+    msg!("Transferring loan amount");
+
     spl_token_transfer(
         user_profile_ata,
-        loan_ata,
-        authority,
-        token_program,
+        &ctx.accounts.loan_ata,
+        &user_profile.to_account_info(),
+        &ctx.accounts.token_program,
         loan_amount,
         Some(signer_seeds),
     )?;
 
+    msg!("Incrementing lending count");
+
     user_profile.increment_lending_count()?;
 
-    loan.init(
+    msg!("Initializing loan");
+
+    ctx.accounts.loan.init(
         authority.key(),
         ltv_ratio,
         duration,
-        mint,
+        mint.key(),
         loan_amount,
         interest_rate,
-        bump,
+        user_profile.lending_count,
+        ctx.bumps.loan,
     )?;
+
+    msg!("Loan created");
 
     Ok(())
 }

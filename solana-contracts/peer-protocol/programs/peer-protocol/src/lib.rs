@@ -9,10 +9,11 @@ pub mod state;
 
 use accounts_ix::{
     borrow_sol::*, borrow_spl::*, create_loan_sol::*, create_loan_spl::*, deposit_sol::*,
-    deposit_spl::*, init_protocol::*, init_user::*, withdraw_sol::*, withdraw_spl::*,
+    deposit_spl::*, init_asset::*, init_protocol::*, init_user::*, withdraw_sol::*,
+    withdraw_spl::*,
 };
 
-declare_id!("8QFWWNuEjCuj7TYmitr5LNoFVrxbwrcCGzjSCoQcDG4h");
+declare_id!("5zZPJxh95beuXBc6rY9ZkWCiGeuftFcoEbQ6KN4qbNNM");
 
 #[program]
 pub mod peer_protocol {
@@ -25,6 +26,11 @@ pub mod peer_protocol {
 
     pub fn init_user(ctx: Context<InitUser>) -> Result<()> {
         instructions::init_user::init_user(ctx)?;
+        Ok(())
+    }
+
+    pub fn init_asset(ctx: Context<InitAsset>) -> Result<()> {
+        instructions::init_asset::init_asset(ctx)?;
         Ok(())
     }
 
@@ -50,10 +56,10 @@ pub mod peer_protocol {
 
     pub fn create_loan_sol(
         ctx: Context<CreateLoanSol>,
-        ltv_ratio: u16,
+        ltv_ratio: u8,
         duration: i64,
         loan_amount: u64,
-        interest_rate: u16,
+        interest_rate: u8,
     ) -> Result<()> {
         instructions::create_loan_sol::create_loan_sol(
             ctx,
@@ -67,17 +73,15 @@ pub mod peer_protocol {
 
     pub fn create_loan_spl(
         ctx: Context<CreateLoanSpl>,
-        ltv_ratio: u16,
+        ltv_ratio: u8,
         duration: i64,
-        mint: Pubkey,
         loan_amount: u64,
-        interest_rate: u16,
+        interest_rate: u8,
     ) -> Result<()> {
         instructions::create_loan_spl::create_loan_spl(
             ctx,
             ltv_ratio,
             duration,
-            mint,
             loan_amount,
             interest_rate,
         )?;
