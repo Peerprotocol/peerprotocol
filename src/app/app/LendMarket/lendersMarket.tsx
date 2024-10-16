@@ -481,7 +481,7 @@ const Lender = () => {
           {showExplanationModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 text-black backdrop-blur-sm">
               <div className="bg-white w-1/2 p-8 overflow-auto max-h-[80vh] border border-red-600">
-                <h2 className="text-2xl font-bold mb-4">Welcome to the Lender's Market</h2>
+                <h2 className="text-2xl font-bold mb-4">Welcome to the Lender`&apos;`s Market</h2>
 
                 {/* Convert the explanation text to JSX */}
                 <div className="mb-4">
