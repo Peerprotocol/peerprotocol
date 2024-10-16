@@ -7,11 +7,18 @@ import Image from "next/image";
 import PlusMathHover from "../../../../public/images/MathPlusHover.png";
 import BackButton from "../../../../public/images/back-button.svg";
 import Phantom from "../../../../public/images/phantom-icon.svg";
-import { BorrowerData } from "../BorrowerData";
 import { useState } from "react";
 import Solana from "../../../../public/images/sol.svg";
 import EditIcon from "../../../../public/images/edit.svg";
 import PeerProtocol from "../../../../public/images/LogoBlack.svg";
+
+interface Proposal {
+  merchants: string;
+  quantity: string;
+  netValue: string;
+  interestRate: number;
+  duration: number;
+}
 
 const ITEMS_PER_PAGE = 7;
 
@@ -19,17 +26,25 @@ const BorrowersMarket = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [modalType, setModalType] = useState<'create' | 'counter'>('create');
   const [interestRate, setInterestRate] = useState(0);
   const [interestRateInput, setInterestRateInput] = useState('');
+  const [modalType, setModalType] = useState<'create' | 'counter'>('create');
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [newProposal, setNewProposal] = useState<Proposal>({
+    merchants: '',
+    quantity: '',
+    netValue: '',
+    interestRate: 0,
+    duration: 0
+  });
 
-  const totalPages = Math.ceil(BorrowerData.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(proposals.length / ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const currentData = BorrowerData.slice(
+  const currentData = proposals.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -39,6 +54,24 @@ const BorrowersMarket = () => {
     setModalOpen(true);
     setInterestRate(0);
     setInterestRateInput('');
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setNewProposal(prev => ({
+      ...prev,
+      [name]: name === 'interestRate' || name === 'duration' ? Number(value) : value
+    }));
+  };
+
+  const handleSubmit = () => {
+    const randomMerchant = '0x' + Math.random().toString(16).substr(2, 8);
+    const proposalWithMerchant = {
+      ...newProposal,
+      merchants: randomMerchant
+    };
+    setProposals(prev => [...prev, proposalWithMerchant]);
+    closeModal();
   };
 
   const closeModal = () => setModalOpen(false);
@@ -82,45 +115,45 @@ const BorrowersMarket = () => {
             </div>
           </div>
 
-          <div className="overflow-x-auto text-black border mx-4 mb-4 rounded-xl">
-            <div className="grid grid-cols-7 pt-6 rounded-t-xl bg-smoke-white py-4">
+          <div className="overflow-x-auto text-black border border-gray-300 mx-4 mb-4">
+            <div className="grid grid-cols-6 pt-6 rounded-t-xl bg-smoke-white py-4">
               <div className="text-center font-semibold">Merchant</div>
               <div className="text-center font-semibold">Quantity</div>
-              <div className="text-center font-semibold">Value<span className="px-1">($)</span></div>
+              <div className="text-center font-semibold">Net Value</div>
               <div className="text-center font-semibold">Interest Rate</div>
               <div className="text-center font-semibold">Duration</div>
-              <div className="text-center font-semibold">Completed Deals</div>
+              <div className="text-center font-semibold">Actions</div>
             </div>
-            <div className="w-full grid grid-cols-7 rounded-b-xl text-gray-800">
+            <div className="w-full">
               {currentData.map((row, index) => (
-                <div key={index} className="contents">
-                  <div className="flex justify-center text-center px-4 py-6 border-t border-gray-300 gap-2">
+                <div
+                  key={index}
+                  className="grid grid-cols-6 border-t border-gray-300"
+                >
+                  <div className="flex items-center justify-center px-4 py-6">
                     <Image
                       src={Phantom}
                       height={20}
                       width={20}
                       alt="phantomicon"
                     />
-                    <p className="font-medium">{row.borrowers}</p>
+                    <p className="font-medium ml-2">{row.merchants}</p>
                   </div>
-                  <div className="text-center px-4 py-6 border-t border-gray-300">
+                  <div className="text-center px-4 py-6">
                     <p className="font-medium">{row.quantity}</p>
                   </div>
-                  <div className="text-center px-4 py-6 border-t border-gray-300">
-                    <p className="font-medium">{row.amountNeeded}</p>
+                  <div className="text-center px-4 py-6">
+                    <p className="font-medium">{row.netValue}</p>
                   </div>
-                  <div className="text-center px-4 py-6 border-t border-gray-300">
+                  <div className="text-center px-4 py-6">
                     <p className="font-medium">{row.interestRate}%</p>
                   </div>
-                  <div className="text-center px-4 py-6 border-t border-gray-300">
-                    <p className="font-medium">{row.term} days</p>
+                  <div className="text-center px-4 py-6">
+                    <p className="font-medium">{row.duration} days</p>
                   </div>
-                  <div className="text-center px-4 py-6 border-t border-gray-300">
-                    <p className="font-medium">{row.completedDeal}</p>
-                  </div>
-                  <div className="border-t flex border-gray-300 justify-center items-center">
-                    <button className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] my-5 mx-2 text-white w-20 h-8">
-                      Borrow
+                  <div className="flex gap-6 justify-center items-center">
+                    <button className="px-2 text-sm rounded-lg bg-[rgba(0,0,0,0.8)] text-white w-20 h-8">
+                      Lend
                     </button>
                     <Image
                       src="/images/edit.svg"
@@ -128,7 +161,7 @@ const BorrowersMarket = () => {
                       width={15}
                       height={20}
                       className="cursor-pointer"
-                      onClick={() => openModal('counter')} // Open counter-proposal modal
+                      onClick={() => openModal('counter')}
                     />
                   </div>
                 </div>
@@ -138,7 +171,7 @@ const BorrowersMarket = () => {
 
           <button
             onClick={() => openModal('create')}
-            className="relative flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
+            className="relative flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white mt-8"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
@@ -190,6 +223,9 @@ const BorrowersMarket = () => {
                 <div className="p-3 border rounded-xl border-gray-600">
                   <input
                     type="text"
+                    name="quantity"
+                    value={newProposal.quantity}
+                    onChange={handleInputChange}
                     className="w-full outline-none pl-8 text-black"
                     placeholder="0"
                   />
@@ -200,7 +236,10 @@ const BorrowersMarket = () => {
                 <label className="text-sm text-gray-500 pl-2">Duration (Days)</label>
                 <div className="p-3 border rounded-xl border-gray-600">
                   <input
-                    type="text"
+                    type="number"
+                    name="duration"
+                    value={newProposal.duration}
+                    onChange={handleInputChange}
                     className="w-full outline-none pl-8 text-black"
                     placeholder="0"
                   />
@@ -212,21 +251,23 @@ const BorrowersMarket = () => {
                 <div className="flex flex-col items-center text-black">
                   <input
                     type="range"
+                    name="interestRate"
                     min="0"
                     max="100"
-                    value={interestRate}
-                    onChange={handleInterestRateChange}
+                    value={newProposal.interestRate}
+                    onChange={handleInputChange}
                     className="w-full h-2 rounded-lg cursor-pointer appearance-none focus:outline-none"
                     style={{
-                      background: `linear-gradient(to right, #1e1e1e ${interestRate}%, #e0e0e0 ${interestRate}%)`,
+                      background: `linear-gradient(to right, #1e1e1e ${newProposal.interestRate}%, #e0e0e0 ${newProposal.interestRate}%)`,
                     }}
                   />
                   <div className="flex justify-between w-full text-black">
-                    <span className="text-black font-medium">{interestRate}%</span>
+                    <span className="text-black font-medium">{newProposal.interestRate}%</span>
                     <input
                       type="number"
-                      value={interestRateInput}
-                      onChange={handleManualInputChange}
+                      name="interestRate"
+                      value={newProposal.interestRate}
+                      onChange={handleInputChange}
                       className="border border-gray-300 mt-2 rounded p-1 w-16 text-center focus:outline-none focus:ring-0 focus:border-gray-400"
                       placeholder="Rate"
                     />
@@ -265,7 +306,7 @@ const BorrowersMarket = () => {
             <div className="flex justify-center pb-4">
               <button
                 className="bg-[rgba(0,0,0,0.8)] text-white px-4 py-2 rounded-md"
-                onClick={closeModal}
+                onClick={handleSubmit}
               >
                 Submit
               </button>
