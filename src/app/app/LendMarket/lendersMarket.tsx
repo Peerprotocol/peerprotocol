@@ -214,7 +214,7 @@ const Lender = () => {
     const { name, value } = event.target;
     setNewProposal(prev => ({
       ...prev,
-      [name]: name === 'interestRate' || name === 'duration' ? Number(value) : value
+      [name]: ['interestRate', 'duration', 'quantity', 'netValue'].includes(name) ? Number(value) : value
     }));
   };
 
