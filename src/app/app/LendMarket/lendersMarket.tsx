@@ -289,7 +289,7 @@ const Lender = () => {
                       width={20}
                       alt="phantomicon"
                     />
-                    <p className="font-medium ml-2">{row.merchants}</p>
+                    <p className="font-medium ml-2">{row.merchant}</p>
                   </div>
                   <div className="text-center px-4 py-6">
                     <p className="font-medium">{row.quantity}</p>
