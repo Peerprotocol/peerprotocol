@@ -31,7 +31,7 @@ const BorrowersMarket = () => {
   const [modalType, setModalType] = useState<'create' | 'counter'>('create');
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [newProposal, setNewProposal] = useState<Proposal>({
-    merchants: '',
+    merchant: '',
     quantity: '0',
     netValue: '0',
     interestRate: 0,
@@ -68,7 +68,7 @@ const BorrowersMarket = () => {
     const randomMerchant = '0x' + Math.random().toString(16).substring(2, 10);
     const proposalWithMerchant = {
       ...newProposal,
-      merchants: randomMerchant
+      merchant: randomMerchant
     };
     setProposals(prev => [...prev, proposalWithMerchant]);
     closeModal();
@@ -137,7 +137,7 @@ const BorrowersMarket = () => {
                       width={20}
                       alt="phantomicon"
                     />
-                    <p className="font-medium ml-2">{row.merchants}</p>
+                    <p className="font-medium ml-2">{row.merchant}</p>
                   </div>
                   <div className="text-center px-4 py-6">
                     <p className="font-medium">{row.quantity}</p>
