@@ -201,8 +201,8 @@ const Lender = () => {
     setModalOpen(true);
     setNewProposal({
       merchants: '',
-      quantity: '',
-      netValue: '',
+      quantity: 0,
+      netValue: 0,
       interestRate: 0,
       duration: 0
     });
