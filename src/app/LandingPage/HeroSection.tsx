@@ -49,7 +49,7 @@ const HeroPage = () => {
             Decentralized
           </p>
           <p className="bg-[#e7e7e7] text-black px-2 border border-black rounded-3xl absolute origin-top-right rotate-[10deg] text-[0.3rem] py-1 right-[1%] bottom-[30%] md:text-[0.7rem] md:bottom-[35%] md:right-[3%] md:font-normal lg:text-[1rem] lg:px-5 lg:py-[0.6rem]">
-            Interoperable
+            Built on
           </p>
         </h1>
         {/* all the position styles */}
