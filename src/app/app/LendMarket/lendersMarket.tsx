@@ -13,7 +13,7 @@ import Link from "next/link";
 
 interface Proposal {
   merchant: string;
-  quantity: string;
+  quantity: number;
   netValue: number;
   interestRate: number;
   duration: number;
@@ -29,8 +29,8 @@ const Lender = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [newProposal, setNewProposal] = useState<Proposal>({
     merchant: '',
-    quantity: '0',
-    netValue: '0',
+    quantity: 0,
+    netValue: 0,
     interestRate: 0,
     duration: 0
   });
