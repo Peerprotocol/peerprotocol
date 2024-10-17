@@ -12,9 +12,9 @@ import PeerProtocol from "./../../../../public/images/LogoBlack.svg";
 import Link from "next/link";
 
 interface Proposal {
-  merchants: string;
+  merchant: string;
   quantity: string;
-  netValue: string;
+  netValue: number;
   interestRate: number;
   duration: number;
 }
@@ -28,9 +28,9 @@ const Lender = () => {
   const [modalType, setModalType] = useState<'create' | 'counter'>('create');
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [newProposal, setNewProposal] = useState<Proposal>({
-    merchants: '',
-    quantity: '',
-    netValue: '',
+    merchant: '',
+    quantity: '0',
+    netValue: '0',
     interestRate: 0,
     duration: 0
   });
@@ -390,6 +390,8 @@ const Lender = () => {
                         name="duration"
                         value={newProposal.duration}
                         onChange={handleInputChange}
+                        min="0"
+                        step="1"
                         className="w-full outline-none pl-8 text-black"
                         placeholder="0"
                       />
@@ -481,7 +483,7 @@ const Lender = () => {
           {showExplanationModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 text-black backdrop-blur-sm">
               <div className="bg-white w-1/2 p-8 overflow-auto max-h-[80vh] border border-red-600">
-                <h2 className="text-2xl font-bold mb-4">Welcome to the Lender`&apos;`s Market</h2>
+                <h2 className="text-2xl font-bold mb-4">Welcome to the Lender&apos;s Market</h2>
 
                 {/* Convert the explanation text to JSX */}
                 <div className="mb-4">
