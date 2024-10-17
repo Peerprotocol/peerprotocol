@@ -13,9 +13,9 @@ import EditIcon from "../../../../public/images/edit.svg";
 import PeerProtocol from "../../../../public/images/LogoBlack.svg";
 
 interface Proposal {
-  merchants: string;
-  quantity: string;
-  netValue: string;
+  merchant: string;
+  quantity: number;
+  netValue: number;
   interestRate: number;
   duration: number;
 }
@@ -32,8 +32,8 @@ const BorrowersMarket = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [newProposal, setNewProposal] = useState<Proposal>({
     merchants: '',
-    quantity: '',
-    netValue: '',
+    quantity: '0',
+    netValue: '0',
     interestRate: 0,
     duration: 0
   });
@@ -60,12 +60,12 @@ const BorrowersMarket = () => {
     const { name, value } = event.target;
     setNewProposal(prev => ({
       ...prev,
-      [name]: name === 'interestRate' || name === 'duration' ? Number(value) : value
+      [name]: ['interestRate', 'duration', 'quantity', 'netValue'].includes(name) ? Number(value) : value
     }));
   };
 
   const handleSubmit = () => {
-    const randomMerchant = '0x' + Math.random().toString(16).substr(2, 8);
+    const randomMerchant = '0x' + Math.random().toString(16).substring(2, 10);
     const proposalWithMerchant = {
       ...newProposal,
       merchants: randomMerchant
@@ -222,7 +222,7 @@ const BorrowersMarket = () => {
                 <label className="text-sm text-gray-500 pl-2">Quantity</label>
                 <div className="p-3 border rounded-xl border-gray-600">
                   <input
-                    type="text"
+                    type="number"
                     name="quantity"
                     value={newProposal.quantity}
                     onChange={handleInputChange}
