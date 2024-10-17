@@ -28,4 +28,9 @@ impl UserProfile {
         self.lending_count += 1;
         Ok(())
     }
+
+    pub fn increment_borrowing_count(&mut self) -> Result<()> {
+        self.borrowing_count += 1;
+        Ok(())
+    }
 }

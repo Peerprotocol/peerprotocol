@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/peer_protocol.json`.
  */
 export type PeerProtocol = {
-  "address": "8QFWWNuEjCuj7TYmitr5LNoFVrxbwrcCGzjSCoQcDG4h",
+  "address": "",
   "metadata": {
     "name": "peerProtocol",
     "version": "0.1.0",
@@ -93,6 +93,9 @@ export type PeerProtocol = {
           }
         },
         {
+          "name": "protocol"
+        },
+        {
           "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
@@ -119,11 +122,40 @@ export type PeerProtocol = {
       "accounts": [
         {
           "name": "authority",
-          "writable": true
+          "writable": true,
+          "signer": true
         },
         {
           "name": "loan",
-          "writable": true
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  111,
+                  97,
+                  110,
+                  95,
+                  111,
+                  102,
+                  102,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "loan.lender",
+                "account": "loanSpl"
+              },
+              {
+                "kind": "arg",
+                "path": "loanIdx"
+              }
+            ]
+          }
         },
         {
           "name": "userProfile",
@@ -155,14 +187,198 @@ export type PeerProtocol = {
           }
         },
         {
-          "name": "loanAta"
+          "name": "protocol"
         },
         {
-          "name": "userProfileAta"
+          "name": "loanAta",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "loan"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "userProfileAta",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "userProfile"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "mint"
         },
         {
           "name": "tokenProgram",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associatedTokenProgram",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
           "name": "systemProgram",
@@ -228,6 +444,9 @@ export type PeerProtocol = {
           }
         },
         {
+          "name": "protocol"
+        },
+        {
           "name": "systemProgram",
           "address": "11111111111111111111111111111111"
         }
@@ -235,7 +454,7 @@ export type PeerProtocol = {
       "args": [
         {
           "name": "ltvRatio",
-          "type": "u16"
+          "type": "u8"
         },
         {
           "name": "duration",
@@ -247,7 +466,7 @@ export type PeerProtocol = {
         },
         {
           "name": "interestRate",
-          "type": "u16"
+          "type": "u8"
         }
       ]
     },
@@ -266,7 +485,8 @@ export type PeerProtocol = {
       "accounts": [
         {
           "name": "authority",
-          "writable": true
+          "writable": true,
+          "signer": true
         },
         {
           "name": "loan",
@@ -302,14 +522,198 @@ export type PeerProtocol = {
           }
         },
         {
-          "name": "loanAta"
+          "name": "protocol"
         },
         {
-          "name": "userProfileAta"
+          "name": "loanAta",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "loan"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "userProfileAta",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "userProfile"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "mint"
         },
         {
           "name": "tokenProgram",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associatedTokenProgram",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
           "name": "systemProgram",
@@ -319,15 +723,11 @@ export type PeerProtocol = {
       "args": [
         {
           "name": "ltvRatio",
-          "type": "u16"
+          "type": "u8"
         },
         {
           "name": "duration",
           "type": "i64"
-        },
-        {
-          "name": "mint",
-          "type": "pubkey"
         },
         {
           "name": "loanAmount",
@@ -335,7 +735,7 @@ export type PeerProtocol = {
         },
         {
           "name": "interestRate",
-          "type": "u16"
+          "type": "u8"
         }
       ]
     },
@@ -543,6 +943,27 @@ export type PeerProtocol = {
           }
         },
         {
+          "name": "asset",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  115,
+                  115,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
           "name": "mint"
         },
         {
@@ -567,6 +988,59 @@ export type PeerProtocol = {
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "initAsset",
+      "discriminator": [
+        133,
+        1,
+        51,
+        41,
+        37,
+        45,
+        8,
+        38
+      ],
+      "accounts": [
+        {
+          "name": "asset",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  115,
+                  115,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "protocol"
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
     },
     {
       "name": "initProtocol",
@@ -737,7 +1211,93 @@ export type PeerProtocol = {
         },
         {
           "name": "userAta",
-          "writable": true
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
         },
         {
           "name": "userProfile",
@@ -781,6 +1341,14 @@ export type PeerProtocol = {
         {
           "name": "tokenProgram",
           "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "associatedTokenProgram",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         }
       ],
       "args": [
@@ -792,6 +1360,19 @@ export type PeerProtocol = {
     }
   ],
   "accounts": [
+    {
+      "name": "asset",
+      "discriminator": [
+        234,
+        180,
+        241,
+        252,
+        139,
+        224,
+        160,
+        8
+      ]
+    },
     {
       "name": "loanSol",
       "discriminator": [
@@ -845,54 +1426,31 @@ export type PeerProtocol = {
       ]
     }
   ],
-  "errors": [
-    {
-      "code": 6000,
-      "name": "accountInitialized",
-      "msg": "Account is already initialized"
-    },
-    {
-      "code": 6001,
-      "name": "accountNotInitialized",
-      "msg": "Account not initialized"
-    },
-    {
-      "code": 6002,
-      "name": "userProfileNotInitialized",
-      "msg": "User profile is not initialized"
-    },
-    {
-      "code": 6003,
-      "name": "protocolNotInitialized",
-      "msg": "Protocol is not initialized"
-    },
-    {
-      "code": 6004,
-      "name": "insufficientFunds",
-      "msg": "Insufficient funds in the account."
-    },
-    {
-      "code": 6005,
-      "name": "notAuthorized",
-      "msg": "Not authorized"
-    },
-    {
-      "code": 6006,
-      "name": "offerAlreadyAccepted",
-      "msg": "Offer already accepted"
-    },
-    {
-      "code": 6007,
-      "name": "loanAlreadyAccepted",
-      "msg": "Offer already expired"
-    },
-    {
-      "code": 6008,
-      "name": "loanAlreadyFulfilled",
-      "msg": "Offer fulfilled"
-    }
-  ],
   "types": [
+    {
+      "name": "asset",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "isInitialized",
+            "type": "bool"
+          },
+          {
+            "name": "isActive",
+            "type": "bool"
+          }
+        ]
+      }
+    },
     {
       "name": "loanSol",
       "type": {
@@ -908,7 +1466,7 @@ export type PeerProtocol = {
           },
           {
             "name": "ltvRatio",
-            "type": "u16"
+            "type": "u8"
           },
           {
             "name": "duration",
@@ -920,11 +1478,15 @@ export type PeerProtocol = {
           },
           {
             "name": "interestRate",
-            "type": "u16"
+            "type": "u8"
           },
           {
             "name": "bump",
             "type": "u8"
+          },
+          {
+            "name": "loanIdx",
+            "type": "u64"
           },
           {
             "name": "borrower",
@@ -953,6 +1515,10 @@ export type PeerProtocol = {
         "kind": "struct",
         "fields": [
           {
+            "name": "loanIdx",
+            "type": "u64"
+          },
+          {
             "name": "isInit",
             "type": "bool"
           },
@@ -962,7 +1528,7 @@ export type PeerProtocol = {
           },
           {
             "name": "ltvRatio",
-            "type": "u16"
+            "type": "u8"
           },
           {
             "name": "duration",
@@ -978,7 +1544,7 @@ export type PeerProtocol = {
           },
           {
             "name": "interestRate",
-            "type": "u16"
+            "type": "u8"
           },
           {
             "name": "bump",
@@ -1006,22 +1572,6 @@ export type PeerProtocol = {
       }
     },
     {
-      "name": "mintDetails",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "mint",
-            "type": "pubkey"
-          },
-          {
-            "name": "decimals",
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
       "name": "protocol",
       "type": {
         "kind": "struct",
@@ -1029,16 +1579,6 @@ export type PeerProtocol = {
           {
             "name": "isInit",
             "type": "bool"
-          },
-          {
-            "name": "whitelistedMints",
-            "type": {
-              "vec": {
-                "defined": {
-                  "name": "mintDetails"
-                }
-              }
-            }
           }
         ]
       }

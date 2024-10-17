@@ -10,14 +10,21 @@ use crate::{
 pub struct DepositSol<'info> {
     #[account(mut, address = user_profile.authority)]
     pub authority: Signer<'info>,
+
     #[account(
-        constraint = user_profile.is_init == true @ PeerProtocolError::UserProfileNotInitialized,
+        constraint = user_profile.is_init
+        @ PeerProtocolError::UserProfileNotInitialized,
         mut,
         seeds = [USER_PROFILE_TAG, authority.key().as_ref()],
         bump
     )]
     pub user_profile: Account<'info, UserProfile>,
-    #[account(constraint = protocol.is_init == true @ PeerProtocolError::ProtocolNotInitialized)]
+
+    #[account(
+        constraint = protocol.is_init
+        @ PeerProtocolError::ProtocolNotInitialized
+    )]
     pub protocol: Account<'info, Protocol>,
+
     pub system_program: Program<'info, System>,
 }

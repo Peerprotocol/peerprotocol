@@ -5,10 +5,13 @@ import Logo from "../../../../public/images/LogoBlack.svg";
 import { useProgram } from "@/context/program.context";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Token, whitelistedTokens } from "@/lib/utils/tokens.data";
-import { useQuery } from "@tanstack/react-query";
-import { getAccount, getMint } from "@solana/spl-token";
 import { useConnection } from "@solana/wallet-adapter-react";
-import { getAta } from "@/lib/utils/getAta";
+import { useGetTokenBalance } from "@/hooks/peer-protocol-program/use-get-token-balance";
+import { useGetSolBalance } from "@/hooks/peer-protocol-program/use-get-sol-balance";
+import { useDepositSol } from "@/hooks/peer-protocol-program/use-deposit-sol";
+import { useWithdrawSpl } from "@/hooks/peer-protocol-program/use-withdraw-spl";
+import { useDepositSpl } from "@/hooks/peer-protocol-program/use-deposit-spl";
+import { useWithdrawSol } from "@/hooks/peer-protocol-program/use-withdraw-sol";
 
 type MarketOptions = "deposit" | "withdraw";
 const marketOptions: MarketOptions[] = ["deposit", "withdraw"];
@@ -16,35 +19,24 @@ const marketOptions: MarketOptions[] = ["deposit", "withdraw"];
 const DepositWithdrawPeer = () => {
   const [amount, setAmount] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  useConnection();
   const [selectedOption, setSelectedOption] =
     useState<MarketOptions>("deposit");
   const [selectedToken, setSelectedToken] = useState<Token>(
     whitelistedTokens.USDC
   );
-  const {
-    withdrawSol,
-    depositSol,
-    depositSpl,
-    withdrawSpl,
-    userProfileSolBal = 0,
-    userProfilePda,
-  } = useProgram();
-  const { connection } = useConnection();
-  const { data: tokenBalance = 0 } = useQuery({
-    queryKey: ["peer-protocol", "token-balance", selectedToken],
-    queryFn: async () => {
-      if (selectedToken.isNative) return 0;
+  const { program, protocolId, userPubKey, userProfilePda } = useProgram();
 
-      const ata = getAta(userProfilePda, selectedToken.mintAddress);
-      const [info, mint] = await Promise.all([
-        getAccount(connection, ata),
-        getMint(connection, selectedToken.mintAddress),
-      ]);
-      const amount = Number(info.amount);
-      const balance = amount / 10 ** mint.decimals;
-      return balance;
-    },
-  });
+  const { tokenBalance = 0, tokenDecimals = 0 } = useGetTokenBalance(
+    program,
+    userProfilePda,
+    selectedToken.mintAddress
+  );
+  const { solBalance = 0 } = useGetSolBalance(program, userProfilePda);
+  const { depositSol } = useDepositSol(program, protocolId);
+  const { withdrawSol } = useWithdrawSol(program, protocolId);
+  const { depositSpl } = useDepositSpl(program, userPubKey, protocolId);
+  const { withdrawSpl } = useWithdrawSpl(program, protocolId, userProfilePda);
 
   const handleSelectChange = (option: MarketOptions) => {
     setSelectedOption(option);
@@ -159,8 +151,10 @@ const DepositWithdrawPeer = () => {
         <p className="text-xs">
           Available:{" "}
           {selectedToken === whitelistedTokens["SOL"]
-            ? (userProfileSolBal / LAMPORTS_PER_SOL).toFixed(4)
-            : tokenBalance.toFixed(4)}
+            ? (solBalance / LAMPORTS_PER_SOL).toFixed(4)
+            : BigInt(tokenBalance) === BigInt(0)
+            ? 0
+            : (BigInt(tokenBalance) / BigInt(10 ** tokenDecimals)).toString()}
         </p>
         <div className="flex gap-2 justify-end">
           {["25%", "50%", "75%", "100%"].map((percent, index) => (

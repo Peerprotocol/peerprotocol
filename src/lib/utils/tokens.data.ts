@@ -5,6 +5,7 @@ interface NativeToken {
   symbol: string;
   isNative: true;
   image: string;
+  mintAddress: null;
 }
 
 interface SplToken {
@@ -31,6 +32,7 @@ export const whitelistedTokens: { [key: string]: Token } = {
     name: "Solana",
     symbol: "SOL",
     image: "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+    mintAddress: null,
   },
 };
 function getPubKey(token: string) {
