@@ -200,7 +200,7 @@ const Lender = () => {
     setModalType(type);
     setModalOpen(true);
     setNewProposal({
-      merchants: '',
+      merchant: '',
       quantity: 0,
       netValue: 0,
       interestRate: 0,
