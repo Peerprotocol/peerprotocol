@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <div>
-      <p className="text-gray-700 border-t border-black  md:px-12 text-sm py-4 mx-8">
+      <p className="text-gray-700 border-t border-black  md:px-12 text-sm py-4 mx-8 opacity-50">
         The information herein is provided to accredited investors for
         convenience only. Data and values are current as of 08/08/2024 and are
         subject to change. Past performance does not guarantee future results.
