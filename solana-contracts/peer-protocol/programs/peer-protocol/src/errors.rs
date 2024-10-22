@@ -20,4 +20,6 @@ pub enum PeerProtocolError {
     LoanAlreadyAccepted,
     #[msg("Offer fulfilled")]
     LoanAlreadyFulfilled,
+    #[msg("Asset already initialized")]
+    AssetAlreadyInitialized,
 }

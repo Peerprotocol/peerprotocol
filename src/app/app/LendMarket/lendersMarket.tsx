@@ -18,6 +18,11 @@ interface Proposal {
   interestRate: number;
   duration: number;
 }
+import { useProgram } from "@/context/program.context";
+import { useCreateLoanSol } from "@/hooks/peer-protocol-program/use-create-loan-sol";
+import { useCreateLoanSpl } from "@/hooks/peer-protocol-program/use-create-loan-spl";
+import { useGetUserData } from "@/hooks/peer-protocol-program/use-get-user-data";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 const ITEMS_PER_PAGE = 7;
 
@@ -242,7 +247,7 @@ const Lender = () => {
           <div className="flex p-4">
             <div className="flex gap-3">
               <div>
-                <Link href='/app'>
+                <Link href="/app">
                   <Image
                     src={BackButton}
                     height={40}
@@ -326,10 +331,11 @@ const Lender = () => {
               {Array.from({ length: totalPages }, (_, index) => (
                 <button
                   key={index}
-                  className={`px-4 py-2 ${currentPage === index + 1
-                    ? "bg-[rgba(0,0,0,0.8)] text-white"
-                    : "bg-[#F5F5F5] text-black border-black border"
-                    } rounded-lg`}
+                  className={`px-4 py-2 ${
+                    currentPage === index + 1
+                      ? "bg-[rgba(0,0,0,0.8)] text-white"
+                      : "bg-[#F5F5F5] text-black border-black border"
+                  } rounded-lg`}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}
