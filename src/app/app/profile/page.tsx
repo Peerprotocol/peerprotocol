@@ -13,10 +13,10 @@ import { useGetUserData } from "@/hooks/peer-protocol-program/use-get-user-data"
 import { useInitUser } from "@/hooks/peer-protocol-program/use-init-user";
 
 const Profile = () => {
-  const { program, userPubKey, userProfilePda } = useProgram();
+  const { program, userPubKey, userProfilePda, protocolId } = useProgram();
   useGetSolBalance(program, userPubKey);
   const { userProfileData } = useGetUserData(program, userProfilePda);
-  const { initUser } = useInitUser(program, userPubKey, userProfilePda);
+  const { initUser } = useInitUser(program, protocolId);
 
   return (
     <main className="bg-[#F5F5F5] min-h-screen">

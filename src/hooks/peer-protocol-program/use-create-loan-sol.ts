@@ -7,8 +7,9 @@ import { getLoanPda } from "@/lib/utils/get-pda";
 
 export const useCreateLoanSol = (
   program: Program<PeerProtocol>,
-  authority: PublicKey | null | undefined,
-  programId: PublicKey | undefined | null
+  programId: PublicKey | undefined | null,
+  protocol: PublicKey | null | undefined,
+  authority: PublicKey | null | undefined
 ) => {
   const queryClient = useQueryClient();
 
@@ -29,8 +30,11 @@ export const useCreateLoanSol = (
     }) => {
       if (!authority) return;
       if (!programId) return;
+      if (!protocol) return;
 
-      const loan = getLoanPda(authority, programId, loanId);
+      const loan = getLoanPda(authority, programId, Number(loanId));
+      console.log(loan.toString());
+      console.log(loanId);
 
       await program.methods
         .createLoanSol(
@@ -39,7 +43,7 @@ export const useCreateLoanSol = (
           new BN(loanAmount),
           loanInterestRate
         )
-        .accounts({ loan, protocol: programId, authority: authority })
+        .accounts({ loan, protocol, authority: authority })
         .rpc();
     },
     onSuccess: (signature) => {
@@ -52,6 +56,7 @@ export const useCreateLoanSol = (
       toast.success("");
     },
     onError: (error) => {
+      console.error(error);
       toast.error("");
     },
   });
