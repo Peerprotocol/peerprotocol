@@ -6,23 +6,18 @@ import { toast } from "react-toastify";
 
 export const useInitUser = (
   program: Program<PeerProtocol>,
-  userPubKey: PublicKey | null | undefined,
-  protocolPubKey: PublicKey | undefined | null
+  protocolId: PublicKey | undefined | null
 ) => {
   const queryClient = useQueryClient();
 
   const initUser = useMutation({
     mutationKey: ["peer-protocol", "init-user"],
     mutationFn: async () => {
-      if (!userPubKey) return;
-      if (!protocolPubKey) return;
+      if (!protocolId) return;
 
       return await program.methods
         .initUser()
-        .accounts({
-          authority: userPubKey,
-          protocol: protocolPubKey,
-        })
+        .accounts({ protocol: protocolId })
         .rpc();
     },
     onSuccess: (signature) => {
@@ -32,6 +27,7 @@ export const useInitUser = (
       toast.success("User account initialized successfully!");
     },
     onError: (error) => {
+      console.error("Error initializing user account", error);
       toast.error("Error initializing user account!");
     },
   });
