@@ -28,13 +28,14 @@ const Market = () => {
 
   const openModal = (
     type: "Deposit" | "Borrow",
-    data: Partial<MainMarketProps>
+    data: number
   ) => {
     setModalType(type);
+    const coin = peerMarketData[data];
     setSelectedCoin({
-      asset: data.asset || "",
-      image: data.image || "",
-      balance: data.balance || 0,
+      asset: coin.asset || "",
+      image: coin.image || "",
+      balance: coin.balance || 0,
     });
     setIsModalOpen(true);
   };
@@ -45,13 +46,14 @@ const Market = () => {
 
   const handleAction = (
     action: "Lend" | "Borrow",
-    data: Partial<MainMarketProps>
+    data: number
   ) => {
     if (Protocol === "P2P") {
       if (action === "Lend") {
-        router.push(`app/LendMarket`);
+        console.log(data);
+        router.push(`app/LendMarket?data=${data}`);
       } else if (action === "Borrow") {
-        router.push(`app/BorrowMarket`);
+        router.push(`app/BorrowMarket?data=${data}` );
       }
     } else {
       openModal(action as "Deposit" | "Borrow", data);
