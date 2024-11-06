@@ -4,7 +4,7 @@ import { MainMarketProps } from "./mainMarket";
 
 interface MarketContentProps {
   marketData: MainMarketProps[];
-  onAction: (action: "Lend" | "Borrow", data: Partial<MainMarketProps>) => void;
+  onAction: (action: "Lend" | "Borrow", data: number) => void;
 }
 
 const MarketContent: React.FC<MarketContentProps> = ({ marketData, onAction }) => {
@@ -57,7 +57,7 @@ const MarketContent: React.FC<MarketContentProps> = ({ marketData, onAction }) =
           <div className="flex flex-col items-center md:w-1/5 text-center px-4 justify-center">
             <button
               className="px-2 py-1 text-sm rounded-lg bg-black text-white w-20"
-              onClick={() => onAction("Lend", row)}
+              onClick={() => onAction("Lend", index)}
             >
               Lend
             </button>
@@ -68,7 +68,7 @@ const MarketContent: React.FC<MarketContentProps> = ({ marketData, onAction }) =
           <div className="flex flex-col items-center md:w-1/5 text-center px-4 justify-center">
             <button
               className="px-2 py-1 text-sm rounded-lg bg-black text-white w-20"
-              onClick={() => onAction("Borrow", row)}
+              onClick={() => onAction("Borrow", index)}
             >
               Borrow
             </button>
