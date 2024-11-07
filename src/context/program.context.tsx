@@ -1,57 +1,24 @@
 "use client";
 
 import { Cluster, PublicKey } from "@solana/web3.js";
-import {
-  useMutation,
-  UseMutationResult,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useMemo } from "react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useCluster } from "@/hooks/use-cluster";
 import { useAnchorProvider } from "@/hooks/use-anchor-provider";
 import { getPda, PdaTag } from "@/lib/utils/get-pda";
-import { txToast } from "@/lib/utils/toast";
-import { BN } from "@coral-xyz/anchor";
-import { getAta } from "@/lib/utils/getAta";
 import {
   getPeerProtocolProgram,
   getPeerProtocolProgramId,
   getReadOnlyPeerProtocolProgram,
 } from "../../solana-contracts/peer-protocol/src/peer-protocol-exports";
 
-// READONLY PROGRAM
-const readOnlyPeerProtocolProgram = getReadOnlyPeerProtocolProgram();
-
-// TYPES
-type ProtocolDataType = Awaited<
-  ReturnType<typeof readOnlyPeerProtocolProgram.account.protocol.all>
->[0];
-type UserProfileType = Awaited<
-  ReturnType<typeof readOnlyPeerProtocolProgram.account.userProfile.fetch>
->;
 interface ProgramContextType {
-  userPubKey: PublicKey | null | undefined;
+  userPubKey: PublicKey | undefined | null;
   userProfilePda: PublicKey;
-  protocolData: ProtocolDataType | undefined;
-  userData: UserProfileType | undefined;
-  depositSol: UseMutationResult<any, unknown, { amount: number }, unknown>;
-  withdrawSol: UseMutationResult<any, unknown, { amount: number }, unknown>;
-  depositSpl: UseMutationResult<
-    any,
-    unknown,
-    { amount: number; mint: PublicKey },
-    unknown
-  >;
-  withdrawSpl: UseMutationResult<
-    any,
-    unknown,
-    { amount: number; mint: PublicKey },
-    unknown
-  >;
-  initUser: UseMutationResult<any, unknown, void, unknown>;
-  userProfileSolBal: number | undefined;
+  protocolId: PublicKey | undefined | null;
+  program: ReturnType<typeof getPeerProtocolProgram>;
+  programId: PublicKey;
 }
 
 const ProgramContext = createContext<ProgramContextType | null>(null);
@@ -68,44 +35,49 @@ export const ProgramContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   // HOOKS
-  const { connection } = useConnection();
   const { wallet } = useWallet();
   const { cluster } = useCluster();
   const anchorProvider = useAnchorProvider();
-  const queryClient = useQueryClient();
 
   // PROGRAM SETUP
   const programId = useMemo(
     () => getPeerProtocolProgramId(cluster?.network as Cluster),
     [cluster]
   );
-  const program = getPeerProtocolProgram(anchorProvider);
+  const program = useMemo(
+    () => getPeerProtocolProgram(anchorProvider),
+    [anchorProvider]
+  );
 
   // USER SETUP
   const userPubKey = wallet?.adapter.publicKey;
+
   const userProfilePda = getPda(PdaTag.USER_PROFILE_TAG, userPubKey, programId);
 
   // QUERIES
-  const userProfileQuery = useQuery({
-    queryKey: ["peer-protocol", "user-init", { cluster, userPubKey }],
-    queryFn: () => program.account.userProfile.fetch(userProfilePda),
-  });
 
   const protocolQuery = useQuery({
     queryKey: ["peer-protocol", "protocol", { cluster, userPubKey }],
     queryFn: () => program.account.protocol.all(),
   });
 
-  const balanceQuery = useQuery({
-    queryKey: ["peer-protocol", "balance", { cluster, userPubKey }],
-    queryFn: () => program.provider.connection.getBalance(userProfilePda),
-  });
+  return (
+    <ProgramContext.Provider
+      value={{
+        userPubKey,
+        protocolId: protocolQuery.data?.[0]?.publicKey,
+        userProfilePda,
+        program,
+        programId,
+      }}
+    >
+      {children}
+    </ProgramContext.Provider>
+  );
+};
 
-  // QUERY DATA
-  const protocolData = protocolQuery.data?.[0];
-  const userData = userProfileQuery.data;
-
-  // MUTATIONS
+/* 
+ // MUTATIONS
   const initUser = useMutation({
     mutationKey: ["peer-protocol", "initialize-user", { cluster, userPubKey }],
     mutationFn: async () => {
@@ -235,7 +207,6 @@ export const ProgramContextProvider: React.FC<{
           // userProfile: userProfilePda,
           mint,
           userProfileAta,
-          userAta,
         })
         .rpc();
     },
@@ -249,22 +220,4 @@ export const ProgramContextProvider: React.FC<{
       txToast.error("Error withdrawing funds!");
     },
   });
-  return (
-    <ProgramContext.Provider
-      value={{
-        userPubKey,
-        protocolData,
-        userData,
-        depositSol,
-        initUser,
-        withdrawSol,
-        userProfileSolBal: balanceQuery.data,
-        depositSpl,
-        withdrawSpl,
-        userProfilePda,
-      }}
-    >
-      {children}
-    </ProgramContext.Provider>
-  );
-};
+*/

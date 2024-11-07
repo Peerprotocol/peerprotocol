@@ -5,7 +5,6 @@ pub fn borrow_spl(ctx: Context<BorrowSpl>, loan_idx: u64) -> Result<()> {
     // let user_profile = &mut ctx.accounts.user_profile;
     let user_profile_ata = &mut ctx.accounts.user_profile_ata;
     let loan = &mut ctx.accounts.loan;
-    let authority = &ctx.accounts.authority;
     let loan_ata = &ctx.accounts.loan_ata;
     let token_program = &ctx.accounts.token_program;
 
@@ -22,7 +21,7 @@ pub fn borrow_spl(ctx: Context<BorrowSpl>, loan_idx: u64) -> Result<()> {
     spl_token_transfer(
         loan_ata,
         user_profile_ata,
-        authority,
+        &loan.to_account_info(),
         token_program,
         loan.loan_amount,
         Some(signer_seeds),

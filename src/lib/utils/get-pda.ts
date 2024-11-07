@@ -34,3 +34,20 @@ function textToUint8Array(text: string) {
   const encoder = new TextEncoder();
   return encoder.encode(text);
 }
+
+export function getLoanPda(
+  authority: PublicKey | null | undefined,
+  programId: PublicKey,
+  loanId: number
+) {
+  const tag = textToUint8Array("loan_offer");
+  const loanIdBuffer = new Uint8Array(
+    new BigUint64Array([BigInt(loanId)]).buffer
+  );
+  // const loanIdBuffer = new Uint8Array(loanId);
+  const seeds = authority
+    ? [tag, authority.toBuffer(), loanIdBuffer]
+    : [tag, loanIdBuffer];
+
+  return PublicKey.findProgramAddressSync(seeds, programId)[0];
+}
