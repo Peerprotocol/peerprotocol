@@ -4,6 +4,7 @@ pub mod create_loan_sol;
 pub mod create_loan_spl;
 pub mod deposit_sol;
 pub mod deposit_spl;
+pub mod init_asset;
 pub mod init_protocol;
 pub mod init_user;
 pub mod withdraw_sol;

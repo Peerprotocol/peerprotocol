@@ -5,13 +5,14 @@ use crate::errors::PeerProtocolError;
 #[account]
 #[derive(InitSpace)]
 pub struct LoanSpl {
+    pub loan_idx: u64,
     pub is_init: bool,
     pub lender: Pubkey,
-    pub ltv_ratio: u16,
+    pub ltv_ratio: u8,
     pub duration: i64,
     pub mint: Pubkey,
     pub loan_amount: u64,
-    pub interest_rate: u16,
+    pub interest_rate: u8,
     pub bump: u8,
     pub borrower: Option<Pubkey>,
     pub is_accepted: bool,
@@ -23,11 +24,12 @@ impl LoanSpl {
     pub fn init(
         &mut self,
         lender: Pubkey,
-        ltv_ratio: u16,
+        ltv_ratio: u8,
         duration: i64,
         mint: Pubkey,
         loan_amount: u64,
-        interest_rate: u16,
+        interest_rate: u8,
+        loan_idx: u64,
         bump: u8,
     ) -> Result<()> {
         require!(!self.is_init, PeerProtocolError::AccountInitialized);
@@ -39,6 +41,7 @@ impl LoanSpl {
         self.mint = mint;
         self.loan_amount = loan_amount;
         self.interest_rate = interest_rate;
+        self.loan_idx = loan_idx;
         self.bump = bump;
         self.borrower = None;
         self.is_accepted = false;
