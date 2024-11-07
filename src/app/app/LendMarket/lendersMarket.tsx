@@ -10,6 +10,9 @@ import PlusMathHover from "../../../../public/images/MathPlusHover.png";
 import Solana from "../../../../public/images/sol.svg";
 import PeerProtocol from "./../../../../public/images/LogoBlack.svg";
 import Link from "next/link";
+import { peerMarketData } from '../peerMarketData';
+import { url } from 'inspector';
+import { useSearchParams } from 'next/navigation';
 
 interface Proposal {
   merchant: string;
@@ -41,6 +44,7 @@ const Lender = () => {
     interestRate: 0,
     duration: 0,
   });
+
   const [showExplanationModal, setShowExplanationModal] = useState(true);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const { program, programId, protocolId, userProfilePda, userPubKey } =
@@ -54,160 +58,8 @@ const Lender = () => {
   const { userProfileData } = useGetUserData(program, userProfilePda);
   const { solLoans } = useGetLoansSol(program);
 
-  const lenderMarketExplanation = `
-  # Welcome to the Lender's Market
-
-  ## Introduction
-  The Lender's Market is a revolutionary decentralized platform that bridges the gap between cryptocurrency holders looking to earn interest on their digital assets and borrowers seeking crypto loans. Built on cutting-edge blockchain technology, our platform ensures unparalleled transparency, security, and efficiency in all transactions.
-
-  ## How It Works
-
-  ### For Lenders:
-  1. **Browsing Proposals**: As a lender, you have access to a diverse array of loan requests from borrowers worldwide. Each proposal is meticulously detailed, providing you with comprehensive information:
-     - Loan amount requested (in cryptocurrency)
-     - Interest rate offered by the borrower
-     - Proposed loan duration
-     - Collateral provided (if applicable)
-     - Purpose of the loan
-     - Borrower's credit score or reputation on the platform
-     - Historical performance of similar loans
-
-  2. **Creating Lending Offers**: Take control of your lending strategy by creating custom lending offers. Specify your terms:
-     - Amount of cryptocurrency you're willing to lend
-     - Desired interest rate
-     - Preferred loan duration
-     - Specific requirements for borrowers (e.g., minimum credit score, collateral type)
-     - Option for auto-renewal or extension
-
-  3. **Advanced Risk Assessment**: Our platform employs cutting-edge algorithms and data analysis tools to help you make informed decisions:
-     - Comprehensive borrower transaction history
-     - Detailed repayment records and patterns
-     - Real-time collateral valuation and volatility analysis
-     - Market trend integration for interest rate benchmarking
-     - Stress testing simulations for various market conditions
-
-  4. **Seamless Funding Process**: Once you've found a proposal that aligns with your investment strategy:
-     - Fund the loan partially or fully with just a few clicks
-     - Funds are securely transferred to a smart contract escrow
-     - Borrower reviews and accepts the terms
-     - Loan is automatically executed upon mutual agreement
-
-  5. **Dynamic Loan Management**: Stay in full control of your investments with our intuitive dashboard:
-     - Real-time tracking of all active loans
-     - Detailed repayment schedules and progress
-     - Interest accrual calculator
-     - Collateral value fluctuation alerts
-     - Option to sell loan positions on the secondary market
-
-  6. **Automated Repayments**: Enjoy a hands-off approach to receiving returns:
-     - Principal and interest automatically credited to your wallet
-     - Customizable reinvestment options for compounded growth
-     - Instant notifications for successful repayments
-     - Detailed transaction records for accounting purposes
-
-  ### Platform Features:
-  - **Smart Contract Governance**: All loans are governed by audited, secure smart contracts, ensuring automatic enforcement of terms and eliminating the need for intermediaries.
-  
-  - **Decentralized Dispute Resolution**: In the rare event of a dispute, our platform offers a groundbreaking decentralized arbitration process:
-    - Community-elected judges with proven expertise
-    - Transparent case review and decision-making
-    - Blockchain-recorded verdicts for immutability
-  
-  - **Risk Diversification Tools**: Sophisticated portfolio management tools allow you to:
-    - Spread your lending across multiple loans, borrowers, and crypto assets
-    - Set automatic investment rules based on risk profiles
-    - Implement stop-loss and take-profit strategies
-  
-  - **Vibrant Secondary Market**: Enhance your liquidity options:
-    - Sell your loan positions to other lenders before the term ends
-    - Participate in fractionalized lending for larger loans
-    - Engage in a dynamic order book for loan position trading
-
-  ## Risks and Considerations
-  While the Lender's Market offers exciting opportunities, it's crucial to understand the associated risks:
-
-  - **Market Volatility**: The cryptocurrency market is known for its volatility. Rapid price fluctuations can affect:
-    - The value of collateral
-    - The relative value of loan amounts and repayments
-    - Overall market liquidity
-
-  - **Default Risk**: Despite our rigorous vetting process, there's always a possibility that a borrower may default on their loan. We mitigate this through:
-    - Overcollateralization requirements for certain loan types
-    - Graduated lending limits for new borrowers
-    - Community-based reputation systems
-
-  - **Regulatory Landscape**: The regulatory environment for cryptocurrency lending is rapidly evolving:
-    - Changes in laws may impact platform operations in certain jurisdictions
-    - Tax implications may vary and are the responsibility of the user to address
-    - We strive to remain compliant and adapt to regulatory changes proactively
-
-  - **Smart Contract Risk**: While our smart contracts undergo rigorous auditing, the nature of blockchain technology means that:
-    - Unforeseen vulnerabilities may exist
-    - Upgrades to the protocol may occasionally be necessary
-    - Users should understand the specific terms encoded in each loan's smart contract
-
-  - **Liquidity Risk**: Depending on market conditions:
-    - Selling loan positions on the secondary market may not always be instantaneous
-    - There may be periods of reduced borrowing demand
-
-  ## Benefits of Lending
-  Participating in the Lender's Market offers numerous advantages:
-
-  - **Passive Income Generation**: Earn competitive interest rates on your cryptocurrency holdings
-  - **Portfolio Diversification**: Add a new asset class to your investment portfolio
-  - **Support Innovation**: Contribute to the growth and development of the crypto ecosystem
-  - **Global Market Access**: Connect with borrowers worldwide, transcending traditional financial boundaries
-  - **Flexible Strategies**: Implement lending strategies that align with your financial goals and risk tolerance
-  - **Transparency**: Benefit from the inherent transparency of blockchain technology in all transactions
-  - **Reduced Counterparty Risk**: Smart contracts and decentralized processes minimize reliance on central authorities
-
-  ## Getting Started
-  Embarking on your journey as a lender is straightforward:
-
-  1. **Wallet Connection**: Securely connect your compatible cryptocurrency wallet to the platform
-  2. **Identity Verification**: Complete our streamlined Know Your Customer (KYC) process to ensure platform integrity
-  3. **Fund Your Account**: Transfer the cryptocurrency you wish to lend to your platform-associated wallet
-  4. **Explore Opportunities**: Browse loan proposals or create your own lending offer
-  5. **Activate Advanced Features**: Set up automated lending rules, notifications, and portfolio analytics
-  6. **Continuous Learning**: Access our educational resources to refine your lending strategies over time
-
-  ## Support and Resources
-  We're committed to your success and offer comprehensive support:
-
-  - **Extensive FAQ Section**: Find answers to common questions and platform mechanics
-  - **Active Community Forums**: Engage in discussions with fellow lenders, share strategies, and gain insights
-  - **24/7 Customer Support**: Access our dedicated support team anytime via chat, email, or phone
-  - **Educational Hub**: 
-    - In-depth articles on crypto lending strategies
-    - Risk management techniques
-    - Market analysis tools
-    - Video tutorials on platform features
-  - **Regular Webinars**: Participate in expert-led sessions on market trends and advanced lending tactics
-  - **API Documentation**: For users looking to integrate our platform with their own systems or applications
-
-  ## Legal Disclaimer
-  By participating in the Lender's Market, you acknowledge and agree to the platform's terms of service. You understand the risks involved in cryptocurrency lending and recognize that:
-
-  - Past performance does not guarantee future results
-  - You are responsible for assessing the suitability of any lending activity for your financial situation
-  - The platform does not provide financial advice, and you should consult with qualified professionals for personalized guidance
-  - You will comply with all applicable laws and regulations in your jurisdiction
-
-  We strongly encourage you to thoroughly research and understand the crypto lending landscape, carefully consider your risk tolerance, and never lend more than you can afford to lose.
-
-  ## Conclusion
-  The Lender's Market represents the future of decentralized finance, offering you the tools, transparency, and opportunities to maximize the potential of your cryptocurrency assets. Whether you're a seasoned investor or new to crypto lending, our platform is designed to empower you with choice, security, and the potential for attractive returns.
-
-  We're excited to have you join our community of forward-thinking lenders. Together, we're not just participating in the crypto revolution – we're actively shaping the future of finance.
-
-  Happy Lending, and here's to your financial growth and success in the world of decentralized lending!
-`;
 
   const totalPages = Math.ceil(proposals.length / ITEMS_PER_PAGE);
-
-  useEffect(() => {
-    setShowExplanationModal(true);
-  }, []);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -264,6 +116,8 @@ const Lender = () => {
     currentPage * ITEMS_PER_PAGE
   );
 
+  const [selectedCoin, setSelectedCoin] = useState(peerMarketData[Number(useSearchParams().get('data')) || 0]);
+
   return (
     <main className="bg-[#F5F5F5] backdrop-blur-sm">
       <div className="flex h-screen">
@@ -287,12 +141,12 @@ const Lender = () => {
                 <p className="text-black text-4xl">Lend Market</p>
                 <div className="flex gap-2 border rounded-3xl text-black border-gray-500 w-24 items-center justify-center">
                   <Image
-                    src={Solana}
+                    src={selectedCoin.image}
                     height={20}
                     width={20}
-                    alt="solana-logo"
+                    alt={selectedCoin.asset}
                   />
-                  <p className="text-xs">Solana</p>
+                  <p className="text-xs">{selectedCoin.asset}</p>
                 </div>
               </div>
             </div>
@@ -447,8 +301,6 @@ const Lender = () => {
                         name="duration"
                         value={newProposal.duration}
                         onChange={handleInputChange}
-                        min="0"
-                        step="1"
                         className="w-full outline-none pl-8 text-black"
                         placeholder="0"
                       />
@@ -537,48 +389,6 @@ const Lender = () => {
                     className="opacity-50"
                   />
                 </div>
-              </div>
-            </div>
-          )}
-
-          {showExplanationModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 text-black backdrop-blur-sm">
-              <div className="bg-white w-1/2 p-8 overflow-auto max-h-[80vh] border border-red-600">
-                <h2 className="text-2xl font-bold mb-4">
-                  Welcome to the Lender&apos;s Market
-                </h2>
-
-                {/* Convert the explanation text to JSX */}
-                <div className="mb-4">
-                  {lenderMarketExplanation
-                    .split("\n\n")
-                    .map((section, index) => (
-                      <div key={index} className="mb-4">
-                        {section.split("\n").map((paragraph, subIndex) => {
-                          if (paragraph.startsWith("*")) {
-                            // Render bullet points
-                            return (
-                              <ul key={subIndex} className="list-disc pl-5">
-                                <li>{paragraph.replace(/^\*\s*/, "")}</li>
-                              </ul>
-                            );
-                          }
-                          return (
-                            <p key={subIndex} className="mb-2">
-                              {paragraph}
-                            </p>
-                          );
-                        })}
-                      </div>
-                    ))}
-                </div>
-
-                <button
-                  onClick={() => setShowExplanationModal(false)}
-                  className="bg-black text-white px-4 py-2 rounded-md"
-                >
-                  Got it
-                </button>
               </div>
             </div>
           )}

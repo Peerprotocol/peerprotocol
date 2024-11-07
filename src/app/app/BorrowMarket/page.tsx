@@ -11,11 +11,13 @@ import { useState } from "react";
 import Solana from "../../../../public/images/sol.svg";
 import EditIcon from "../../../../public/images/edit.svg";
 import PeerProtocol from "../../../../public/images/LogoBlack.svg";
+import { peerMarketData } from '../peerMarketData';
+import { useSearchParams } from "next/navigation";
 
 interface Proposal {
-  merchant: string;
-  quantity: number;
-  netValue: number;
+  merchants: string;
+  quantity: string;
+  netValue: string;
   interestRate: number;
   duration: number;
 }
@@ -31,12 +33,14 @@ const BorrowersMarket = () => {
   const [modalType, setModalType] = useState<'create' | 'counter'>('create');
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [newProposal, setNewProposal] = useState<Proposal>({
-    merchant: '',
-    quantity: 0,
-    netValue: 0,
+    merchants: '',
+    quantity: '',
+    netValue: '',
     interestRate: 0,
     duration: 0
   });
+
+  const [selectedCoin, setSelectedCoin] = useState(peerMarketData[Number(useSearchParams().get('data')) || 0]);
 
   const totalPages = Math.ceil(proposals.length / ITEMS_PER_PAGE);
 
@@ -60,15 +64,15 @@ const BorrowersMarket = () => {
     const { name, value } = event.target;
     setNewProposal(prev => ({
       ...prev,
-      [name]: ['interestRate', 'duration', 'quantity', 'netValue'].includes(name) ? Number(value) : value
+      [name]: name === 'interestRate' || name === 'duration' ? Number(value) : value
     }));
   };
 
   const handleSubmit = () => {
-    const randomMerchant = '0x' + Math.random().toString(16).substring(2, 10);
+    const randomMerchant = '0x' + Math.random().toString(16).substr(2, 8);
     const proposalWithMerchant = {
       ...newProposal,
-      merchant: randomMerchant
+      merchants: randomMerchant
     };
     setProposals(prev => [...prev, proposalWithMerchant]);
     closeModal();
@@ -109,8 +113,13 @@ const BorrowersMarket = () => {
             <div className="flex gap-2 pb-2">
               <p className="text-black text-4xl">Borrow Market</p>
               <div className="flex gap-2 border rounded-3xl text-black border-gray-500 w-24 items-center justify-center">
-                <Image src={Solana} height={20} width={20} alt="solana-logo" />
-                <p className="text-xs">Solana</p>
+                <Image
+                  src={selectedCoin.image}
+                  height={20}
+                  width={20}
+                  alt={selectedCoin.asset}
+                />
+                <p className="text-xs">{selectedCoin.asset}</p>
               </div>
             </div>
           </div>
@@ -137,7 +146,7 @@ const BorrowersMarket = () => {
                       width={20}
                       alt="phantomicon"
                     />
-                    <p className="font-medium ml-2">{row.merchant}</p>
+                    <p className="font-medium ml-2">{row.merchants}</p>
                   </div>
                   <div className="text-center px-4 py-6">
                     <p className="font-medium">{row.quantity}</p>
@@ -222,7 +231,7 @@ const BorrowersMarket = () => {
                 <label className="text-sm text-gray-500 pl-2">Quantity</label>
                 <div className="p-3 border rounded-xl border-gray-600">
                   <input
-                    type="number"
+                    type="text"
                     name="quantity"
                     value={newProposal.quantity}
                     onChange={handleInputChange}

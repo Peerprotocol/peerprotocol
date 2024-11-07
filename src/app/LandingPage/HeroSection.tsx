@@ -67,7 +67,7 @@ const HeroPage = () => {
           }`}
       >
         <p className={`${isDarkMode ? "text-white" : "text-black"} font-semibold text-black lg:text-base text-center w-full`}>
-           Built On
+           Powered By
         </p>
         <div
           className={`${!isDarkMode ? "bg-[#0d101711]" : "bg-current"
@@ -75,7 +75,7 @@ const HeroPage = () => {
         >
           <div className="flex gap-8 lg:gap-32 justify-center sm:pb-9">
             <Image
-              src="/images/solanalogo.svg"
+              src="/images/Solana-Logo.jpg"
               width={200}
               height={0}
               alt=""
